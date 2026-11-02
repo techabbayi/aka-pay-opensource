@@ -31,7 +31,20 @@
   "engines": {
     "node": ">=24.22.1"
   },
-  "author": "AKA PAY Contributors",
+  "author": {
+    "name": "techabbayi",
+    "email": "srssltd@gmail.com",
+    "url": "https://github.com/techabbayi"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/techabbayi/aka-pay-opensource.git"
+  },
+  "homepage": "https://github.com/techabbayi/aka-pay-opensource#readme",
+  "bugs": {
+    "url": "https://github.com/techabbayi/aka-pay-opensource/issues",
+    "email": "srssltd@gmail.com"
+  },
   "license": "Apache-2.0",
   "allowScripts": {
     "better-sqlite3@12.11.1": true,

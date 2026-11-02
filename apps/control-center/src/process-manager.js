@@ -72,7 +72,7 @@ export class ProcessManager extends EventEmitter {
       },
       {
         id: 'coin-wallet-store',
-        name: 'YOUPI Showcase Store (Demo)',
+        name: 'AKA PAY Showcase Store (Demo)',
         script: path.join(rootDir, 'apps/coin-wallet-store/src/index.js'),
         port: Number(process.env.COIN_STORE_PORT || 5000),
         healthPath: '/health',
@@ -154,7 +154,7 @@ export class ProcessManager extends EventEmitter {
     }
     const supervisorOverrides = {};
     if (process.env.NODE_ENV) supervisorOverrides.NODE_ENV = process.env.NODE_ENV;
-    if (process.env.YOUPI_MODE) supervisorOverrides.YOUPI_MODE = process.env.YOUPI_MODE;
+    if (process.env.AKAPAY_MODE) supervisorOverrides.AKAPAY_MODE = process.env.AKAPAY_MODE;
     // Re-apply the shared .env file as a child-process argument unless the caller already
     // supplied one. Without this declaration the fork() below referenced an undefined
     // variable and crashed every service start (ReferenceError: execArgv is not defined).
@@ -254,17 +254,17 @@ export class ProcessManager extends EventEmitter {
    * Starts all managed services.
    */
   async startAll() {
-    const observerChannel = (process.env.YOUPI_OBSERVER_CHANNEL || 'ALL').toUpperCase();
+    const observerChannel = (process.env.AKAPAY_OBSERVER_CHANNEL || 'ALL').toUpperCase();
     for (const svc of this.services) {
       if (svc.legacy && process.env.ENABLE_LEGACY_CHROME_OBSERVERS !== 'true') {
         continue;
       }
       if (svc.id === 'gmail-observer' && observerChannel === 'SMS_ONLY') {
-        this.appendLog(svc.id, 'system', 'Skipping Gmail Observer (YOUPI_OBSERVER_CHANNEL=SMS_ONLY)');
+        this.appendLog(svc.id, 'system', 'Skipping Gmail Observer (AKAPAY_OBSERVER_CHANNEL=SMS_ONLY)');
         continue;
       }
       if (svc.id === 'sms-observer' && observerChannel === 'GMAIL_ONLY') {
-        this.appendLog(svc.id, 'system', 'Skipping SMS Observer (YOUPI_OBSERVER_CHANNEL=GMAIL_ONLY)');
+        this.appendLog(svc.id, 'system', 'Skipping SMS Observer (AKAPAY_OBSERVER_CHANNEL=GMAIL_ONLY)');
         continue;
       }
       try {

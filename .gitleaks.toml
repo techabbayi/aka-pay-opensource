@@ -1,4 +1,4 @@
-title = "YOUPI PG gitleaks configuration"
+title = "AKA PAY gitleaks configuration"
 
 # Narrow allowlist for values that are intentionally public. Every entry is a
 # literal fixture value used by the test suite, historical seed commit, or shipped as an example.

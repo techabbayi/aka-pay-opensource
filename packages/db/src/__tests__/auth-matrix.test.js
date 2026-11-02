@@ -9,11 +9,11 @@ import { CustomerSessionRepository } from '../repositories/customer-session.repo
 import { PaymentSessionRepository } from '../repositories/payment-session.repository.js';
 import { ObservationRepository } from '../repositories/observation.repository.js';
 import { AuditLogRepository } from '../repositories/audit-log.repository.js';
-import { QueueEngine } from '@youpi/core';
-import { TimingEngine } from '@youpi/core';
-import { AttributionEngine } from '@youpi/core';
-import { WebhookEngine } from '@youpi/core';
-import { generateQrSvg } from '@youpi/core';
+import { QueueEngine } from '@akapay/core';
+import { TimingEngine } from '@akapay/core';
+import { AttributionEngine } from '@akapay/core';
+import { WebhookEngine } from '@akapay/core';
+import { generateQrSvg } from '@akapay/core';
 import {
   buildUpiUri,
   buildUpiIntentUri,
@@ -26,15 +26,15 @@ import {
   isValidEmail,
   isValidMobile,
   isValidPassword
-} from '@youpi/common';
+} from '@akapay/common';
 import { startServer as startPaymentApi } from '../../../../apps/payment-api/src/index.js';
 import { CoinWalletStoreServer } from '../../../../apps/coin-wallet-store/src/server.js';
-import { YoupiPaymentClient } from '@youpi/merchant-sdk';
+import { AkaPayClient } from '@akapay/merchant-sdk';
 import { authHeadersFor } from '../../../../scripts/test-support.js';
 
 test('Full 53-Point Customer Identity, Authentication & Payment Invariant Matrix', async () => {
   process.env.NODE_ENV = 'test';
-  process.env.YOUPI_ALLOWED_RETURN_ORIGINS = 'https://novacommerce.com http://localhost:5984';
+  process.env.AKAPAY_ALLOWED_RETURN_ORIGINS = 'https://novacommerce.com http://localhost:5984';
   const testDb = new Database({ inMemory: true });
   runMigrations(testDb);
 
@@ -225,7 +225,7 @@ test('Full 53-Point Customer Identity, Authentication & Payment Invariant Matrix
     assert.equal(autoVerify.customer.name, 'Gaurav Sharma');
 
     // 13. Payment session does NOT need recreation on page refresh
-    const paymentClient = new YoupiPaymentClient({
+    const paymentClient = new AkaPayClient({
       apiUrl: apiBase,
       merchantId: merchant.id,
       webhookSecret: merchant.webhookSecret

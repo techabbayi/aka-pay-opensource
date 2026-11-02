@@ -16,7 +16,7 @@ const part = (mimeType, text) => ({
 });
 
 async function observePayload(t, payload, messageSnippet = snippet) {
-  const storageDir = fs.mkdtempSync(path.join(os.tmpdir(), 'youpi-gmail-mime-'));
+  const storageDir = fs.mkdtempSync(path.join(os.tmpdir(), 'akapay-gmail-mime-'));
   t.after(() => fs.rmSync(storageDir, { recursive: true, force: true }));
   const poller = new GmailPoller({
     receivingAccountId: 'mime-test-account',

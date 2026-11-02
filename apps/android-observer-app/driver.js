@@ -1,4 +1,4 @@
-import { generateHmac } from '@youpi/common';
+import { generateHmac } from '@akapay/common';
 
 /**
  * Android Observer Simulator / Driver.

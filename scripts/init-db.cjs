@@ -3,12 +3,12 @@ const fs = require('node:fs');
 
 async function main() {
   console.log('============================================================');
-  console.log('📦 YOUPI PG — DATABASE INITIALIZATION / SETUP');
+  console.log('📦 AKA PAY — DATABASE INITIALIZATION / SETUP');
   console.log('============================================================');
 
   const rootDir = path.resolve(__dirname, '..');
   const dbDir = path.join(rootDir, 'data');
-  const dbPath = process.env.SQLITE_DB_PATH || path.join(dbDir, 'youpi_pg.sqlite');
+  const dbPath = process.env.SQLITE_DB_PATH || path.join(dbDir, 'aka_pay.sqlite');
 
   console.log(`[+] Database target path: ${dbPath}`);
 
@@ -17,25 +17,30 @@ async function main() {
     console.log(`[+] Created database directory: ${path.dirname(dbPath)}`);
   }
 
-  // Ensure workspace packages in node_modules/@youpi are linked
-  const youpiScopeDir = path.join(rootDir, 'node_modules', '@youpi');
+  // Ensure workspace packages in node_modules/@akapay and @akapay are linked
+  const akapayScopeDir = path.join(rootDir, 'node_modules', '@akapay');
+  const akapayLegacyScopeDir = path.join(rootDir, 'node_modules', '@akapay');
   const packagesDir = path.join(rootDir, 'packages');
   if (fs.existsSync(packagesDir)) {
-    if (!fs.existsSync(youpiScopeDir)) {
-      fs.mkdirSync(youpiScopeDir, { recursive: true });
+    for (const scopeDir of [akapayScopeDir, akapayLegacyScopeDir]) {
+      if (!fs.existsSync(scopeDir)) {
+        try { fs.mkdirSync(scopeDir, { recursive: true }); } catch {}
+      }
     }
     const pkgs = fs.readdirSync(packagesDir, { withFileTypes: true });
     for (const pkg of pkgs) {
       if (pkg.isDirectory()) {
         const targetPkg = path.join(packagesDir, pkg.name);
-        const linkPath = path.join(youpiScopeDir, pkg.name);
-        if (!fs.existsSync(linkPath)) {
-          try {
-            fs.symlinkSync(targetPkg, linkPath, 'junction');
-          } catch {
+        for (const scopeDir of [akapayScopeDir, akapayLegacyScopeDir]) {
+          const linkPath = path.join(scopeDir, pkg.name);
+          if (!fs.existsSync(linkPath)) {
             try {
-              fs.cpSync(targetPkg, linkPath, { recursive: true });
-            } catch {}
+              fs.symlinkSync(targetPkg, linkPath, 'junction');
+            } catch {
+              try {
+                fs.cpSync(targetPkg, linkPath, { recursive: true });
+              } catch {}
+            }
           }
         }
       }

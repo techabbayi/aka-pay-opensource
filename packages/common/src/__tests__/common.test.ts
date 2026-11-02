@@ -15,7 +15,7 @@ import {
   calculateObservationFingerprint
 } from '../index.js';
 
-describe('@youpi/common Unit Tests', () => {
+describe('@akapay/common Unit Tests', () => {
   describe('Money and Currency Utilities', () => {
     test('converts valid rupee strings and numbers to integer paise', () => {
       assert.equal(toPaise('200.00'), 20000n);

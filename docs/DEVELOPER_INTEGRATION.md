@@ -1,8 +1,8 @@
-# YOUPI PG V2 — Developer Integration Guide
+# AKA PAY — Developer Integration Guide
 
-Welcome to the official developer integration guide for **YOUPI PG V2**.
+Welcome to the official developer integration guide for **AKA PAY**.
 
-YOUPI PG V2 provides a **Universal One-Script Integration** that allows any web application to accept UPI payments with zero aggregator fees, sub-second QR rendering, and automated SMS/Gmail observation verification.
+AKA PAY provides a **Universal One-Script Integration** that allows any web application to accept UPI payments with zero aggregator fees, sub-second QR rendering, and automated SMS/Gmail observation verification.
 
 ---
 
@@ -13,19 +13,19 @@ Include the official script in your HTML:
 
 ```html
 <script 
-  src="https://<checkout-portal-host>/youpi.js" 
-  data-youpi-key="YOUR_MERCHANT_KEY">
+  src="https://<checkout-portal-host>/AKA PAY.js" 
+  data-AKA PAY-key="YOUR_MERCHANT_KEY">
 </script>
 ```
 
 *(For local testing, `<checkout-portal-host>` is `http://localhost:7000`)*
 
 ### Step 2: Add Your Payment Button
-Add the `data-youpi-pay` attribute to your payment button:
+Add the `data-AKA PAY-pay` attribute to your payment button:
 
 ```html
 <button 
-  data-youpi-pay 
+  data-AKA PAY-pay 
   data-order-id="ORDER-1001" 
   data-amount="499">
   Pay ₹499
@@ -40,7 +40,7 @@ When clicked, the script automatically dims and blurs the page, pops up the cent
 
 | Attribute | Required | Description | Example |
 | :--- | :---: | :--- | :--- |
-| `data-youpi-pay` | **Yes** | Flags element as a YOUPI checkout trigger | *(boolean)* |
+| `data-AKA PAY-pay` | **Yes** | Flags element as a AKA PAY checkout trigger | *(boolean)* |
 | `data-amount` | **Yes** | Amount in INR | `"499.00"` |
 | `data-order-id` | Optional | Merchant order ID (auto-generated if omitted) | `"ORD-9988"` |
 | `data-currency` | Optional | Currency (defaults to `INR`) | `"INR"` |
@@ -58,12 +58,12 @@ When clicked, the script automatically dims and blurs the page, pops up the cent
 
 ---
 
-## 3. Programmatic Usage (`Youpi.pay`)
+## 3. Programmatic Usage (`AKA PAY.pay`)
 
 For Single Page Applications (React, Vue, Angular, Svelte, Next.js):
 
 ```javascript
-Youpi.pay({
+AKA PAY.pay({
   order_id: "ORDER-1001",
   amount: 499.00,
   currency: "INR",
@@ -97,28 +97,28 @@ The script emits standard DOM `CustomEvent`s on `window`:
 
 ```javascript
 // 1. Success Event
-window.addEventListener('youpi:payment:success', (e) => {
+window.addEventListener('AKA PAY:payment:success', (e) => {
   const { order_id, amount_received, utr, payment_mode } = e.detail;
   console.log(`Order ${order_id} verified! Bank UTR: ${utr}`);
 });
 
 // 2. Failed Event
-window.addEventListener('youpi:payment:failed', (e) => {
+window.addEventListener('AKA PAY:payment:failed', (e) => {
   console.log(`Order ${e.detail.order_id} failed: ${e.detail.reason}`);
 });
 
 // 3. Suspicious / Security Review Event
-window.addEventListener('youpi:payment:suspicious', (e) => {
+window.addEventListener('AKA PAY:payment:suspicious', (e) => {
   console.warn(`Order ${e.detail.order_id} held for security review.`);
 });
 
 // 4. Session Expired Event
-window.addEventListener('youpi:payment:expired', (e) => {
+window.addEventListener('AKA PAY:payment:expired', (e) => {
   console.log(`Order ${e.detail.order_id} active window expired.`);
 });
 
 // 5. Cancelled Event
-window.addEventListener('youpi:payment:cancelled', (e) => {
+window.addEventListener('AKA PAY:payment:cancelled', (e) => {
   console.log(`Order ${e.detail.order_id} cancelled by customer.`);
 });
 ```
@@ -169,9 +169,9 @@ The only authoritative confirmation of payment is the **HMAC-SHA256 signed serve
 ```javascript
 import crypto from 'node:crypto';
 
-app.post('/api/youpi-webhook', express.raw({ type: 'application/json' }), (req, res) => {
+app.post('/api/AKA PAY-webhook', express.raw({ type: 'application/json' }), (req, res) => {
   const signature = req.headers['x-gateway-signature'] || '';
-  const secret = process.env.YOUPI_WEBHOOK_SECRET;
+  const secret = process.env.AKA PAY_WEBHOOK_SECRET;
   const expected = 'sha256=' + crypto.createHmac('sha256', secret).update(req.body).digest('hex');
 
   if (signature.length !== expected.length ||
@@ -194,8 +194,8 @@ from fastapi import FastAPI, Request, HTTPException
 
 app = FastAPI()
 
-@app.post("/api/youpi-webhook")
-async def youpi_webhook(request: Request):
+@app.post("/api/AKA PAY-webhook")
+async def AKA PAY_webhook(request: Request):
     raw_body = await request.body()
     signature = request.headers.get("X-Gateway-Signature", "")
     secret = request.app.state.webhook_secret.encode("utf-8")
@@ -216,7 +216,7 @@ async def youpi_webhook(request: Request):
 <?php
 $rawPayload = file_get_contents('php://input');
 $signature = $_SERVER['HTTP_X_GATEWAY_SIGNATURE'] ?? '';
-$secret = getenv('YOUPI_WEBHOOK_SECRET');
+$secret = getenv('AKA PAY_WEBHOOK_SECRET');
 
 $expected = 'sha256=' . hash_hmac('sha256', $rawPayload, $secret);
 
@@ -249,7 +249,7 @@ import (
 	"os"
 )
 
-func youpiWebhookHandler(w http.ResponseWriter, r *http.Request) {
+func AKA PAYWebhookHandler(w http.ResponseWriter, r *http.Request) {
 	rawBody, err := io.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, "Cannot read body", http.StatusBadRequest)
@@ -258,7 +258,7 @@ func youpiWebhookHandler(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	signature := r.Header.Get("X-Gateway-Signature")
-	secret := []byte(os.Getenv("YOUPI_WEBHOOK_SECRET"))
+	secret := []byte(os.Getenv("AKA PAY_WEBHOOK_SECRET"))
 
 	mac := hmac.New(sha256.New, secret)
 	mac.Write(rawBody)

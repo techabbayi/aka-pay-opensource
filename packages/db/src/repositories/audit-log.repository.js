@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import { AuditActorType } from '@youpi/common';
+import { AuditActorType } from '@akapay/common';
 
 export class AuditLogRepository {
   /**

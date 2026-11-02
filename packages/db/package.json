@@ -1,16 +1,30 @@
 {
-  "name": "@youpi/db",
+  "name": "@akapay/db",
   "version": "1.0.0",
-  "description": "Database layer, migrations, and repository abstractions for YOUPI PG",
+  "description": "Database layer, migrations, and repository abstractions for AKA PAY",
   "type": "module",
   "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
   "scripts": {
     "test": "node --test src/__tests__/**/*.test.js"
   },
   "dependencies": {
-    "@youpi/common": "*"
+    "@akapay/common": "*"
   },
   "devDependencies": {
-    "@youpi/core": "*"
+    "@akapay/core": "*"
+  },
+  "author": {
+    "name": "techabbayi",
+    "email": "srssltd@gmail.com",
+    "url": "https://github.com/techabbayi"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/techabbayi/aka-pay-opensource.git",
+    "directory": "packages/db"
   }
 }

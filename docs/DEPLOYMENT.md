@@ -1,6 +1,6 @@
-# YOUPI PG V2 — Deployment & Installation Guide
+# AKA PAY — Deployment & Installation Guide
 
-This document describes how to deploy and run the clean distributable **YOUPI PG V2** package.
+This document describes how to deploy and run the clean distributable **AKA PAY** package.
 
 ## 1. Prerequisites
 
@@ -9,7 +9,7 @@ This document describes how to deploy and run the clean distributable **YOUPI PG
 - **Package Manager**: `npm` (included with Node.js).
 - **Network Ports**:
   - `6100`: Payment Core API
-  - `7000`: Checkout Portal & `youpi.js` SDK host
+  - `7000`: Checkout Portal & `AKA PAY.js` SDK host
   - `6001`: Merchant Admin Panel
   - `5000`: Demo Coin Wallet Store (Reference Implementation)
   - `6002`: SMS Observer
@@ -25,7 +25,7 @@ This document describes how to deploy and run the clean distributable **YOUPI PG
 Ensure you are in the package root directory:
 
 ```bash
-cd "YOUPI PG PACKAGE"
+cd "AKA PAY PACKAGE"
 ```
 
 ### Step 2: Configure Environment
@@ -58,7 +58,7 @@ Run the automated database setup to initialize schema and seed the default merch
 npm run db:setup
 ```
 
-_(Creates `data/youpi_pg.sqlite` in clean state with 0 transactions)._
+_(Creates `data/AKA PAY_pg.sqlite` in clean state with 0 transactions)._
 
 ### Step 5: Start the System
 
@@ -83,9 +83,9 @@ Starts services in background daemon mode.
 ## 3. Verifying Your Installation
 
 1. **Checkout Portal & SDK**:
-   Open `http://localhost:7000/youpi.js` — you should see the official JavaScript SDK.
+   Open `http://localhost:7000/AKA PAY.js` — you should see the official JavaScript SDK.
 2. **Demo Store**:
-   Open `http://localhost:5000` — you should see the reference YOUPI Store with the interactive buy button and Developer Guide.
+   Open `http://localhost:5000` — you should see the reference AKA PAY Store with the interactive buy button and Developer Guide.
 3. **Merchant Admin**:
    Open `http://localhost:6001` and log in with your admin credentials from `.env`.
    Configure your active UPI ID and payee name in the Receiving Accounts tab.

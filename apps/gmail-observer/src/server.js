@@ -1,5 +1,5 @@
 import http from 'node:http';
-import { hasBearer, getObserverToken, getAdminToken, createOAuthState, consumeOAuthState, resolveGmailRedirectUri } from '@youpi/common';
+import { hasBearer, getObserverToken, getAdminToken, createOAuthState, consumeOAuthState, resolveGmailRedirectUri } from '@akapay/common';
 import { GmailPoller } from './gmail-poller.js';
 import { GmailBrowserAutomator } from './browser-automator.js';
 import { redactSensitiveData } from './parser.js';
@@ -132,7 +132,7 @@ export class GmailObserverServer {
         }
         let clientId = '';
         let configuredRedirectUri = '';
-        const isLocalhost = process.env.YOUPI_MODE === 'localhost' || !process.env.YOUPI_MODE || this.poller.apiBaseUrl?.includes('vvisa.in') || this.poller.apiBaseUrl?.includes('gauravtesting.online');
+        const isLocalhost = process.env.AKAPAY_MODE === 'localhost' || !process.env.AKAPAY_MODE || this.poller.apiBaseUrl?.includes('vvisa.in') || this.poller.apiBaseUrl?.includes('gauravtesting.online');
         const apiBase = isLocalhost ? `http://127.0.0.1:${process.env.PAYMENT_API_PORT || 6100}` : (this.poller.apiBaseUrl || `http://127.0.0.1:${process.env.PAYMENT_API_PORT || 6100}`);
         try {
           const credRes = await fetch(`${apiBase}/api/v1/admin/gmail/credentials`, { headers: { Authorization: `Bearer ${getObserverToken()}` } });
@@ -146,7 +146,7 @@ export class GmailObserverServer {
         if (!clientId) {
           clientId = (this.poller.credentials?.clientId)
             ? this.poller.credentials.clientId
-            : (process.env.GMAIL_CLIENT_ID || 'mock-youpi-client-id.apps.googleusercontent.com');
+            : (process.env.GMAIL_CLIENT_ID || 'mock-akapay-client-id.apps.googleusercontent.com');
         }
 
         const finalRedirectUri = configuredRedirectUri || resolveGmailRedirectUri();
@@ -189,7 +189,7 @@ export class GmailObserverServer {
           let clientId = '';
           let clientSecret = '';
           let callbackRedirectUri = '';
-          const isLocalhost = process.env.YOUPI_MODE === 'localhost' || !process.env.YOUPI_MODE || this.poller.apiBaseUrl?.includes('vvisa.in') || this.poller.apiBaseUrl?.includes('gauravtesting.online');
+          const isLocalhost = process.env.AKAPAY_MODE === 'localhost' || !process.env.AKAPAY_MODE || this.poller.apiBaseUrl?.includes('vvisa.in') || this.poller.apiBaseUrl?.includes('gauravtesting.online');
           const apiBase = isLocalhost ? `http://127.0.0.1:${process.env.PAYMENT_API_PORT || 6100}` : (this.poller.apiBaseUrl || `http://127.0.0.1:${process.env.PAYMENT_API_PORT || 6100}`);
 
           try {
@@ -304,7 +304,7 @@ export class GmailObserverServer {
             <html>
             <head>
               <meta charset="utf-8">
-              <title>YOUPI PG — Google Connected</title>
+              <title>AKA PAY — Google Connected</title>
               <meta name="viewport" content="width=device-width, initial-scale=1">
               <style>
                 * { box-sizing: border-box; }
@@ -408,7 +408,7 @@ export class GmailObserverServer {
                   messagesTotal: ${JSON.stringify(messagesTotal)},
                   timestamp: Date.now()
                 };
-                try { localStorage.setItem('youpi_gmail_oauth_result', JSON.stringify(payload)); } catch(e) {}
+                try { localStorage.setItem('akapay_gmail_oauth_result', JSON.stringify(payload)); } catch(e) {}
                 try { if (window.opener) window.opener.postMessage(payload, '*'); } catch(e) {}
                 function finishAndClose() {
                   try { if (window.opener && window.opener.fetchGmailCredentials) window.opener.fetchGmailCredentials(); } catch(e) {}

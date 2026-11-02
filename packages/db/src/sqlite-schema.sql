@@ -1,4 +1,4 @@
--- SQLite Schema for YOUPI PG
+-- SQLite Schema for AKA PAY
 -- Native Local / Zero-Dependency Execution
 
 -- 1. Merchants Table
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS merchants (
     webhook_url TEXT,
     webhook_secret TEXT NOT NULL,
     api_key_hash TEXT,
-    branding TEXT NOT NULL DEFAULT '{"primaryColor":"#2563eb","appName":"YOUPI PG","logoUrl":null}',
+    branding TEXT NOT NULL DEFAULT '{"primaryColor":"#2563eb","appName":"AKA PAY","logoUrl":null}',
     created_at TEXT NOT NULL DEFAULT (datetime('now')),
     updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );

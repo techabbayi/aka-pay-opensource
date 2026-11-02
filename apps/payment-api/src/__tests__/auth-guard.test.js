@@ -1,9 +1,9 @@
 import { test, describe, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import net from 'node:net';
-import { Database } from '@youpi/db';
+import { Database } from '@akapay/db';
 import { startServer as startPaymentApi } from '../index.js';
-import { PaymentMethod } from '@youpi/common';
+import { PaymentMethod } from '@akapay/common';
 import { TEST_ADMIN_TOKEN, TEST_OBSERVER_TOKEN } from '../../../../scripts/test-support.js';
 
 describe('Auth guard: admin, observer and force-success endpoints', () => {

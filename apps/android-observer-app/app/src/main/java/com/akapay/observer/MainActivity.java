@@ -1,4 +1,4 @@
-package com.youpi.observer;
+package com.akapay.observer;
 
 import android.Manifest;
 import android.app.Activity;
@@ -419,7 +419,7 @@ public class MainActivity extends Activity {
 
     private void handleScannedQrPayload(String rawPayload) {
         if (rawPayload == null || rawPayload.trim().isEmpty()) {
-            Toast.makeText(this, "INVALID YOUPI PAIRING QR", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "INVALID AKA PAY PAIRING QR", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -427,14 +427,14 @@ public class MainActivity extends Activity {
             org.json.JSONObject json = new org.json.JSONObject(rawPayload.trim());
 
             String type = json.optString("type", "");
-            if (!"YOUPI_SMS_GATEWAY_PAIR".equals(type)) {
-                Toast.makeText(this, "INVALID YOUPI PAIRING QR", Toast.LENGTH_LONG).show();
+            if (!"AKAPAY_SMS_GATEWAY_PAIR".equals(type)) {
+                Toast.makeText(this, "INVALID AKA PAY PAIRING QR", Toast.LENGTH_LONG).show();
                 return;
             }
 
             String version = json.optString("version", "v1");
             if (!"v1".equals(version)) {
-                Toast.makeText(this, "INVALID YOUPI PAIRING QR", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "INVALID AKA PAY PAIRING QR", Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -446,13 +446,13 @@ public class MainActivity extends Activity {
 
             final String serverUrl = json.optString("serverUrl", json.optString("gatewayUrl", json.optString("apiBaseUrl", "")));
             if (!serverUrl.startsWith("http://") && !serverUrl.startsWith("https://")) {
-                Toast.makeText(this, "INVALID YOUPI PAIRING QR", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "INVALID AKA PAY PAIRING QR", Toast.LENGTH_LONG).show();
                 return;
             }
 
             final String token = json.optString("enrollmentToken", json.optString("token", ""));
             if (token.isEmpty()) {
-                Toast.makeText(this, "INVALID YOUPI PAIRING QR", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "INVALID AKA PAY PAIRING QR", Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -484,7 +484,7 @@ public class MainActivity extends Activity {
 
         } catch (Exception e) {
             Log.e("MainActivity", "Error parsing QR: " + e.getMessage());
-            Toast.makeText(this, "INVALID YOUPI PAIRING QR", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "INVALID AKA PAY PAIRING QR", Toast.LENGTH_LONG).show();
         }
     }
 

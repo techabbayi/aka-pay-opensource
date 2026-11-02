@@ -1,47 +1,46 @@
 import http from 'node:http';
-import { verifyHmac } from '@youpi/common';
+import { verifyHmac } from '@akapay/common';
 
-export const TOOLS_DEFINITIONS = [
+export const TOOLS = [
   {
-    name: 'youpi_check_gateway_health',
-    description: 'Check the health and operational status of all local YouPI PG services (Payment Core API, Checkout Portal, Observers).',
+    name: 'akapay_check_gateway_health',
+    description: 'Check whether AKA PAY core services are reachable on their standard loopback ports.',
     inputSchema: {
       type: 'object',
       properties: {
         host: {
           type: 'string',
-          description: 'Ignored. The probe only ever targets the local gateway.',
-          description: 'Host to check (defaults to 127.0.0.1)',
+          description: 'Loopback interface to probe (127.0.0.1 or localhost)',
           default: '127.0.0.1'
         }
       }
     }
   },
   {
-    name: 'youpi_verify_webhook',
-    description: 'Verify HMAC-SHA256 signature for a YouPI PG webhook delivery payload.',
+    name: 'akapay_verify_webhook',
+    description: 'Verify HMAC-SHA256 signature for AKA PAY webhook deliveries against expected raw bytes and secret.',
     inputSchema: {
       type: 'object',
       properties: {
         rawPayload: {
           type: 'string',
-          description: 'The raw, unparsed request payload string'
+          description: 'Raw string payload exactly as delivered by AKA PAY'
         },
         signature: {
           type: 'string',
-          description: 'The received X-Gateway-Signature header (sha256=<hex>)'
+          description: 'X-Gateway-Signature header value (sha256=<hex>)'
         },
         secret: {
           type: 'string',
-          description: 'The merchant webhook secret'
+          description: 'Merchant webhook secret key'
         },
         timestamp: {
           type: 'string',
-          description: 'The received X-Gateway-Timestamp header in ms'
+          description: 'X-Gateway-Timestamp delivery timestamp (epoch ms)'
         },
         maxAgeSeconds: {
           type: 'number',
-          description: 'Maximum permitted age in seconds (default 300)',
+          description: 'Maximum allowable age in seconds before timestamp is marked expired',
           default: 300
         }
       },
@@ -49,8 +48,8 @@ export const TOOLS_DEFINITIONS = [
     }
   },
   {
-    name: 'youpi_simulate_bank_notification',
-    description: 'Format an incoming Indian bank SMS credit notification as text. This only returns the message body - it does NOT deliver anything to the observers or the gateway, so it can never mark a payment as settled.',
+    name: 'akapay_simulate_bank_notification',
+    description: 'Format an incoming Indian bank SMS credit notification as text.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -78,7 +77,6 @@ export const TOOLS_DEFINITIONS = [
   }
 ];
 
-/** The only hosts the health probe may target. */
 const LOOPBACK_HOSTS = new Set(['127.0.0.1', 'localhost', '::1']);
 
 export function verifyWebhookSignature({ rawPayload, signature, secret, timestamp, maxAgeSeconds = 300 }) {
@@ -102,9 +100,6 @@ export function verifyWebhookSignature({ rawPayload, signature, secret, timestam
     return { valid: false, error: 'INVALID_SIGNATURE_FORMAT' };
   }
 
-  // Use the shared verifier so this tool can never drift from the contract the gateway
-  // and the merchant SDK implement: HMAC-SHA256(secret, rawBody), constant-time compare.
-  // The length is checked first so a truncated signature is reported distinctly.
   if (sig.length !== 64) {
     return { valid: false, error: 'SIGNATURE_LENGTH_MISMATCH' };
   }
@@ -116,7 +111,7 @@ export function generateBankSmsText({ bank, amount, utr, accountLastDigits = '12
   const amtFormatted = Number(amount).toFixed(2);
   switch (bank.toUpperCase()) {
     case 'HDFC':
-      return `Dear Customer, INR ${amtFormatted} credited to account **${accountLastDigits} on ${new Date().toISOString().slice(0, 10)} by UPI/${utr}/YouPI. Avl bal INR 25,000.00.`;
+      return `Dear Customer, INR ${amtFormatted} credited to account **${accountLastDigits} on ${new Date().toISOString().slice(0, 10)} by UPI/${utr}/AKAPAY. Avl bal INR 25,000.00.`;
     case 'SBI':
       return `Your A/C ${accountLastDigits} Credited by Rs ${amtFormatted} on ${new Date().toISOString().slice(0, 10)} by UPI/Ref no ${utr} - SBI.`;
     case 'ICICI':
@@ -132,11 +127,6 @@ export function generateBankSmsText({ bank, amount, utr, accountLastDigits = '12
   }
 }
 
-/**
- * Probes a local gateway port. The host is deliberately NOT caller-controlled: the tool
- * exists to report the health of the gateway running next to it, and letting a caller
- * choose the host would turn it into an arbitrary GET probe of other hosts.
- */
 export async function checkPortHealth(port, host = '127.0.0.1') {
   const targetHost = LOOPBACK_HOSTS.has(String(host)) ? String(host) : '127.0.0.1';
   return new Promise((resolve) => {

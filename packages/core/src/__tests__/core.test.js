@@ -14,7 +14,7 @@ import {
   PublicPaymentOutcome,
   ObserverSource,
   ObservationAttributionStatus
-} from '@youpi/common';
+} from '@akapay/common';
 import {
   Database,
   runMigrations,
@@ -23,9 +23,9 @@ import {
   SupportTicketRepository,
   AuditLogRepository,
   CustomerRepository
-} from '@youpi/db';
+} from '@akapay/db';
 
-describe('@youpi/core Unit & Integration Tests', () => {
+describe('@akapay/core Unit & Integration Tests', () => {
   describe('Payment State Machine', () => {
     test('permits valid transitions and denies illegal transitions', () => {
       assert.equal(isValidTransition(PaymentStatus.INITIATED, PaymentStatus.ACTIVE), true);

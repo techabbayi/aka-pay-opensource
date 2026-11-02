@@ -11,7 +11,7 @@ async function verifyProductionUpi() {
   console.log('🔍 VERIFYING PRODUCTION DYNAMIC UPI DEEP LINK & QR CODE');
   console.log('============================================================');
 
-  const dbPath = path.resolve(process.cwd(), 'data/youpi_pg.sqlite');
+  const dbPath = path.resolve(process.cwd(), (fs.existsSync('data/akapay.sqlite') ? 'data/akapay.sqlite' : 'data/akapay.sqlite'));
   const prodDb = new Database({ dbPath });
 
   // Verify preserved merchant and receiving account

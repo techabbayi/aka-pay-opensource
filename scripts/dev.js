@@ -5,7 +5,8 @@ import { runMigrations } from '../packages/db/src/migrate.js';
 import { startControlCenter } from '../apps/control-center/src/index.js';
 import { startCloudflaredSafely } from '../packages/common/src/tunnel-command.js';
 
-if (!process.env.YOUPI_MODE) process.env.YOUPI_MODE = 'localhost';
+if (!process.env.AKAPAY_MODE) process.env.AKAPAY_MODE = 'localhost';
+if (!process.env.AKAPAY_MODE) process.env.AKAPAY_MODE = 'localhost';
 if (!process.env.NODE_ENV) process.env.NODE_ENV = 'development';
 
 // Load the shared configuration before migrations and service discovery. Set the
@@ -14,7 +15,8 @@ const rootEnv = fileURLToPath(new URL('../.env', import.meta.url));
 if (fs.existsSync(rootEnv)) process.loadEnvFile(rootEnv);
 
 console.log('====================================================');
-console.log('🚀 Starting YOUPI PG (Development / Localhost Mode)');
+console.log('🚀 Starting AKA PAY (Development / Localhost Mode)');
+console.log('   UPI & Payment Infrastructure, Also Known As. Always Connected.');
 console.log('====================================================');
 
 // 1. Run database migrations & seeds
@@ -50,7 +52,7 @@ console.log('====================================================');
 console.log('• Merchant Panel & Control Hub: http://localhost:6001');
 console.log('• Payment Core REST API:        http://localhost:6100');
 console.log('• Customer Checkout Portal:     http://localhost:7000/checkout/:id');
-console.log('• YOUPI Showcase Store:        http://localhost:5000 (toggleable)');
+console.log('• AKA PAY Showcase Store:      http://localhost:5000 (toggleable)');
 console.log('• Gmail Payment Observer:       http://localhost:6003');
 console.log('• Google Messages / SMS Obs:    http://localhost:6002');
 console.log('====================================================');

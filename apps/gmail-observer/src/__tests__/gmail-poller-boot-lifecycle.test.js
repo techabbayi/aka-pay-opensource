@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import http from 'node:http';
-import { Database } from '@youpi/db';
+import { Database } from '@akapay/db';
 import { startServer as startPaymentApi } from '../../../payment-api/src/index.js';
 import { startGmailObserver } from '../index.js';
 import { GmailPoller } from '../gmail-poller.js';

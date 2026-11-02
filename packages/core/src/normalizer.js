@@ -1,4 +1,4 @@
-import { ObserverSource, ObservationAttributionStatus, toPaise, calculateObservationFingerprint } from '@youpi/common';
+import { ObserverSource, ObservationAttributionStatus, toPaise, calculateObservationFingerprint } from '@akapay/common';
 
 function trimTrailingPunctuation(str) {
   let s = String(str || '').trim();

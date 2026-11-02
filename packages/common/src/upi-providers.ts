@@ -366,7 +366,7 @@ export function findUpiProviderById(id?: string): UpiProvider | undefined {
 
 /**
  * Official companion SMS and banking notification application packages
- * permitted to deliver real-time credit payment observations to YOUPI Gateway.
+ * permitted to deliver real-time credit payment observations to AKA PAY Gateway.
  */
 export const BANKING_AND_MESSAGING_PACKAGES: readonly string[] = Object.freeze([
   'com.google.android.apps.messaging',

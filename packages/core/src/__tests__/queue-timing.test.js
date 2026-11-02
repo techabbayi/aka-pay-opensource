@@ -6,15 +6,15 @@ import {
   PaymentSessionRepository,
   ReceivingAccountRepository,
   AuditLogRepository
-} from '@youpi/db';
+} from '@akapay/db';
 import {
   QueueEngine,
   TimingEngine,
   RecoveryEngine
 } from '../index.js';
-import { PaymentStatus } from '@youpi/common';
+import { PaymentStatus } from '@akapay/common';
 
-describe('@youpi/core Queue & Timing Engine Tests', () => {
+describe('@akapay/core Queue & Timing Engine Tests', () => {
   let db;
   let sessionRepo;
   let accountRepo;

@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "YoupiObserver"
+rootProject.name = "AkaPayObserver"
 include(":app")

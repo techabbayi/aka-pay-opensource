@@ -13,7 +13,7 @@ const server = http.createServer((req, res) => {
 
         res.end(JSON.stringify({
             status: 'UP',
-            service: 'youpi-pg-demo',
+            service: 'aka-pay-demo',
             timestamp: new Date().toISOString()
         }));
 
@@ -26,12 +26,12 @@ const server = http.createServer((req, res) => {
     });
 
     res.end(
-        'YouPI-PG demo website is not enabled yet. ' +
+        'AKA PAY demo website is not enabled yet. ' +
         'Payment functionality is disabled.'
     );
 });
 
 // Start server
 server.listen(PORT, '0.0.0.0', () => {
-    console.log(`YouPI-PG server running on port ${PORT}`);
+    console.log(`AKA PAY server running on port ${PORT}`);
 });

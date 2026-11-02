@@ -1,10 +1,10 @@
-# YouPI Phase 9B — Read-Only Evidence Audit Report
+# AKA PAY Phase 9B — Read-Only Evidence Audit Report
 
 **Date:** October 19, 2026  
 **Auditor:** Autonomous Systems & Payment Security Pair  
 **Phase Status:** COMPLETE (Read-Only Audit — No Code Mutations, No Schema Changes, No Deployments)  
 **Safety Invariants Enforced:**  
-- `ENABLE_YOUPI_UPI=false` strictly preserved in production configuration.
+- `ENABLE_AKA PAY_UPI=false` strictly preserved in production configuration.
 - Zoho Payments remains 100% primary payment gateway.
 - Zero live funds, zero real bank accounts, zero physical Android devices, zero Gmail OAuth connections.
 - Zero staging or production server mutations.
@@ -13,7 +13,7 @@
 
 ## 1. Executive Summary
 
-Phase 9B conducted an independent, evidence-based audit of the Phase 9A fail-closed payment attribution hardening. The audit inspected both the YouPI Payment Gateway core (`C:\vvisas-ai\YouPI-PG`) and the V-Visa B2B integration platform (`C:\vvisas-ai\V-VISAS\B2B-V-Visa-main`).
+Phase 9B conducted an independent, evidence-based audit of the Phase 9A fail-closed payment attribution hardening. The audit inspected both the AKA PAY Payment Gateway core (`C:\vvisas-ai\AKA PAY-PG`) and the V-Visa B2B integration platform (`C:\vvisas-ai\V-VISAS\B2B-V-Visa-main`).
 
 The implementation was evaluated against five key control areas:
 1. **Account Isolation**
@@ -45,8 +45,8 @@ The implementation was evaluated against five key control areas:
 | **Database Client** | `packages/db/src/database.js` | `Database`, `transaction()` | Lines 31–69, 136–150 | SQLite WAL mode, deferred transaction lock |
 | **Database Schemas** | `packages/db/src/sqlite-schema.sql` & `packages/db/src/schema.sql` | `payment_sessions`, `payment_observations` | Lines 70–120 | Constraints, indices, missing partial unique index |
 | **Admin Controls** | `apps/payment-api/src/routes/admin.routes.js` | `POST /api/v1/admin/counter-confirm` | Lines 270–329 | Manual override restrictions on UPI sessions |
-| **V-Visa Webhook** | `src/app/api/payments/youpi/webhook/route.ts` | `POST()` | Lines 16–240 | Webhook HMAC, anti-replay, `db.$transaction`, UTR dedup |
-| **V-Visa Client** | `src/server/integrations/youpi/client.ts` | `verifyYouPiWebhookSignature()` | Lines 112–140 | HMAC-SHA256 signature verification |
+| **V-Visa Webhook** | `src/app/api/payments/AKA PAY/webhook/route.ts` | `POST()` | Lines 16–240 | Webhook HMAC, anti-replay, `db.$transaction`, UTR dedup |
+| **V-Visa Client** | `src/server/integrations/AKA PAY/client.ts` | `verifyAKA PAYWebhookSignature()` | Lines 112–140 | HMAC-SHA256 signature verification |
 | **V-Visa Schema** | `prisma/schema.prisma` | `PaymentTransaction`, `WalletLedgerEntry` | Lines 805–885 | Durable unique constraints |
 
 ---
@@ -79,10 +79,10 @@ The implementation was evaluated against five key control areas:
 
 | ID | Control Description | Finding / Evidence | Rating |
 |---|---|---|---|
-| **3.1** | Durable deduplication of webhooks in V-Visa | In `prisma/schema.prisma` line 877, `PaymentTransaction.webhookEventId` has `@unique`. In `src/app/api/payments/youpi/webhook/route.ts` line 67, duplicate webhook delivery IDs return `{ ok: true, duplicate: true }` without database mutation. | **PASS** |
+| **3.1** | Durable deduplication of webhooks in V-Visa | In `prisma/schema.prisma` line 877, `PaymentTransaction.webhookEventId` has `@unique`. In `src/app/api/payments/AKA PAY/webhook/route.ts` line 67, duplicate webhook delivery IDs return `{ ok: true, duplicate: true }` without database mutation. | **PASS** |
 | **3.2** | Durable wallet ledger idempotency key uniqueness | In `prisma/schema.prisma` line 815, `WalletLedgerEntry.idempotencyKey` has `@unique`. Deterministic format `wallet:order-deposit:<orderId>` prevents duplicate credits even if called concurrently. | **PASS** |
-| **3.3** | Atomic commit of payment transaction and wallet ledger | In `src/app/api/payments/youpi/webhook/route.ts` lines 128–240, `tx.paymentTransaction.create`, `tx.paymentOrder.update`, and `createLedgerEntry(..., tx)` execute within a single Prisma `$transaction`. A failure in any statement rolls back the entire batch. | **PASS** |
-| **3.4** | Cross-order provider transaction / UTR reuse protection | Enforced in V-Visa webhook handler (`route.ts` lines 131–140): rejects previously consumed UTRs with `PROVIDER_TRANSACTION_ALREADY_ATTRIBUTED`. Enforced in YouPI (`verification-pipeline.js` line 683): rejects consumed UTRs with `REFERENCE_ALREADY_USED`. | **PASS** |
+| **3.3** | Atomic commit of payment transaction and wallet ledger | In `src/app/api/payments/AKA PAY/webhook/route.ts` lines 128–240, `tx.paymentTransaction.create`, `tx.paymentOrder.update`, and `createLedgerEntry(..., tx)` execute within a single Prisma `$transaction`. A failure in any statement rolls back the entire batch. | **PASS** |
+| **3.4** | Cross-order provider transaction / UTR reuse protection | Enforced in V-Visa webhook handler (`route.ts` lines 131–140): rejects previously consumed UTRs with `PROVIDER_TRANSACTION_ALREADY_ATTRIBUTED`. Enforced in AKA PAY (`verification-pipeline.js` line 683): rejects consumed UTRs with `REFERENCE_ALREADY_USED`. | **PASS** |
 | **3.5** | Multi-channel observer deduplication (SMS + Gmail) | Verified in Test 7 (`fail-closed-attribution.test.js` line 303). Dual alerts with the same UTR hash emit exactly 1 `PAYMENT.SUCCESS` event; the second observation is recorded as duplicate/already confirmed. | **PASS** |
 
 ---
@@ -93,7 +93,7 @@ The implementation was evaluated against five key control areas:
 |---|---|---|---|
 | **4.1** | Expired session protection against late alert confirmation | In `packages/core/src/attribution-engine.js` lines 485–540, alerts arriving for expired or failed sessions are marked `LATE_UNMATCHED`. A high-priority support ticket is generated for merchant operations; the session is **never** auto-confirmed. Verified in Test 5 (`fail-closed-attribution.test.js` line 239). | **PASS** |
 | **4.2** | Consumed UTR replay protection on subsequent sessions | In `packages/core/src/verification-pipeline.js` lines 683–712, incoming references are checked against prior successful orders. Replays are rejected with `REFERENCE_ALREADY_USED`. Verified in Test 6 (`fail-closed-attribution.test.js` line 263). | **PASS** |
-| **4.3** | Distinguishing notification evidence from bank settlement | Confirmed: YouPI relies on parsing push notifications (SMS/Gmail). It is **not** an authoritative host-to-host settlement engine linked directly to RBI/NPCI core banking APIs. Real funds settlement occurs solely in the merchant's underlying bank account. | **PASS** |
+| **4.3** | Distinguishing notification evidence from bank settlement | Confirmed: AKA PAY relies on parsing push notifications (SMS/Gmail). It is **not** an authoritative host-to-host settlement engine linked directly to RBI/NPCI core banking APIs. Real funds settlement occurs solely in the merchant's underlying bank account. | **PASS** |
 | **4.4** | Manual reconciliation bypass prevention | In `apps/payment-api/src/routes/admin.routes.js` lines 282–285, `POST /api/v1/admin/counter-confirm` explicitly forbids confirming UPI sessions: `"Manual confirmation is only allowed for counter payments (session method is '${session.method}'). A UPI session must only reach SUCCESS through the verification engine."` | **PASS** |
 
 ---
@@ -102,8 +102,8 @@ The implementation was evaluated against five key control areas:
 
 | ID | Control Description | Finding / Evidence | Rating |
 |---|---|---|---|
-| **5.1** | Webhook cryptographic signature verification | In `src/server/integrations/youpi/client.ts` lines 112–140, `verifyYouPiWebhookSignature()` enforces HMAC-SHA256 with `crypto.timingSafeEqual` over raw UTF-8 payloads. | **PASS** |
-| **5.2** | Anti-replay timestamp drift validation | In V-Visa webhook handler (`route.ts` lines 36–41), timestamps exceeding 5 minutes (`MAX_WEBHOOK_AGE_MS`) are rejected. In YouPI Android observer route (`pollers.routes.js` line 258), timestamps exceeding 60 seconds are rejected with 401. | **PASS** |
+| **5.1** | Webhook cryptographic signature verification | In `src/server/integrations/AKA PAY/client.ts` lines 112–140, `verifyAKA PAYWebhookSignature()` enforces HMAC-SHA256 with `crypto.timingSafeEqual` over raw UTF-8 payloads. | **PASS** |
+| **5.2** | Anti-replay timestamp drift validation | In V-Visa webhook handler (`route.ts` lines 36–41), timestamps exceeding 5 minutes (`MAX_WEBHOOK_AGE_MS`) are rejected. In AKA PAY Android observer route (`pollers.routes.js` line 258), timestamps exceeding 60 seconds are rejected with 401. | **PASS** |
 | **5.3** | Unauthenticated Active Window endpoint leakage | `GET /api/v1/pollers/active-window` in `apps/payment-api/src/routes/pollers.routes.js` (lines 30–56) has **zero authentication**. In `apps/payment-api/src/auth-guard.js`, `requiredLevel()` returns `null` for this endpoint. Anyone on the network can query all active payment sessions, order IDs, amounts, and receiving account IDs. | **FAIL** |
 | **5.4** | Secret and credential redaction in logs | Audit verified that `console.log` statements throughout the codebase redact sensitive tokens (`tunnel-command.js`, `whatsapp-berry.service.js`, `gmail-observer/src/server.js`). OTP numbers and signing keys are not printed in log streams. | **PASS** |
 | **5.5** | Crash recovery & startup queue reconciliation | In `packages/core/src/recovery-engine.js` (lines 40–90), server boot triggers automatic cleanup: stale active/processing sessions exceeding expiration are marked `EXPIRED`/`FAILED`, slots are freed, and the next queued session is promoted. Verified in `queue-timing.test.js`. | **PASS** |
@@ -145,7 +145,7 @@ Executed script: `test-concurrent-connections.mjs` against a temporary file data
 
 ### 4.4. V-Visa Platform Integration & Idempotency Suites
 ```bash
-node --test --experimental-strip-types tests/youpi-staging-verification.test.ts tests/zoho-payments-idempotency.test.ts
+node --test --experimental-strip-types tests/AKA PAY-staging-verification.test.ts tests/zoho-payments-idempotency.test.ts
 ```
 **Result:** 15 tests, **15 PASS**, 0 FAIL (315.1 ms).
 
@@ -214,7 +214,7 @@ Before any live ₹1 pilot or external bank approval can be considered:
 
 ## 8. Compliance & Governance Attestation
 
-- **Environment Setting:** `ENABLE_YOUPI_UPI=false` remains enforced.
+- **Environment Setting:** `ENABLE_AKA PAY_UPI=false` remains enforced.
 - **Primary Gateway:** Zoho Payments is 100% active and primary.
 - **Transactions Conducted:** ZERO real-money transactions.
 - **Deployment Status:** ZERO files deployed to Oracle VM or production.

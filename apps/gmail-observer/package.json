@@ -1,15 +1,26 @@
 {
   "name": "gmail-observer",
   "version": "1.0.0",
-  "description": "Gmail Payment Observer Service for YOUPI PG",
+  "description": "Gmail Payment Observer Service for AKA PAY",
   "type": "module",
   "main": "./src/index.js",
   "scripts": {
     "start": "node src/index.js",
     "test": "node --test src/__tests__/**/*.test.js"
   },
+  "author": {
+    "name": "techabbayi",
+    "email": "srssltd@gmail.com",
+    "url": "https://github.com/techabbayi"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/techabbayi/aka-pay-opensource.git",
+    "directory": "apps/gmail-observer"
+  },
   "dependencies": {
-    "@youpi/common": "*",
-    "@youpi/observer-sdk": "*"
+    "@akapay/common": "*",
+    "@akapay/observer-sdk": "*"
   }
 }

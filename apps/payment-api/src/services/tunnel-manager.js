@@ -1,6 +1,6 @@
 import { spawn } from 'node:child_process';
 import { EventEmitter } from 'node:events';
-import { buildCloudflaredInvocation } from '@youpi/common';
+import { buildCloudflaredInvocation } from '@akapay/common';
 
 /**
  * Cloudflare Tunnel Process Manager

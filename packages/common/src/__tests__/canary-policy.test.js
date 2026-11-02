@@ -44,7 +44,7 @@ describe('Centralized Canary Merchant Isolation Policy Tests', () => {
   // 3. Empty allowlist fails closed
   test('3. Fails closed with 500 when CANARY_MERCHANT_ALLOWLIST is empty string', () => {
     const res = evaluateCanaryMerchantEligibility(AUTHORIZED_MERCHANT, {
-      env: { CANARY_MERCHANT_ALLOWLIST: '', YOUPI_VERIFICATION_POLICY: 'REQUIRE_DUAL_CHANNEL' }
+      env: { CANARY_MERCHANT_ALLOWLIST: '', AKAPAY_VERIFICATION_POLICY: 'REQUIRE_DUAL_CHANNEL' }
     });
     assert.equal(res.allowed, false);
     assert.equal(res.statusCode, 500);
@@ -53,7 +53,7 @@ describe('Centralized Canary Merchant Isolation Policy Tests', () => {
   // 4. Whitespace-only allowlist fails closed
   test('4. Fails closed with 500 when CANARY_MERCHANT_ALLOWLIST is whitespace only', () => {
     const res = evaluateCanaryMerchantEligibility(AUTHORIZED_MERCHANT, {
-      env: { CANARY_MERCHANT_ALLOWLIST: '   \t  ', YOUPI_VERIFICATION_POLICY: 'REQUIRE_DUAL_CHANNEL' }
+      env: { CANARY_MERCHANT_ALLOWLIST: '   \t  ', AKAPAY_VERIFICATION_POLICY: 'REQUIRE_DUAL_CHANNEL' }
     });
     assert.equal(res.allowed, false);
     assert.equal(res.statusCode, 500);
@@ -62,7 +62,7 @@ describe('Centralized Canary Merchant Isolation Policy Tests', () => {
   // 5. Empty token in comma-separated allowlist fails closed
   test('5. Fails closed when allowlist contains empty entries (e.g., "M1,,M2")', () => {
     const res = evaluateCanaryMerchantEligibility(AUTHORIZED_MERCHANT, {
-      env: { CANARY_MERCHANT_ALLOWLIST: 'VVANFTTKRA,,OTHER_MERCHANT', YOUPI_VERIFICATION_POLICY: 'REQUIRE_DUAL_CHANNEL' }
+      env: { CANARY_MERCHANT_ALLOWLIST: 'VVANFTTKRA,,OTHER_MERCHANT', AKAPAY_VERIFICATION_POLICY: 'REQUIRE_DUAL_CHANNEL' }
     });
     assert.equal(res.allowed, false);
     assert.equal(res.statusCode, 500);
@@ -72,7 +72,7 @@ describe('Centralized Canary Merchant Isolation Policy Tests', () => {
   // 6. Malformed identifier with invalid characters fails closed
   test('6. Fails closed when allowlist contains invalid characters', () => {
     const res = evaluateCanaryMerchantEligibility(AUTHORIZED_MERCHANT, {
-      env: { CANARY_MERCHANT_ALLOWLIST: 'VVANFTTKRA,bad@merchant!', YOUPI_VERIFICATION_POLICY: 'REQUIRE_DUAL_CHANNEL' }
+      env: { CANARY_MERCHANT_ALLOWLIST: 'VVANFTTKRA,bad@merchant!', AKAPAY_VERIFICATION_POLICY: 'REQUIRE_DUAL_CHANNEL' }
     });
     assert.equal(res.allowed, false);
     assert.equal(res.statusCode, 500);
@@ -84,7 +84,7 @@ describe('Centralized Canary Merchant Isolation Policy Tests', () => {
     const res = evaluateCanaryMerchantEligibility(AUTHORIZED_MERCHANT, {
       env: {
         CANARY_MERCHANT_ALLOWLIST: 'VVANFTTKRA',
-        YOUPI_VERIFICATION_POLICY: 'INVALID_POLICY'
+        AKAPAY_VERIFICATION_POLICY: 'INVALID_POLICY'
       }
     });
     assert.equal(res.allowed, false);
@@ -97,7 +97,7 @@ describe('Centralized Canary Merchant Isolation Policy Tests', () => {
       requestedAgencyVvisaUid: 'VVANFTTKRA',
       env: {
         CANARY_MERCHANT_ALLOWLIST: 'VVANFTTKRA',
-        YOUPI_VERIFICATION_POLICY: 'SINGLE_CHANNEL_VALIDATED_GMAIL'
+        AKAPAY_VERIFICATION_POLICY: 'SINGLE_CHANNEL_VALIDATED_GMAIL'
       }
     });
     assert.equal(res.allowed, true);
@@ -109,7 +109,7 @@ describe('Centralized Canary Merchant Isolation Policy Tests', () => {
       requestedAgencyVvisaUid: 'VVANFTTKRA',
       env: {
         CANARY_MERCHANT_ALLOWLIST: 'VVANFTTKRA',
-        YOUPI_VERIFICATION_POLICY: 'REQUIRE_DUAL_CHANNEL'
+        AKAPAY_VERIFICATION_POLICY: 'REQUIRE_DUAL_CHANNEL'
       }
     });
     assert.equal(res.allowed, true);
@@ -122,7 +122,7 @@ describe('Centralized Canary Merchant Isolation Policy Tests', () => {
     const res = evaluateCanaryMerchantEligibility(UNAUTHORIZED_MERCHANT, {
       env: {
         CANARY_MERCHANT_ALLOWLIST: 'VVANFTTKRA',
-        YOUPI_VERIFICATION_POLICY: 'REQUIRE_DUAL_CHANNEL'
+        AKAPAY_VERIFICATION_POLICY: 'REQUIRE_DUAL_CHANNEL'
       }
     });
     assert.equal(res.allowed, false);
@@ -136,7 +136,7 @@ describe('Centralized Canary Merchant Isolation Policy Tests', () => {
       requestedAgencyVvisaUid: 'VVANFTTKRA', // Forged in request body
       env: {
         CANARY_MERCHANT_ALLOWLIST: 'VVANFTTKRA',
-        YOUPI_VERIFICATION_POLICY: 'REQUIRE_DUAL_CHANNEL'
+        AKAPAY_VERIFICATION_POLICY: 'REQUIRE_DUAL_CHANNEL'
       }
     });
     // Server-resolved merchant is NOT authorized, so request is blocked
@@ -150,7 +150,7 @@ describe('Centralized Canary Merchant Isolation Policy Tests', () => {
       requestedAgencyVvisaUid: 'ATTACKER_AGENCY_999',
       env: {
         CANARY_MERCHANT_ALLOWLIST: 'VVANFTTKRA',
-        YOUPI_VERIFICATION_POLICY: 'REQUIRE_DUAL_CHANNEL'
+        AKAPAY_VERIFICATION_POLICY: 'REQUIRE_DUAL_CHANNEL'
       }
     });
     assert.equal(res.allowed, false);
@@ -162,7 +162,7 @@ describe('Centralized Canary Merchant Isolation Policy Tests', () => {
     assert.throws(
       () => {
         assertCanaryMerchantAllowed(UNAUTHORIZED_MERCHANT, {
-          env: { CANARY_MERCHANT_ALLOWLIST: 'VVANFTTKRA', YOUPI_VERIFICATION_POLICY: 'REQUIRE_DUAL_CHANNEL' }
+          env: { CANARY_MERCHANT_ALLOWLIST: 'VVANFTTKRA', AKAPAY_VERIFICATION_POLICY: 'REQUIRE_DUAL_CHANNEL' }
         });
       },
       (err) => err instanceof CanaryMerchantUnauthorizedError && err.code === 'CANARY_MERCHANT_UNAUTHORIZED'
@@ -171,7 +171,7 @@ describe('Centralized Canary Merchant Isolation Policy Tests', () => {
     assert.throws(
       () => {
         assertCanaryMerchantAllowed(AUTHORIZED_MERCHANT, {
-          env: { CANARY_MERCHANT_ALLOWLIST: '', YOUPI_VERIFICATION_POLICY: 'REQUIRE_DUAL_CHANNEL' }
+          env: { CANARY_MERCHANT_ALLOWLIST: '', AKAPAY_VERIFICATION_POLICY: 'REQUIRE_DUAL_CHANNEL' }
         });
       },
       (err) => err instanceof CanaryConfigurationError && err.code === 'INVALID_CANARY_CONFIGURATION'

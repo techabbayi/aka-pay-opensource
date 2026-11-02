@@ -102,8 +102,8 @@ export function deriveCloudflareRoutes(config = {}) {
 export function resolveRuntimeUrls(options = {}) {
   let mode = options.envMode;
   if (!mode) {
-    if (process.env.YOUPI_MODE) {
-      mode = process.env.YOUPI_MODE;
+    if (process.env.AKAPAY_MODE) {
+      mode = process.env.AKAPAY_MODE;
     } else if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
       mode = 'localhost';
     } else if (process.env.CLOUDFLARE_DOMAIN) {
@@ -118,7 +118,7 @@ export function resolveRuntimeUrls(options = {}) {
 
   if (mode === 'production') {
     if (!domain) {
-      if ((process.env.NODE_ENV === 'test' || process.env.YOUPI_MODE === 'localhost') && options.envMode !== 'production') {
+      if ((process.env.NODE_ENV === 'test' || process.env.AKAPAY_MODE === 'localhost') && options.envMode !== 'production') {
         mode = 'localhost';
       } else {
         throw new Error('Production Configuration Incomplete: Cloudflare Domain is required when running in PRODUCTION mode.');
@@ -190,7 +190,7 @@ export function createPairingPayload(options = {}) {
 
   return {
     version: 'v1',
-    type: 'YOUPI_SMS_GATEWAY_PAIR',
+    type: 'AKAPAY_SMS_GATEWAY_PAIR',
     serverUrl: serverUrl || 'http://localhost:6100',
     sessionId,
     token,
@@ -205,16 +205,16 @@ export function createPairingPayload(options = {}) {
  */
 export function validatePairingPayload(payload) {
   if (!payload || typeof payload !== 'object') {
-    return { valid: false, error: 'INVALID YOUPI PAIRING QR' };
+    return { valid: false, error: 'INVALID PAIRING QR' };
   }
-  if (payload.type !== 'YOUPI_SMS_GATEWAY_PAIR') {
-    return { valid: false, error: 'INVALID YOUPI PAIRING QR' };
+  if (payload.type !== 'AKAPAY_SMS_GATEWAY_PAIR' && payload.type !== 'AKAPAY_SMS_GATEWAY_PAIR') {
+    return { valid: false, error: 'INVALID PAIRING QR' };
   }
   if (payload.version !== 'v1') {
-    return { valid: false, error: 'INVALID YOUPI PAIRING QR VERSION' };
+    return { valid: false, error: 'INVALID PAIRING QR VERSION' };
   }
   if (!payload.serverUrl || !payload.token || !payload.sessionId) {
-    return { valid: false, error: 'MALFORMED YOUPI PAIRING QR: Missing required fields' };
+    return { valid: false, error: 'MALFORMED PAIRING QR: Missing required fields' };
   }
   if (!payload.serverUrl.startsWith('http://') && !payload.serverUrl.startsWith('https://')) {
     return { valid: false, error: 'INVALID SERVER URL PROTOCOL' };
@@ -268,13 +268,13 @@ export function resolveGmailRedirectUri(branding = {}) {
  */
 export function resolveDefaultBranding(overrides = {}) {
   const envAppName = (process.env.DEFAULT_APP_NAME || '').trim();
-  const appName = overrides.appName?.trim() || envAppName || 'YOUPI PG';
+  const appName = overrides.appName?.trim() || envAppName || 'AKA PAY';
 
   const envPrimaryColor = (process.env.DEFAULT_PRIMARY_COLOR || '').trim();
   const primaryColor = overrides.primaryColor?.trim() || envPrimaryColor || '#2563eb';
 
   const envSupportEmail = (process.env.DEFAULT_SUPPORT_EMAIL || '').trim();
-  const supportEmail = overrides.supportEmail?.trim() || envSupportEmail || 'support@youpi.local';
+  const supportEmail = overrides.supportEmail?.trim() || envSupportEmail || 'srssltd@gmail.com';
 
   const envSupportPhone = (process.env.DEFAULT_SUPPORT_PHONE || '').trim();
   const supportPhone = overrides.supportPhone?.trim() || envSupportPhone || '9876543210';

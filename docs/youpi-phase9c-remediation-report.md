@@ -1,4 +1,4 @@
-# YouPI Phase 9C — Observer Isolation and Concurrency Hardening Report
+# AKA PAY Phase 9C — Observer Isolation and Concurrency Hardening Report
 
 **Phase:** Phase 9C — Remediation and Verification  
 **Date:** October 19, 2026  
@@ -9,7 +9,7 @@
 
 ## 1. Executive Summary
 
-During the Phase 9B Read-Only Audit, four critical vulnerabilities and concurrency hazards were identified in the observer intake and payment session lifecycle of YouPI-PG:
+During the Phase 9B Read-Only Audit, four critical vulnerabilities and concurrency hazards were identified in the observer intake and payment session lifecycle of AKA PAY-PG:
 1. **Unprotected Active-Window Route**: `GET /api/v1/pollers/active-window` leaked payment sessions across all merchants without authentication.
 2. **Dynamic Account Guessing in Observers**: `SmsObserverService` and `GmailPoller` queried `active-window` and adopted `sessions[0].receivingAccountId`, creating cross-wiring risks.
 3. **Missing DB Constraint for Single Active Session**: The single-active-session invariant was enforced only in application code, vulnerable to race conditions.
@@ -21,9 +21,9 @@ In **Phase 9C**, all four findings have been remediated in source code, enforced
 - **Zero Live Credentials**: No real bank accounts, VPAs, or live observer credentials used or created.
 - **Zero Real Devices**: No physical Android hardware enrolled; no live Gmail OAuth tokens requested.
 - **Zero Money Transferred**: 100% of testing performed with synthetic in-memory databases and isolated test ports.
-- **Platform Invariants Frozen**: V-Visa platform remains with `ENABLE_YOUPI_UPI=false`. Zoho Payments remains 100% primary and fully untouched.
+- **Platform Invariants Frozen**: V-Visa platform remains with `ENABLE_AKA PAY_UPI=false`. Zoho Payments remains 100% primary and fully untouched.
 - **Full Suite Integrity**:
-  - `YouPI-PG`: **34 / 34 test suites PASS** (100% clean, 48.42s).
+  - `AKA PAY-PG`: **34 / 34 test suites PASS** (100% clean, 48.42s).
   - `V-Visa B2B`: **243 / 243 tests PASS** (31 test suites, 0 failures, 19.65s).
 
 ---
@@ -167,10 +167,10 @@ SQLite's default transaction mode (`BEGIN TRANSACTION;`) is `DEFERRED`. In multi
 ℹ fail 0
 ```
 
-### 2. Full Regression Test Runner (`YouPI-PG: npm test`)
+### 2. Full Regression Test Runner (`AKA PAY-PG: npm test`)
 ```
 ============================================================
-🧪 YOUPI PG V2 — FULL REGRESSION TEST RUNNER
+🧪 AKA PAY — FULL REGRESSION TEST RUNNER
 Running 34 curated test suites...
 ============================================================
 
@@ -184,7 +184,7 @@ Running 34 curated test suites...
 [8/34] Testing packages/core/src/__tests__/queue-timing.test.js... ✅ PASS (0.40s)
 [9/34] Testing packages/core/src/__tests__/webhook-engine.test.js... ✅ PASS (0.42s)
 [10/34] Testing packages/merchant-sdk/src/__tests__/merchant-sdk.test.js... ✅ PASS (0.43s)
-[11/34] Testing packages/merchant-sdk/src/__tests__/youpi-universal-integration.test.js... ✅ PASS (1.85s)
+[11/34] Testing packages/merchant-sdk/src/__tests__/AKA PAY-universal-integration.test.js... ✅ PASS (1.85s)
 [12/34] Testing apps/checkout-portal/src/__tests__/checkout-portal.test.js... ✅ PASS (0.48s)
 [13/34] Testing apps/coin-wallet-store/src/__tests__/coin-wallet-store.test.js... ✅ PASS (0.54s)
 [14/34] Testing apps/merchant-admin/src/__tests__/merchant-admin.test.js... ✅ PASS (0.41s)
@@ -253,6 +253,6 @@ Phase 9C has successfully resolved all architectural, security, and concurrency 
 
 The integration remains safely quarantined:
 - Staging and production configurations remain frozen.
-- Feature flag `ENABLE_YOUPI_UPI=false` remains enforced.
+- Feature flag `ENABLE_AKA PAY_UPI=false` remains enforced.
 - Zoho Payments continues operating as the sole active payment processor for V-Visa B2B.
 - Full regression evidence is preserved and reproducible on demand.

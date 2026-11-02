@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
 import { HttpServer } from '../server.js';
-import { normalizeEmail, normalizeMobile, isValidEmail, isValidMobile, isValidPassword, safeEqual } from '@youpi/common';
+import { normalizeEmail, normalizeMobile, isValidEmail, isValidMobile, isValidPassword, safeEqual } from '@akapay/common';
 
 /** Wrong guesses tolerated per issued OTP challenge. */
 const OTP_MAX_ATTEMPTS = 5;
@@ -26,10 +26,10 @@ function maskEmail(email) {
  * Registers gateway-owned customer identity and session routes.
  * @param {HttpServer} server
  * @param {{
- *   customerRepo: import('@youpi/db').CustomerRepository,
- *   customerSessionRepo: import('@youpi/db').CustomerSessionRepository,
- *   sessionRepo: import('@youpi/db').PaymentSessionRepository,
- *   auditRepo: import('@youpi/db').AuditLogRepository
+ *   customerRepo: import('@akapay/db').CustomerRepository,
+ *   customerSessionRepo: import('@akapay/db').CustomerSessionRepository,
+ *   sessionRepo: import('@akapay/db').PaymentSessionRepository,
+ *   auditRepo: import('@akapay/db').AuditLogRepository
  * }} ctx
  */
 export function registerCustomerRoutes(server, ctx) {
@@ -40,7 +40,7 @@ export function registerCustomerRoutes(server, ctx) {
       return authHeader.slice(7).trim();
     }
     const cookieHeader = req.headers['cookie'] || '';
-    const match = cookieHeader.match(/youpi_session=([^;]+)/);
+    const match = cookieHeader.match(/(?:akapay_session|akapay_session)=([^;]+)/);
     if (match) {
       return match[1].trim();
     }
@@ -50,7 +50,7 @@ export function registerCustomerRoutes(server, ctx) {
   // Helper to set session cookie header
   function buildSessionCookie(token, maxAgeSeconds = 30 * 24 * 3600) {
     const isProd = process.env.NODE_ENV === 'production';
-    return `youpi_session=${token}; Path=/; Max-Age=${maxAgeSeconds}; HttpOnly; SameSite=Lax${isProd ? '; Secure' : ''}`;
+    return `akapay_session=${token}; Path=/; Max-Age=${maxAgeSeconds}; HttpOnly; SameSite=Lax${isProd ? '; Secure' : ''}`;
   }
 
   // Pending signup challenges cache: mobileNumber -> { otpCode, expiresAt, name, email }
@@ -231,7 +231,7 @@ export function registerCustomerRoutes(server, ctx) {
         expiresAt,
         attempts: 0,
         name: name || `Customer ${cleanMobile.slice(-4)}`,
-        email: email || `${cleanMobile}@customer.youpi.local`
+        email: email || `${cleanMobile}@customer.akapay.local`
       });
     }
 
@@ -258,7 +258,7 @@ export function registerCustomerRoutes(server, ctx) {
       mobileNumber: cleanMobile,
       expiresInSeconds: 300,
       // Returning the OTP lets anyone log in as any number: only on explicit opt-in, never in production.
-      devOtp: (process.env.YOUPI_EXPOSE_DEV_OTP === 'true' && process.env.NODE_ENV !== 'production' ? otpCode : undefined),
+      devOtp: ((process.env.AKAPAY_EXPOSE_DEV_OTP === 'true' || process.env.AKAPAY_EXPOSE_DEV_OTP === 'true') && process.env.NODE_ENV !== 'production' ? otpCode : undefined),
       dispatch: dispatchResult
     });
   });
@@ -317,7 +317,7 @@ export function registerCustomerRoutes(server, ctx) {
 
       // Create new customer account in DB
       const resolvedName = (body.name || body.fullName || pending.name || `Customer ${cleanMobile.slice(-4)}`).trim();
-      const resolvedEmail = normalizeEmail(body.email || pending.email) || `${cleanMobile}@customer.youpi.local`;
+      const resolvedEmail = normalizeEmail(body.email || pending.email) || `${cleanMobile}@customer.akapay.local`;
 
       try {
         customer = ctx.customerRepo.create({
@@ -394,7 +394,7 @@ export function registerCustomerRoutes(server, ctx) {
     const resolvedMobile = normalizeMobile(mobileNumber || body.phoneNumber);
     let resolvedEmail = normalizeEmail(email);
     if (!resolvedEmail && resolvedMobile) {
-      resolvedEmail = `${resolvedMobile}@customer.youpi.local`;
+      resolvedEmail = `${resolvedMobile}@customer.akapay.local`;
     }
     const resolvedPassword = password;
 
@@ -589,7 +589,7 @@ export function registerCustomerRoutes(server, ctx) {
       ctx.customerSessionRepo.revokeToken(token);
     }
 
-    res.setHeader('Set-Cookie', 'youpi_session=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax');
+    res.setHeader('Set-Cookie', ['akapay_session=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax', 'akapay_session=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax']);
     HttpServer.json(res, 200, { success: true, message: 'Logged out successfully.' });
   });
 

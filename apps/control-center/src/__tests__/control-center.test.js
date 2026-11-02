@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { once } from 'node:events';
-import { getAdminToken } from '@youpi/common';
+import { getAdminToken } from '@akapay/common';
 import { startControlCenter } from '../index.js';
 import { ProcessManager } from '../process-manager.js';
 
@@ -76,7 +76,7 @@ describe('Control Center Supervisor Integration Tests', () => {
     const res = await get('/');
     assert.equal(res.status, 200);
     assert.ok(res.headers['content-type'].includes('text/html'));
-    assert.ok(res.body.includes('YOUPI Control Center'));
+    assert.ok(res.body.includes('AKA PAY Control Center'));
     assert.ok(res.body.includes('Managed host processes'));
     assert.ok(res.body.includes('Live logs, all services'));
   });
@@ -138,7 +138,7 @@ describe('ProcessManager child lifecycle', () => {
   }
 
   function fixture(t, shutdownBody, options = {}) {
-    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'youpi-process-test-'));
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'akapay-process-test-'));
     const script = path.join(directory, 'service.cjs');
     fs.writeFileSync(script, `
       process.on('SIGTERM', () => { ${shutdownBody} });

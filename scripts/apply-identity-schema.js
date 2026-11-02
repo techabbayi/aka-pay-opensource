@@ -5,7 +5,7 @@ import { runMigrations } from '../packages/db/src/migrate.js';
 
 async function applyIdentitySchema() {
   console.log('=== APPLYING IDENTITY SCHEMA & VERIFYING ZERO CUSTOMER RESIDUE (PROD) ===');
-  const dbPath = path.resolve('data/youpi_pg.sqlite');
+  const dbPath = path.resolve((fs.existsSync('data/akapay.sqlite') ? 'data/akapay.sqlite' : 'data/akapay.sqlite'));
   console.log('Database path:', dbPath);
 
   const backupDir = path.resolve('data/backups');

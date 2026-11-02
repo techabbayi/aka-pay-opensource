@@ -1,7 +1,7 @@
 # ARCHITECTURE.md — Canonical System Architecture & Engineering Blueprint
 
-> **YOUPI PG V2**  
-> _Sovereign • Self-Hosted • Zero-Fee • Deterministic UPI Payment Gateway Suite_  
+> **AKA PAY**  
+> _UPI & Payment Infrastructure, Also Known As. Always Connected._  
 > **Architecture Reference:** Production Specification V2  
 > **Runtime Target:** Node.js `>= 20.0.0` (ESM Native) • SQLite WAL • Android Kotlin
 
@@ -9,7 +9,7 @@
 
 ## 1. Executive Summary & Mission Statement
 
-**YOUPI PG** is a sovereign, self-hosted, white-label UPI and multi-modal payment gateway engineered for small-scale merchants, digital creators, and independent businesses in India.
+**AKA PAY** is a sovereign, self-hosted, white-label UPI and multi-modal payment gateway engineered for merchants, digital creators, and independent businesses.
 
 ### The Problem It Solves
 
@@ -20,9 +20,9 @@ Traditional Indian payment aggregators (Razorpay, Cashfree, PayU, Paytm) impose:
 3. **Arbitrary Account Freezes:** Unilateral merchant fund withholding and sudden KYC lockdowns.
 4. **Phone Spoofing & Fraud:** Fraudulent orders placed using arbitrary fake phone numbers.
 
-### The YOUPI PG Solution
+### The AKA PAY Solution
 
-YOUPI PG eliminates the aggregator intermediary completely:
+AKA PAY eliminates the aggregator intermediary completely:
 
 - **0% Transaction Fees Forever:** Payments are settled directly into the merchant's bank account via peer-to-peer (P2P) UPI rails.
 - **Sub-Second Direct Settlement:** Zero holdbacks. Funds land in the merchant's account instantly.
@@ -34,7 +34,7 @@ YOUPI PG eliminates the aggregator intermediary completely:
 
 ## 2. Core Architectural Invariants
 
-Every subsystem in YOUPI PG adheres to eight strict mathematical and operational invariants:
+Every subsystem in AKA PAY adheres to eight strict mathematical and operational invariants:
 
 ### Invariant 1 — Deterministic Amount-Only Attribution
 
@@ -87,9 +87,9 @@ The active production persistence layer uses Node.js native `node:sqlite` (`Data
 
 ### Invariant 8 — Zero-Config Database Auto-Provisioning
 
-On first system boot or after cloning, YOUPI PG guarantees zero-config database provisioning:
+On first system boot or after cloning, AKA PAY guarantees zero-config database provisioning:
 
-- Automatically detects if `data/youpi_pg.sqlite` and core tables exist (`SELECT count(*) FROM sqlite_master WHERE type='table' AND name='merchants'`).
+- Automatically detects if `data/akapay.sqlite` and core tables exist (`SELECT count(*) FROM sqlite_master WHERE type='table' AND name='merchants'`).
 - If missing, creates the parent directory `data/` and runs all schema DDL and baseline seeds idempotently before accepting HTTP traffic.
 - Eliminates manual database creation scripts and avoids runtime `SqliteError: no such table` crashes entirely.
 
@@ -108,7 +108,7 @@ flowchart TB
     subgraph GatewayFrontend["Gateway Frontend Services"]
         CheckoutPortal["Checkout Portal (Port 7000)<br/>• Dynamic Vector UPI QR<br/>• WhatsApp OTP Modal<br/>• Decoupled Dual Timers<br/>• Mobile Bottom Sheet"]
         AdminDashboard["Merchant Admin Panel (Port 6001)<br/>• White-Label Customizer<br/>• Cashier Till Dock<br/>• Live VPA Slot Hub<br/>• WhatsApp Pairing"]
-        DemoStore["YOUPI Showcase Store (Port 5000)<br/>• Enterprise Gateway PDP<br/>• 5 Outcome Demos<br/>• Developer Guide"]
+        DemoStore["AKA PAY Showcase Store (Port 5000)<br/>• Enterprise Gateway PDP<br/>• 5 Outcome Demos<br/>• Developer Guide"]
     end
 
     subgraph CoreBackend["Payment Core REST Engine (Port 6100)"]
@@ -128,12 +128,12 @@ flowchart TB
     end
 
     subgraph PersistenceLayer["Storage & Supervision"]
-        SQLiteDB[("SQLite WAL Database<br/>• data/youpi_pg.sqlite<br/>• Strict Foreign Keys<br/>• Atomic BEGIN/COMMIT")]
+        SQLiteDB[("SQLite WAL Database<br/>• data/akapay.sqlite<br/>• Strict Foreign Keys<br/>• Atomic BEGIN/COMMIT")]
         ControlCenter["Control Center (Port 8090)<br/>• Host Process Supervisor<br/>• Health & Log Aggregator"]
     end
 
     BuyerBrowser -->|Interacts with| CheckoutPortal
-    MerchantStore -->|SDK Embed / youpi.js| CheckoutPortal
+    MerchantStore -->|SDK Embed / akapay.js| CheckoutPortal
     CashierPOS -->|Approves Till Cash/Card| AdminDashboard
 
     CheckoutPortal -->|REST & SSE Stream| APIEndpoints
@@ -248,12 +248,12 @@ To prevent phone spoofing, bots, and unauthenticated slot exhaustion, customer i
 
 ### 4.3 Tri-Channel Banking Observation Engine
 
-YOUPI PG captures bank credit alerts across three redundant layers:
+AKA PAY captures bank credit alerts across three redundant layers:
 
 | Layer       | Component                                     | Mechanism                                                                                                                          | Security & Integrity                                                                                                                                                                    |
 | :---------- | :-------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Layer 1** | **Native Android APK** (`com.youpi.observer`) | Intercepts cellular SMS (`android.provider.Telephony.SMS_RECEIVED`) and bank push notifications via `NotificationListenerService`. | Paired via ephemeral QR enrollment token. Dispatches payloads to `/api/v1/observers/sms` signed with **HMAC-SHA256(deviceSecret)** and anti-replay timestamp drift protection ($<60$s). |
-| **Layer 2** | **Gmail Observer** (Port 6003)                | Google Cloud OAuth2 API polling (`users.messages.list`) or headless CDP Chrome inbox scraper (`@youpi/observer-sdk`).              | Scans incoming bank transaction emails matching regex patterns (HDFC, ICICI, SBI, Axis, Kotak, PNB).                                                                                    |
+| **Layer 1** | **Native Android APK** (`com.akapay.observer`) | Intercepts cellular SMS (`android.provider.Telephony.SMS_RECEIVED`) and bank push notifications via `NotificationListenerService`. | Paired via ephemeral QR enrollment token. Dispatches payloads to `/api/v1/observers/sms` signed with **HMAC-SHA256(deviceSecret)** and anti-replay timestamp drift protection ($<60$s). |
+| **Layer 2** | **Gmail Observer** (Port 6003)                | Google Cloud OAuth2 API polling (`users.messages.list`) or headless CDP Chrome inbox scraper (`@akapay/observer-sdk`).              | Scans incoming bank transaction emails matching regex patterns (HDFC, ICICI, SBI, Axis, Kotak, PNB).                                                                                    |
 | **Layer 3** | **SMS Observer** (Port 6002)                  | Headless Chrome CDP automation pairing with Google Messages for Web (`messages.google.com/web`).                                   | Real-time DOM text parsing extracting incoming SMS banking alerts without physical phone cables.                                                                                        |
 
 #### Unified Normalization & Deduplication
@@ -296,9 +296,9 @@ graph TD
 
 ---
 
-### 4.5 Universal Merchant Integration (`youpi.js`)
+### 4.5 Universal Merchant Integration (`akapay.js`)
 
-YOUPI PG distributes a single, framework-independent universal browser bundle: [`/youpi.js`](apps/checkout-portal/src/sdk/youpi.js).
+AKA PAY distributes a single, framework-independent universal browser bundle: [`/akapay.js`](apps/checkout-portal/src/sdk/akapay.js).
 
 #### 1. Zero-JS Declarative Button Embedding
 
@@ -306,26 +306,26 @@ Merchants add the script and declarative attributes to any HTML button:
 
 ```html
 <script
-  src="https://pay.yourdomain.com/youpi.js"
-  data-youpi-key="MERCHANT_PUBLIC_KEY"
+  src="https://pay.yourdomain.com/akapay.js"
+  data-akapay-key="MERCHANT_PUBLIC_KEY"
 ></script>
 
 <button
-  data-youpi-pay
+  data-akapay-pay
   data-order-id="ORD-1001"
   data-amount="499.00"
   data-currency="INR"
 >
-  Buy Now with YOUPI PG
+  Buy Now with AKA PAY
 </button>
 ```
 
-#### 2. Programmatic Invocation (`Youpi.pay`)
+#### 2. Programmatic Invocation (`AkaPay.pay`)
 
 For SPAs (React, Next.js, Vue, Nuxt, Angular):
 
 ```javascript
-window.Youpi.pay({
+window.AkaPay.pay({
   checkoutUrl: session.checkoutUrl,
   order_id: "ORD-1001",
   amount: 499.0,
@@ -346,11 +346,11 @@ window.Youpi.pay({
 
 Driven directly on `window` for reactive UI animations:
 
-- `youpi:payment:success` (`e.detail: { order_id, amount_received, utr }`)
-- `youpi:payment:failed` (`e.detail: { order_id, reason }`)
-- `youpi:payment:suspicious` (`e.detail: { order_id }`)
-- `youpi:payment:expired` (`e.detail: { order_id }`)
-- `youpi:payment:cancelled` (`e.detail: { order_id }`)
+- `akapay:payment:success` (`e.detail: { order_id, amount_received, utr }`)
+- `akapay:payment:failed` (`e.detail: { order_id, reason }`)
+- `akapay:payment:suspicious` (`e.detail: { order_id }`)
+- `akapay:payment:expired` (`e.detail: { order_id }`)
+- `akapay:payment:cancelled` (`e.detail: { order_id }`)
 
 #### 4. Authoritative Webhook Security Contract
 
@@ -365,11 +365,11 @@ Frontend browser events are never trusted for order fulfillment or provisioning 
 import crypto from "node:crypto";
 
 app.post(
-  "/api/youpi-webhook",
+  "/api/webhook",
   express.raw({ type: "application/json" }),
   (req, res) => {
     const signature = req.headers["x-gateway-signature"] || "";
-    const secret = process.env.YOUPI_WEBHOOK_SECRET;
+    const secret = process.env.AKAPAY_WEBHOOK_SECRET;
     const expected =
       "sha256=" +
       crypto.createHmac("sha256", secret).update(req.body).digest("hex");
@@ -394,7 +394,7 @@ app.post(
 
 ### 4.6 5 Standardized Merchant Outcome Pages
 
-To prevent broken 404 links and inconsistent customer experiences, YOUPI PG provides 5 canonical outcome pages served from Port 5000:
+To prevent broken 404 links and inconsistent customer experiences, AKA PAY provides 5 canonical outcome pages served from Port 5000:
 
 1. **`/order-success`:** Confirmed bank credit, displays verified UTR, provisions license/digital product.
 2. **`/order-failed`:** Informs buyer that verification timed out and confirms zero funds were deducted.
@@ -406,11 +406,11 @@ To prevent broken 404 links and inconsistent customer experiences, YOUPI PG prov
 
 ### 4.7 White-Label Customization Engine
 
-YOUPI PG implements a **3-Tier Hierarchical Branding Engine** ensuring platform instances can be fully customized or whitelisted per merchant:
+AKA PAY implements a **3-Tier Hierarchical Branding Engine** ensuring platform instances can be fully customized or whitelisted per merchant:
 
 1. **Tier 1 (Global Environment Defaults):** Configured via `.env` (`DEFAULT_APP_NAME`, `DEFAULT_PRIMARY_COLOR`, `DEFAULT_SUPPORT_EMAIL`, `DEFAULT_SUPPORT_PHONE`, `DEFAULT_LOGO_URL`, `DEFAULT_TRUST_BADGE_TEXT`, `DEFAULT_FOOTER_GUARANTEE`, `WHATSAPP_SENDER_NAME`).
 2. **Tier 2 (Per-Merchant Database Record):** Configured via Tab 5 of the Merchant Admin dashboard and persisted in `merchants.branding` JSON (`appName`, `primaryColor`, `logoUrl`, `customCss`, etc.).
-3. **Tier 3 (Runtime Session Resolution):** Cascades dynamically: `session.branding || merchant.branding || env.DEFAULT_* || 'YOUPI PG'`.
+3. **Tier 3 (Runtime Session Resolution):** Cascades dynamically: `session.branding || merchant.branding || env.DEFAULT_* || 'AKA PAY'`.
 
 Key capabilities:
 
@@ -440,10 +440,10 @@ Key capabilities:
 
 ## 6. Persistence & Schema Architecture
 
-All runtime state is stored in `data/youpi_pg.sqlite` with strict foreign keys and Write-Ahead Logging:
+All runtime state is stored in `data/aka_pay.sqlite` with strict foreign keys and Write-Ahead Logging:
 
 ```text
-data/youpi_pg.sqlite
+data/aka_pay.sqlite
 ├── merchants (id, business_name, api_key, webhook_secret, branding [JSON])
 ├── payment_receiving_accounts (id, merchant_id, vpa, account_name, is_slot_busy, daily_limit_paise)
 ├── customers (id, mobile_number, name, email, risk_tier, is_banned, created_at)
@@ -458,13 +458,13 @@ data/youpi_pg.sqlite
 
 ## 7. Verification & Quality Assurance Suite
 
-YOUPI PG enforces zero regression via a unified test runner:
+AKA PAY enforces zero regression via a unified test runner:
 
 ```bash
 node scripts/test-all.js
 ```
 
-The suite executes **39 curated test suites** across packages, applications, and chaos-concurrency harnesses in under 35 seconds:
+The suite executes **curated test suites** across packages, applications, and chaos-concurrency harnesses in under 35 seconds:
 
 - **Common & Contracts:** Types, enums, paise minor units, UPI URIs, crypto builders.
 - **Database & Repositories:** SQLite migrations, foreign keys, transaction rollbacks, auth matrix.
@@ -473,3 +473,14 @@ The suite executes **39 curated test suites** across packages, applications, and
 - **Checkout Portal & SDK:** Universal embed script, postMessage protocols, vector QR SVG generator.
 - **Observers:** Android HMAC signing, Gmail OAuth2 parsing, SMS regex patterns.
 - **Chaos & Concurrency:** Multi-tenant race conditions, high-concurrency slot contention, and deadlocks.
+
+---
+
+## 8. Open-Source Leadership & Community
+
+* **Author & Lead Architect:** [techabbayi](https://github.com/techabbayi) (Lokeswara Muthumula)
+* **GitHub Repository:** [https://github.com/techabbayi/aka-pay-opensource](https://github.com/techabbayi/aka-pay-opensource)
+* **LinkedIn:** [https://in.linkedin.com/in/lokeswaramuthumula](https://in.linkedin.com/in/lokeswaramuthumula)
+* **Email:** [srssltd@gmail.com](mailto:srssltd@gmail.com)
+* **License:** Apache License 2.0
+

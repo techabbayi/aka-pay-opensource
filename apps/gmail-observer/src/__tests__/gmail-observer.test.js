@@ -1,11 +1,11 @@
 import { test, describe, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
-import { Database } from '@youpi/db';
+import { Database } from '@akapay/db';
 import { startServer as startPaymentApi } from '../../../payment-api/src/index.js';
 import { startGmailObserver } from '../index.js';
 import { BankEmailParser } from '../parser.js';
-import { PaymentStatus, createOAuthState } from '@youpi/common';
+import { PaymentStatus, createOAuthState } from '@akapay/common';
 import { TEST_OBSERVER_TOKEN } from '../../../../scripts/test-support.js';
 
 describe('Gmail Payment Observer Integration Tests', () => {

@@ -1,8 +1,8 @@
 import { test, describe, before, after, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { Database } from '@youpi/db';
+import { Database } from '@akapay/db';
 import { startServer as startPaymentApi } from '../index.js';
-import { PaymentStatus, generateHmac } from '@youpi/common';
+import { PaymentStatus, generateHmac } from '@akapay/common';
 
 describe('Mitto Pay — Canary Isolation & Dual-Channel Settlement Tests', () => {
   let apiInstance;
@@ -13,7 +13,7 @@ describe('Mitto Pay — Canary Isolation & Dual-Channel Settlement Tests', () =>
 
   before(async () => {
     testDb = new Database({ inMemory: true });
-    process.env.YOUPI_VERIFICATION_POLICY = 'REQUIRE_DUAL_CHANNEL';
+    process.env.AKAPAY_VERIFICATION_POLICY = 'REQUIRE_DUAL_CHANNEL';
     process.env.CANARY_MERCHANT_ALLOWLIST = AUTHORIZED_UID;
 
     apiInstance = await startPaymentApi(CANARY_TEST_PORT, testDb);
@@ -28,7 +28,7 @@ describe('Mitto Pay — Canary Isolation & Dual-Channel Settlement Tests', () =>
 
   after(async () => {
     delete process.env.CANARY_MERCHANT_ALLOWLIST;
-    delete process.env.YOUPI_VERIFICATION_POLICY;
+    delete process.env.AKAPAY_VERIFICATION_POLICY;
     await apiInstance.close();
     testDb.close();
   });
@@ -91,9 +91,9 @@ describe('Mitto Pay — Canary Isolation & Dual-Channel Settlement Tests', () =>
     apiInstance.app.context.db.execute("UPDATE payment_sessions SET status = 'SUCCESS' WHERE id = ?", [res.body.paymentId]);
   });
 
-  test('4. Canary settlement strictly fails if YOUPI_VERIFICATION_POLICY is invalid', async () => {
+  test('4. Canary settlement strictly fails if AKAPAY_VERIFICATION_POLICY is invalid', async () => {
     // Temporarily set invalid verification policy
-    process.env.YOUPI_VERIFICATION_POLICY = 'INSECURE_INVALID_POLICY';
+    process.env.AKAPAY_VERIFICATION_POLICY = 'INSECURE_INVALID_POLICY';
 
     const res = await createPayment({
       orderId: 'CANARY-FAIL-SAFE-004',
@@ -107,11 +107,11 @@ describe('Mitto Pay — Canary Isolation & Dual-Channel Settlement Tests', () =>
     assert.equal(res.body.code, 'INVALID_VERIFICATION_POLICY');
 
     // Restore strict policy
-    process.env.YOUPI_VERIFICATION_POLICY = 'REQUIRE_DUAL_CHANNEL';
+    process.env.AKAPAY_VERIFICATION_POLICY = 'REQUIRE_DUAL_CHANNEL';
   });
 
-  test('4b. Canary settlement succeeds when YOUPI_VERIFICATION_POLICY is SINGLE_CHANNEL_VALIDATED_GMAIL', async () => {
-    process.env.YOUPI_VERIFICATION_POLICY = 'SINGLE_CHANNEL_VALIDATED_GMAIL';
+  test('4b. Canary settlement succeeds when AKAPAY_VERIFICATION_POLICY is SINGLE_CHANNEL_VALIDATED_GMAIL', async () => {
+    process.env.AKAPAY_VERIFICATION_POLICY = 'SINGLE_CHANNEL_VALIDATED_GMAIL';
 
     const res = await createPayment({
       orderId: 'CANARY-SINGLE-POLICY-004B',
@@ -127,11 +127,11 @@ describe('Mitto Pay — Canary Isolation & Dual-Channel Settlement Tests', () =>
 
     // Clean slot
     apiInstance.app.context.db.execute("UPDATE payment_sessions SET status = 'SUCCESS' WHERE id = ?", [res.body.paymentId]);
-    process.env.YOUPI_VERIFICATION_POLICY = 'REQUIRE_DUAL_CHANNEL';
+    process.env.AKAPAY_VERIFICATION_POLICY = 'REQUIRE_DUAL_CHANNEL';
   });
 
   test('4c. End-to-end fast confirmation: Validated Gmail observation auto-finalizes to SUCCESS under SINGLE_CHANNEL_VALIDATED_GMAIL', async () => {
-    process.env.YOUPI_VERIFICATION_POLICY = 'SINGLE_CHANNEL_VALIDATED_GMAIL';
+    process.env.AKAPAY_VERIFICATION_POLICY = 'SINGLE_CHANNEL_VALIDATED_GMAIL';
     apiInstance.app.context.attributionEngine.verificationPolicy = 'SINGLE_CHANNEL_VALIDATED_GMAIL';
 
     let successEmitted = false;
@@ -182,7 +182,7 @@ describe('Mitto Pay — Canary Isolation & Dual-Channel Settlement Tests', () =>
     assert.equal(finalSession.verificationTag, 'Single Verification (Gmail)');
 
     // Restore
-    process.env.YOUPI_VERIFICATION_POLICY = 'REQUIRE_DUAL_CHANNEL';
+    process.env.AKAPAY_VERIFICATION_POLICY = 'REQUIRE_DUAL_CHANNEL';
     apiInstance.app.context.attributionEngine.verificationPolicy = 'REQUIRE_DUAL_CHANNEL';
   });
 

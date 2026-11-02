@@ -5,7 +5,7 @@ import {
   verifyDeviceCredential,
   createDeviceChallenge,
   consumeDeviceChallenge
-} from '@youpi/common';
+} from '@akapay/common';
 
 export {
   issueDeviceCredential,

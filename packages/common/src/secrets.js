@@ -307,7 +307,7 @@ function isPrivateAddress(hostname) {
  * and link-local targets (including the cloud metadata endpoint) are refused.
  */
 function privateWebhooksAllowed() {
-  return process.env.YOUPI_ALLOW_PRIVATE_WEBHOOKS === 'true';
+  return process.env.AKAPAY_ALLOW_PRIVATE_WEBHOOKS === 'true' || process.env.AKAPAY_ALLOW_PRIVATE_WEBHOOKS === 'true';
 }
 
 /**
@@ -340,7 +340,7 @@ export function validateOutboundWebhookUrl(value) {
   if (!privateWebhooksAllowed() && (BLOCKED_HOSTNAMES.has(hostname) || isPrivateAddress(hostname))) {
     return {
       valid: false,
-      error: 'Webhook URL must not point to a loopback or private network address (set YOUPI_ALLOW_PRIVATE_WEBHOOKS=true for self-hosted LAN targets).'
+      error: 'Webhook URL must not point to a loopback or private network address (set AKAPAY_ALLOW_PRIVATE_WEBHOOKS=true for self-hosted LAN targets).'
     };
   }
   return { valid: true, url };

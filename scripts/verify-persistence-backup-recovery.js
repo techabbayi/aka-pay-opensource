@@ -4,10 +4,10 @@ import { Database } from '../packages/db/src/database.js';
 
 async function verifyPersistenceAndRecovery() {
   console.log('====================================================');
-  console.log('📦 YouPI PG — Persistence, Backup & Recovery Audit');
+  console.log('📦 AKA PAY — Persistence, Backup & Recovery Audit');
   console.log('====================================================');
 
-  const liveDbPath = path.resolve('data/youpi_pg.sqlite');
+  const liveDbPath = path.resolve((fs.existsSync('data/akapay.sqlite') ? 'data/akapay.sqlite' : 'data/akapay.sqlite'));
   console.log('[1/4] Inspecting live SQLite database at:', liveDbPath);
   if (!fs.existsSync(liveDbPath)) {
     throw new Error(`Live database not found: ${liveDbPath}`);

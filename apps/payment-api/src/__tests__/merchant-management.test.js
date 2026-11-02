@@ -1,6 +1,6 @@
 import { describe, it, before, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { Database } from '@youpi/db';
+import { Database } from '@akapay/db';
 import { startServer as startPaymentApi } from '../index.js';
 import { authFetch } from '../../../../scripts/test-support.js';
 

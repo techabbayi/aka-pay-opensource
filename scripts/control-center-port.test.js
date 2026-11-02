@@ -9,7 +9,7 @@ import { spawnSync } from 'node:child_process';
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 function runLauncher(t, script, { port, dotenvPort } = {}) {
-  const fixture = fs.mkdtempSync(path.join(os.tmpdir(), 'youpi-control-port-'));
+  const fixture = fs.mkdtempSync(path.join(os.tmpdir(), 'akapay-control-port-'));
   t.after(() => fs.rmSync(fixture, { recursive: true, force: true }));
   function write(relativePath, contents) {
     const target = path.join(fixture, relativePath);
@@ -56,7 +56,7 @@ function runLauncher(t, script, { port, dotenvPort } = {}) {
   if (dotenvPort !== undefined) write('.env', `CONTROL_CENTER_PORT=${dotenvPort}\n`);
   const env = { ...process.env };
   for (const key of Object.keys(env)) {
-    if (/^(YOUPI_|CLOUDFLARE_|DEPLOYMENT_|NODE_)/.test(key) || key === 'CONTROL_CENTER_PORT') delete env[key];
+    if (/^(AKAPAY_|CLOUDFLARE_|DEPLOYMENT_|NODE_)/.test(key) || key === 'CONTROL_CENTER_PORT') delete env[key];
   }
   env.CLOUDFLARE_DOMAIN = 'port-fixture.example';
   if (port !== undefined) env.CONTROL_CENTER_PORT = String(port);

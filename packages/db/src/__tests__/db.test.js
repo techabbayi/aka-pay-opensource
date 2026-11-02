@@ -14,9 +14,9 @@ import {
   SupportTicketRepository,
   AuditLogRepository
 } from '../index.js';
-import { PaymentStatus, PaymentMethod, ObserverSource, SenderType, TicketStatus } from '@youpi/common';
+import { PaymentStatus, PaymentMethod, ObserverSource, SenderType, TicketStatus } from '@akapay/common';
 
-describe('@youpi/db Unit & Integration Tests', () => {
+describe('@akapay/db Unit & Integration Tests', () => {
   let db;
   let merchantRepo;
   let accountRepo;
@@ -347,7 +347,7 @@ describe('Database transaction recovery after writer contention', () => {
   let other;
 
   beforeEach(() => {
-    directory = mkdtempSync(join(tmpdir(), 'youpi-transaction-recovery-'));
+    directory = mkdtempSync(join(tmpdir(), 'akapay-transaction-recovery-'));
     const dbPath = join(directory, 'test.sqlite');
     writer = new Database({ dbPath, autoMigrate: false });
     other = new Database({ dbPath, autoMigrate: false });

@@ -1,4 +1,4 @@
-import { generateHmac, getObserverToken } from '@youpi/common';
+import { generateHmac, getObserverToken } from '@akapay/common';
 
 export class PaymentObserverClient {
   /**

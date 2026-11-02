@@ -1,9 +1,9 @@
 # Mitto Pay — Controlled Staging Deployment Runbook
 
 **Target Host:** Oracle VM `130.210.28.51` (`ubuntu@130.210.28.51`)  
-**Service:** `youpi-staging.service` (`/etc/systemd/system/youpi-staging.service`)  
-**Environment File:** `/etc/youpi/staging.env`  
-**Deploy Path:** `/opt/youpi-pg`  
+**Service:** `AKA PAY-staging.service` (`/etc/systemd/system/AKA PAY-staging.service`)  
+**Environment File:** `/etc/AKA PAY/staging.env`  
+**Deploy Path:** `/opt/aka-pay`  
 **Release Artifact:** `reports/mitto-pay-rc1.tar.gz`  
 **Artifact SHA-256:** `9fd6ed79082c25430d55f89590bfc09f515b54fd782bb2e97d8c4be1de18c07b`  
 **Authorization Status:** PENDING EXPLICIT DEPLOYMENT APPROVAL (DO NOT EXECUTE WITHOUT AUTHORIZATION)
@@ -16,37 +16,37 @@ Before copying any files or modifying configuration:
 
 1. **Verify SSH Access & Health:**
    ```bash
-   ssh -i ~/.ssh/id_ed25519_oracle_staging ubuntu@130.210.28.51 "uptime && df -h / && systemctl status youpi-staging.service --no-pager"
+   ssh -i ~/.ssh/id_ed25519_oracle_staging ubuntu@130.210.28.51 "uptime && df -h / && systemctl status AKA PAY-staging.service --no-pager"
    ```
 2. **Verify Backup Integrity:**
-   Confirm `/opt/youpi-pg-backup-pre-gate4` exists and is intact:
+   Confirm `/opt/aka-pay-backup-pre-gate4` exists and is intact:
    ```bash
-   ssh -i ~/.ssh/id_ed25519_oracle_staging ubuntu@130.210.28.51 "ls -la /opt/youpi-pg-backup-pre-gate4/DEPLOYED_COMMIT"
+   ssh -i ~/.ssh/id_ed25519_oracle_staging ubuntu@130.210.28.51 "ls -la /opt/aka-pay-backup-pre-gate4/DEPLOYED_COMMIT"
    ```
 
 ---
 
 ## 2. Staging Environment Configuration Patch
 
-Prepare `/etc/youpi/staging.env` to enforce canary isolation before starting the new release.
+Prepare `/etc/AKA PAY/staging.env` to enforce canary isolation before starting the new release.
 
-1. **Add Canary Variables to `/etc/youpi/staging.env`:**
+1. **Add Canary Variables to `/etc/AKA PAY/staging.env`:**
    ```bash
    # Add without displaying or printing existing secrets:
-   sudo sed -i '/CANARY_/d' /etc/youpi/staging.env
-   echo "CANARY_MODE=true" | sudo tee -a /etc/youpi/staging.env > /dev/null
-   echo "CANARY_MERCHANT_ALLOWLIST=VVANFTTKRA" | sudo tee -a /etc/youpi/staging.env > /dev/null
-   echo "YOUPI_VERIFICATION_POLICY=REQUIRE_DUAL_CHANNEL" | sudo tee -a /etc/youpi/staging.env > /dev/null
+   sudo sed -i '/CANARY_/d' /etc/AKA PAY/staging.env
+   echo "CANARY_MODE=true" | sudo tee -a /etc/AKA PAY/staging.env > /dev/null
+   echo "CANARY_MERCHANT_ALLOWLIST=VVANFTTKRA" | sudo tee -a /etc/AKA PAY/staging.env > /dev/null
+   echo "AKAPAY_VERIFICATION_POLICY=REQUIRE_DUAL_CHANNEL" | sudo tee -a /etc/AKA PAY/staging.env > /dev/null
    ```
 2. **Validate Configuration Flags:**
    ```bash
-   sudo grep -E 'CANARY_|VERIFICATION_POLICY' /etc/youpi/staging.env
+   sudo grep -E 'CANARY_|VERIFICATION_POLICY' /etc/AKA PAY/staging.env
    ```
    *Expected output:*
    ```text
    CANARY_MODE=true
    CANARY_MERCHANT_ALLOWLIST=VVANFTTKRA
-   YOUPI_VERIFICATION_POLICY=REQUIRE_DUAL_CHANNEL
+   AKAPAY_VERIFICATION_POLICY=REQUIRE_DUAL_CHANNEL
    ```
 
 ---
@@ -67,17 +67,17 @@ Prepare `/etc/youpi/staging.env` to enforce canary isolation before starting the
 
 3. **Create Pre-Canary Snapshot Backup:**
    ```bash
-   ssh -i ~/.ssh/id_ed25519_oracle_staging ubuntu@130.210.28.51 "sudo cp -r /opt/youpi-pg /opt/youpi-pg-backup-pre-mitto-canary"
+   ssh -i ~/.ssh/id_ed25519_oracle_staging ubuntu@130.210.28.51 "sudo cp -r /opt/aka-pay /opt/aka-pay-backup-pre-mitto-canary"
    ```
 
 4. **Stop Service & Extract Release:**
    ```bash
    ssh -i ~/.ssh/id_ed25519_oracle_staging ubuntu@130.210.28.51 "
-     sudo systemctl stop youpi-staging.service
-     sudo tar -xzf /tmp/mitto-pay-rc1.tar.gz -C /opt/youpi-pg
-     sudo chown -R ubuntu:ubuntu /opt/youpi-pg
-     echo 'mitto-pay-rc1-9fd6ed79' | sudo tee /opt/youpi-pg/DEPLOYED_COMMIT > /dev/null
-     sudo systemctl start youpi-staging.service
+     sudo systemctl stop AKA PAY-staging.service
+     sudo tar -xzf /tmp/mitto-pay-rc1.tar.gz -C /opt/aka-pay
+     sudo chown -R ubuntu:ubuntu /opt/aka-pay
+     echo 'mitto-pay-rc1-9fd6ed79' | sudo tee /opt/aka-pay/DEPLOYED_COMMIT > /dev/null
+     sudo systemctl start AKA PAY-staging.service
    "
    ```
 
@@ -88,8 +88,8 @@ Prepare `/etc/youpi/staging.env` to enforce canary isolation before starting the
 1. **Service Readiness & Logs:**
    ```bash
    ssh -i ~/.ssh/id_ed25519_oracle_staging ubuntu@130.210.28.51 "
-     systemctl is-active youpi-staging.service
-     sudo journalctl -u youpi-staging.service -n 30 --no-pager
+     systemctl is-active AKA PAY-staging.service
+     sudo journalctl -u AKA PAY-staging.service -n 30 --no-pager
    "
    ```
 2. **API Health Endpoint Check:**

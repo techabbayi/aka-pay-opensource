@@ -4,9 +4,9 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import http from 'node:http';
-import { Database, runMigrations, PaymentSessionRepository, ObservationRepository, SupportTicketRepository, AuditLogRepository } from '@youpi/db';
-import { PaymentStatus, ObservationAttributionStatus } from '@youpi/common';
-import { AttributionEngine, ObservationNormalizer } from '@youpi/core';
+import { Database, runMigrations, PaymentSessionRepository, ObservationRepository, SupportTicketRepository, AuditLogRepository } from '@akapay/db';
+import { PaymentStatus, ObservationAttributionStatus } from '@akapay/common';
+import { AttributionEngine, ObservationNormalizer } from '@akapay/core';
 import { startServer as startPaymentApi } from '../index.js';
 import { CoinWalletStoreServer } from '../../../coin-wallet-store/src/server.js';
 import { authHeadersFor } from '../../../../scripts/test-support.js';
@@ -120,12 +120,12 @@ describe('Phase 1 observed success and matching safety', () => {
     let apiInstance;
     let testDb;
     let baseUrl;
-    const previousFlag = process.env.YOUPI_ENFORCE_OBSERVER_HEALTH;
+    const previousFlag = process.env.AKAPAY_ENFORCE_OBSERVER_HEALTH;
     const previousSms = process.env.SMS_OBSERVER_PORT;
     const previousGmail = process.env.GMAIL_OBSERVER_PORT;
 
     before(async () => {
-      process.env.YOUPI_ENFORCE_OBSERVER_HEALTH = 'true';
+      process.env.AKAPAY_ENFORCE_OBSERVER_HEALTH = 'true';
       process.env.SMS_OBSERVER_PORT = '5991';
       process.env.GMAIL_OBSERVER_PORT = '5992';
       testDb = new Database({ inMemory: true });
@@ -134,8 +134,8 @@ describe('Phase 1 observed success and matching safety', () => {
     });
 
     after(async () => {
-      if (previousFlag === undefined) delete process.env.YOUPI_ENFORCE_OBSERVER_HEALTH;
-      else process.env.YOUPI_ENFORCE_OBSERVER_HEALTH = previousFlag;
+      if (previousFlag === undefined) delete process.env.AKAPAY_ENFORCE_OBSERVER_HEALTH;
+      else process.env.AKAPAY_ENFORCE_OBSERVER_HEALTH = previousFlag;
       if (previousSms === undefined) delete process.env.SMS_OBSERVER_PORT;
       else process.env.SMS_OBSERVER_PORT = previousSms;
       if (previousGmail === undefined) delete process.env.GMAIL_OBSERVER_PORT;
@@ -197,7 +197,7 @@ describe('Phase 1 observed success and matching safety', () => {
 
   describe('demo store fulfillment survives restart', () => {
     test('a second process cannot grant the same order again', () => {
-      const file = path.join(os.tmpdir(), `youpi-phase1-${Date.now()}-${Math.random().toString(16).slice(2)}.sqlite`);
+      const file = path.join(os.tmpdir(), `akapay-phase1-${Date.now()}-${Math.random().toString(16).slice(2)}.sqlite`);
       const first = new CoinWalletStoreServer({ idempotencyPath: file, webhookSecret: 'phase1-secret' });
       const claim = first.claimFulfillment({
         orderId: 'ORD-RESTART',

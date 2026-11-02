@@ -2,7 +2,7 @@ import { test, describe, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
 import { startCheckoutServer } from '../index.js';
-import { generateQrMatrix, generateQrSvg } from '@youpi/core';
+import { generateQrMatrix, generateQrSvg } from '@akapay/core';
 import { CheckoutServer, frameAncestorOrigins } from '../server.js';
 
 describe('Checkout Portal Integration Tests', () => {
@@ -132,20 +132,20 @@ describe('Checkout Portal Integration Tests', () => {
       assert.ok(resPhonePe.headers['content-type'].includes('image/png'));
     });
 
-    test('GET /youpi.js and /sdk/youpi-checkout.js return official integration SDK with CORS', async () => {
-      const resYoupi = await get('/youpi.js');
-      assert.equal(resYoupi.status, 200);
-      assert.ok(resYoupi.headers['content-type'].includes('application/javascript'));
-      assert.equal(resYoupi.headers['access-control-allow-origin'], '*');
-      assert.ok(resYoupi.text.includes('YoupiCheckout'));
-      assert.ok(resYoupi.text.includes('data-youpi-pay'));
-      assert.ok(resYoupi.text.includes('youpi:payment:success'));
+    test('GET /akapay.js and /akapay.js return official integration SDK with CORS', async () => {
+      const resAkapay = await get('/akapay.js');
+      assert.equal(resAkapay.status, 200);
+      assert.ok(resAkapay.headers['content-type'].includes('application/javascript'));
+      assert.equal(resAkapay.headers['access-control-allow-origin'], '*');
+      assert.ok(resAkapay.text.includes('AkaPayCheckout'));
+      assert.ok(resAkapay.text.includes('data-akapay-pay'));
+      assert.ok(resAkapay.text.includes('akapay:payment:success'));
 
-      const resLegacy = await get('/sdk/youpi-checkout.js');
+      const resLegacy = await get('/sdk/akapay-checkout.js');
       assert.equal(resLegacy.status, 200);
       assert.ok(resLegacy.headers['content-type'].includes('application/javascript'));
       assert.equal(resLegacy.headers['access-control-allow-origin'], '*');
-      assert.ok(resLegacy.text.includes('YoupiCheckout'));
+      assert.ok(resLegacy.text.includes('AkaPayCheckout'));
     });
 
     test('GET /checkout/:id includes PC 2-column sidebar, UPI Server indicator, and NO visual UPI ID in summary', async () => {

@@ -6,7 +6,7 @@ import { PaymentSessionRepository } from '../packages/db/src/repositories/paymen
 import { MerchantRepository } from '../packages/db/src/repositories/merchant.repository.js';
 import { ObservationRepository } from '../packages/db/src/repositories/observation.repository.js';
 import { AttributionEngine } from '../packages/core/src/attribution-engine.js';
-import { generateQrSvg } from '@youpi/core';
+import { generateQrSvg } from '@akapay/core';
 import {
   buildUpiUri,
   buildUpiIntentUri,
@@ -22,7 +22,7 @@ async function runFullRegression() {
   console.log('🧪 RUNNING FULL REGRESSION & DYNAMIC VERIFICATION SUITE');
   console.log('============================================================');
 
-  const dbPath = path.resolve(process.cwd(), 'data/youpi_pg.sqlite');
+  const dbPath = path.resolve(process.cwd(), (fs.existsSync('data/akapay.sqlite') ? 'data/akapay.sqlite' : 'data/akapay.sqlite'));
   const prodDb = new Database({ dbPath });
   runMigrations(prodDb);
   const accountRepo = new ReceivingAccountRepository(prodDb);

@@ -1,15 +1,26 @@
 {
   "name": "checkout-portal",
   "version": "1.0.0",
-  "description": "White-label responsive customer checkout portal for YOUPI PG",
+  "description": "White-label responsive customer checkout portal for AKA PAY",
   "type": "module",
   "main": "./src/index.js",
   "scripts": {
     "start": "node src/index.js",
     "test": "node --test src/__tests__/**/*.test.js"
   },
+  "author": {
+    "name": "techabbayi",
+    "email": "srssltd@gmail.com",
+    "url": "https://github.com/techabbayi"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/techabbayi/aka-pay-opensource.git",
+    "directory": "apps/checkout-portal"
+  },
   "dependencies": {
-    "@youpi/common": "*",
-    "@youpi/core": "*"
+    "@akapay/common": "*",
+    "@akapay/core": "*"
   }
 }

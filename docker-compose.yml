@@ -24,14 +24,11 @@ services:
     environment:
       NODE_ENV: ${NODE_ENV:-production}
       AKAPAY_MODE: ${AKAPAY_MODE:-localhost}
-      YOUPI_MODE: ${YOUPI_MODE:-localhost}
       # The container ships without a Cloudflare domain, so localhost mode is requested
       # explicitly rather than being an implicit fallback. scripts/start.js still refuses to
       # run in production mode without a domain.
       AKAPAY_ALLOW_LOCALHOST_MODE: ${AKAPAY_ALLOW_LOCALHOST_MODE:-true}
-      YOUPI_ALLOW_LOCALHOST_MODE: ${YOUPI_ALLOW_LOCALHOST_MODE:-true}
       AKAPAY_BIND_HOST: "0.0.0.0"
-      YOUPI_BIND_HOST: "0.0.0.0"
       BASE_PAYMENT_API_URL: http://localhost:6100
       BASE_CHECKOUT_URL: http://localhost:7000
       BASE_ADMIN_URL: http://localhost:6001

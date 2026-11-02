@@ -1,4 +1,5 @@
-# Security remediation report — YOUPI PG manual UPI integration
+# Security remediation report — AKA PAY manual UPI integration
+> **AKA PAY:** UPI & Payment Infrastructure, Also Known As. Always Connected.
 
 ## Scope and limits
 
@@ -38,7 +39,7 @@ The payment and UTR throttles in `apps/payment-api/src/server.js` are in-memory 
 
 ### Medium — CORS and return allowlists must be configured
 
-An empty `YOUPI_ALLOWED_ORIGINS` set denies browser origins and an empty `YOUPI_ALLOWED_RETURN_ORIGINS` rejects supplied return URLs. Configure exact HTTPS origins in each environment and verify iframe frame-ancestor policy separately. Avoid broad wildcard origins.
+An empty `AKAPAY_ALLOWED_ORIGINS` set denies browser origins and an empty `AKAPAY_ALLOWED_RETURN_ORIGINS` rejects supplied return URLs. Configure exact HTTPS origins in each environment and verify iframe frame-ancestor policy separately. Avoid broad wildcard origins.
 
 ### Medium — Existing legacy observer functionality remains in the repository
 
@@ -46,15 +47,15 @@ The repository contains Gmail/SMS observer integrations, OAuth handling, device 
 
 ### Medium — Browser SDK does not establish payment identity
 
-The old pattern treating browser `data-youpi-key` as session-creation authority is removed from the current SDK path. Merchants must create checkout sessions on their server and pass only the checkout URL/payment ID to the browser. Treat payment IDs as bearer references; continue enforcing device/session binding and minimal public state.
+The old pattern treating browser `data-akapay-key` as session-creation authority is removed from the current SDK path. Merchants must create checkout sessions on their server and pass only the checkout URL/payment ID to the browser. Treat payment IDs as bearer references; continue enforcing device/session binding and minimal public state.
 
 ### Medium — Customer webhook replay and database authority
 
-The customer webhook verifies raw-body HMAC, event name, and matching delivery ID. Database idempotency is enforced by delivery ID. Protect the webhook secret and service-role key, and ensure `fw_apply_youpi_event` remains service-role-only. Migration 009 must be reviewed and tested against the live schema before application.
+The customer webhook verifies raw-body HMAC, event name, and matching delivery ID. Database idempotency is enforced by delivery ID. Protect the webhook secret and service-role key, and ensure `fw_apply_akapay_event` remains service-role-only. Migration 009 must be reviewed and tested against the live schema before application.
 
 ## Malware and hidden behavior review
 
-No obvious credential exfiltration, cryptocurrency miner, obfuscated runtime, or unexpected remote-code execution was identified by the focused source search. Observed outbound destinations are the configured Supabase/YOUPI services, declared Google Maps Routes API, routing fallback, merchant webhook endpoints, and the observer/OAuth services described by the project. Endpoint allowlists, DNS rebinding, and runtime network traffic were not exhaustively validated. `npm audit --omit=dev --audit-level=high` completed with zero reported vulnerabilities. The package lock has a pre-existing worktree diff and was not changed by this implementation; inspect that diff before release.
+No obvious credential exfiltration, cryptocurrency miner, obfuscated runtime, or unexpected remote-code execution was identified by the focused source search. Observed outbound destinations are the configured Supabase/AKAPAY services, declared Google Maps Routes API, routing fallback, merchant webhook endpoints, and the observer/OAuth services described by the project. Endpoint allowlists, DNS rebinding, and runtime network traffic were not exhaustively validated. `npm audit --omit=dev --audit-level=high` completed with zero reported vulnerabilities. The package lock has a pre-existing worktree diff and was not changed by this implementation; inspect that diff before release.
 
 ## Required follow-up before production
 

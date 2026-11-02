@@ -46,7 +46,7 @@ export function isRetryableSqliteError(err) {
 }
 
 /**
- * Universal Database Client for YOUPI PG.
+ * Universal Database Client for AKA PAY.
  * Uses native node:sqlite for high-performance, embedded zero-dependency local operation
  * with full transactional ACID guarantees.
  */
@@ -68,7 +68,9 @@ export class Database {
           ? process.env.SQLITE_DB_PATH
           : path.resolve(repoRoot, process.env.SQLITE_DB_PATH);
       } else {
-        dbPath = path.resolve(repoRoot, 'data/youpi_pg.sqlite');
+        const akapayDb = path.resolve(repoRoot, 'data/akapay.sqlite');
+        const legacyDb = path.resolve(repoRoot, 'data/akapay.sqlite');
+        dbPath = fs.existsSync(akapayDb) || !fs.existsSync(legacyDb) ? akapayDb : legacyDb;
       }
       const dir = path.dirname(dbPath);
       if (!fs.existsSync(dir)) {

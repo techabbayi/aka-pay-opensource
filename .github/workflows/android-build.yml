@@ -58,20 +58,20 @@ jobs:
         run: |
           set -euo pipefail
           cd apps/android-observer-app
-          sha256sum -c youpi-sms-gateway.apk.sha256
+          sha256sum -c akapay-observer.apk.sha256
 
       - name: Verify Android Observer Tests
         env:
           NODE_ENV: test
-          YOUPI_MODE: localhost
+          AKAPAY_MODE: localhost
         run: node --test apps/android-observer-app/__tests__/android-observer.test.js
 
       - name: Upload Android APK & Checksum Artifacts
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: youpi-sms-gateway-apk
+          name: akapay-observer-apk
           path: |
-            apps/android-observer-app/youpi-sms-gateway.apk
-            apps/android-observer-app/youpi-sms-gateway.apk.sha256
+            apps/android-observer-app/akapay-observer.apk
+            apps/android-observer-app/akapay-observer.apk.sha256
           if-no-files-found: error
           retention-days: 14

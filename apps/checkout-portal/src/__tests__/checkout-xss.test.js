@@ -249,14 +249,14 @@ describe('Checkout Portal XSS / Redirect Hardening', () => {
 
     test('the SDK declares its own origin for referrer-less embeds', () => {
       const sdk = fs.readFileSync(
-        path.join(__dirname, '../../../../packages/merchant-sdk/src/youpi.js'),
+        path.join(__dirname, '../../../../packages/merchant-sdk/src/akapay.js'),
         'utf8'
       );
-      assert.ok(sdk.includes('youpiParentOrigin='));
+      assert.ok(sdk.includes('akapayParentOrigin='));
     });
 
     test('the parent message listener validates the sender origin', () => {
-      assert.ok(view.includes("e.data.event !== 'youpi.request_cancel'"));
+      assert.ok(view.includes("e.data.event !== 'akapay.request_cancel'"));
       assert.ok(view.includes('if (merchantOrigin && e.origin !== merchantOrigin) return;'));
     });
   });
@@ -266,7 +266,7 @@ describe('Checkout Portal XSS / Redirect Hardening', () => {
       path.join(__dirname, '../../../../packages/merchant-sdk/src'),
       path.join(__dirname, '../sdk')
     ]) {
-      for (const file of ['youpi.js', 'youpi-checkout.js']) {
+      for (const file of ['akapay.js', 'akapay-checkout.js']) {
         test(`${path.basename(dir)}/${file} ignores messages from an unexpected origin`, () => {
           const src = fs.readFileSync(path.join(dir, file), 'utf8');
           assert.ok(src.includes('_checkoutOrigin()'));

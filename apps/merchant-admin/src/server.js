@@ -3,8 +3,8 @@ import https from 'node:https';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { getDatabase, MerchantRepository, SupportTicketRepository } from '@youpi/db';
-import { getAdminToken, safeEqual } from '@youpi/common';
+import { getDatabase, MerchantRepository, SupportTicketRepository } from '@akapay/db';
+import { getAdminToken, safeEqual } from '@akapay/common';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -58,7 +58,7 @@ if (!process.env.BASE_PAYMENT_API_URL && typeof process.loadEnvFile === 'functio
 export class AdminServer {
   /**
    * @param {{
-   *   db?: import('@youpi/db').Database,
+   *   db?: import('@akapay/db').Database,
    *   apiBaseUrl?: string
    * }} options
    */
@@ -76,7 +76,7 @@ export class AdminServer {
       this.template = fs.readFileSync(this.htmlTemplatePath, 'utf8');
     } catch {}
 
-    const appName = (process.env.DEFAULT_APP_NAME || '').trim() || 'YOUPI PG';
+    const appName = (process.env.DEFAULT_APP_NAME || '').trim() || 'AKA PAY';
     const primaryColor = (process.env.DEFAULT_PRIMARY_COLOR || '').trim() || '#2563eb';
 
     let html = this.template;
@@ -233,11 +233,14 @@ export class AdminServer {
       }
 
       // Download Android Companion APK
-      if (pathname === '/youpi-sms-gateway.apk' || pathname === '/api/v1/admin/sms-gateway/download-apk') {
+      if (pathname === '/akapay-observer.apk' || pathname === '/akapay-observer.apk' || pathname === '/api/v1/admin/sms-gateway/download-apk') {
         const apkCandidates = [
-          path.resolve(__dirname, '../public/youpi-sms-gateway.apk'),
-          path.resolve(__dirname, '../../payment-api/public/youpi-sms-gateway.apk'),
-          path.resolve(__dirname, '../../android-observer-app/youpi-sms-gateway.apk')
+          path.resolve(__dirname, '../public/akapay-observer.apk'),
+          path.resolve(__dirname, '../../payment-api/public/akapay-observer.apk'),
+          path.resolve(__dirname, '../../android-observer-app/akapay-observer.apk'),
+          path.resolve(__dirname, '../public/akapay-observer.apk'),
+          path.resolve(__dirname, '../../payment-api/public/akapay-observer.apk'),
+          path.resolve(__dirname, '../../android-observer-app/akapay-observer.apk')
         ];
         let apkPath = null;
         for (const p of apkCandidates) {
@@ -248,9 +251,10 @@ export class AdminServer {
         }
         if (apkPath) {
           const stat = fs.statSync(apkPath);
+          const outName = pathname.includes('akapay') ? 'akapay-observer.apk' : 'akapay-observer.apk';
           res.writeHead(200, {
             'Content-Type': 'application/vnd.android.package-archive',
-            'Content-Disposition': 'attachment; filename="youpi-sms-gateway.apk"',
+            'Content-Disposition': `attachment; filename="${outName}"`,
             'Content-Length': stat.size,
             'Access-Control-Allow-Origin': '*'
           });

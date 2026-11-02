@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import '../../../../scripts/test-support.js';
-import { Database, runMigrations, MerchantRepository, PaymentSessionRepository } from '@youpi/db';
+import { Database, runMigrations, MerchantRepository, PaymentSessionRepository } from '@akapay/db';
 import { WebhookEngine } from '../webhook-engine.js';
 
 function fixture(slug) {

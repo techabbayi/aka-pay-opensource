@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import { blindIndex, blindIndexMatches, safeEqual, issueDeviceCredential, verifyDeviceCredential } from '@youpi/common';
+import { blindIndex, blindIndexMatches, safeEqual, issueDeviceCredential, verifyDeviceCredential } from '@akapay/common';
 
 /** Namespace so device-token digests never collide with other blind indexes. */
 const INDEX_NS = 'devtok';

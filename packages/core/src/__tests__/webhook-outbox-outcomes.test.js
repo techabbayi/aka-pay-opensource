@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import '../../../../scripts/test-support.js';
-import { Database, runMigrations, MerchantRepository, PaymentSessionRepository, ObservationRepository, SupportTicketRepository, AuditLogRepository } from '@youpi/db';
+import { Database, runMigrations, MerchantRepository, PaymentSessionRepository, ObservationRepository, SupportTicketRepository, AuditLogRepository } from '@akapay/db';
 import { WebhookEngine } from '../webhook-engine.js';
 import { AttributionEngine } from '../attribution-engine.js';
 import { ObservationNormalizer } from '../normalizer.js';
@@ -174,7 +174,7 @@ test('real observer and statement workflow persists both events without an event
 });
 
 test('disk reopen replays both committed outcomes once without requiring historical backfill', async () => {
-  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'youpi-outbox-outcomes-'));
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'akapay-outbox-outcomes-'));
   const dbPath = path.join(directory, 'gateway.sqlite');
   let db = new Database({ dbPath });
   const previousFetch = globalThis.fetch;

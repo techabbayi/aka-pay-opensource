@@ -15,7 +15,7 @@ async function resetProductionDatabase() {
     process.exit(1);
   }
 
-  const prodDbPath = path.resolve(process.cwd(), 'data/youpi_pg.sqlite');
+  const prodDbPath = path.resolve(process.cwd(), (fs.existsSync('data/akapay.sqlite') ? 'data/akapay.sqlite' : 'data/akapay.sqlite'));
   console.log('Target Database Path:', prodDbPath);
 
   if (!fs.existsSync(prodDbPath)) {

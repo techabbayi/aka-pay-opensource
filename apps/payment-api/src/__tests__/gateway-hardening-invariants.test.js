@@ -6,12 +6,12 @@ import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { Database } from '@youpi/db';
+import { Database } from '@akapay/db';
 import { startServer as startPaymentApi } from '../index.js';
-import { PaymentStatus, PaymentMethod } from '@youpi/common';
+import { PaymentStatus, PaymentMethod } from '@akapay/common';
 import { authHeadersFor } from '../../../../scripts/test-support.js';
-import { WebhookEngine } from '@youpi/core';
-import { PaymentSessionRepository, CustomerRepository, MerchantRepository } from '@youpi/db';
+import { WebhookEngine } from '@akapay/core';
+import { PaymentSessionRepository, CustomerRepository, MerchantRepository } from '@akapay/db';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -395,7 +395,7 @@ describe('Gateway Hardening & Invariant Protection Test Suite (#23, #25, #26, #2
       }
     };
     const bodyStr = JSON.stringify(payloadObj);
-    const { generateHmac } = await import('@youpi/common');
+    const { generateHmac } = await import('@akapay/common');
     const signature = generateHmac(`${bodyStr}:${timestamp}`, signingKey);
 
     const res = await request('/api/v1/pollers/android/events', {
@@ -426,7 +426,7 @@ describe('Gateway Hardening & Invariant Protection Test Suite (#23, #25, #26, #2
       }
     };
     const bodyStr = JSON.stringify(payloadObj);
-    const { generateHmac } = await import('@youpi/common');
+    const { generateHmac } = await import('@akapay/common');
     const signature = generateHmac(`${bodyStr}:${timestamp}`, signingKey);
 
     const res = await request('/api/v1/pollers/android/events', {

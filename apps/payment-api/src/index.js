@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import { EventEmitter } from 'node:events';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { PaymentStatus } from '@youpi/common';
+import { PaymentStatus } from '@akapay/common';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -30,7 +30,7 @@ import {
   SupportTicketRepository,
   AuditLogRepository,
   DeviceRepository
-} from '@youpi/db';
+} from '@akapay/db';
 import {
   QueueEngine,
   TimingEngine,
@@ -38,7 +38,7 @@ import {
   RecoveryEngine,
   WebhookEngine,
   PaymentVerificationPipeline
-} from '@youpi/core';
+} from '@akapay/core';
 import { HttpServer } from './server.js';
 import { authGuard } from './auth-guard.js';
 import { registerPaymentRoutes } from './routes/payments.routes.js';
@@ -477,7 +477,7 @@ export function startServer(port = null, customDb = null) {
 
   return new Promise(resolve => {
     // Loopback by default; reach this service via the local Cloudflare Tunnel, not 0.0.0.0.
-    const bindHost = process.env.YOUPI_BIND_HOST || (process.env.RENDER ? '0.0.0.0' : '127.0.0.1');
+    const bindHost = process.env.AKAPAY_BIND_HOST || process.env.AKAPAY_BIND_HOST || (process.env.RENDER ? '0.0.0.0' : '127.0.0.1');
     const instance = app.rawServer.listen(finalPort, bindHost, () => {
       console.log(`[Payment API] Server listening on port ${finalPort}`);
       resolve({

@@ -26,7 +26,7 @@
 
 ## 2. V-Visa Production Isolation Audit
 
-- **Environment Flag:** `ENABLE_YOUPI_UPI=false` (Verified in `src/lib/env.ts` line 233).
+- **Environment Flag:** `ENABLE_AKA PAY_UPI=false` (Verified in `src/lib/env.ts` line 233).
 - **Default Payment Gateway:** `ZOHO` (Orders route `src/app/api/payments/orders/route.ts` defaults to Zoho Payments).
-- **Pilot Staff Guard:** `isAgencyAuthorizedForYouPi` checks `YOUPI_PILOT_STAFF_AGENCY_UID=VVISA-INTERNAL-OPS`.
-- **Integrations Status:** Live customer traffic on V-Visa cannot access YouPI UPI without explicit code and env alteration.
+- **Pilot Staff Guard:** `isAgencyAuthorizedForAKA PAY` checks `AKA PAY_PILOT_STAFF_AGENCY_UID=VVISA-INTERNAL-OPS`.
+- **Integrations Status:** Live customer traffic on V-Visa cannot access AKA PAY UPI without explicit code and env alteration.

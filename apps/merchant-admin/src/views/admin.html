@@ -9,13 +9,13 @@
     /* Apply saved theme pref (system | light | dark) before first paint to avoid a flash. */
     (function () {
       var p = 'system';
-      try { var v = localStorage.getItem('youpi-theme'); if (v === 'light' || v === 'dark') p = v; } catch (e) {}
+      try { var v = localStorage.getItem('akapay-theme') || localStorage.getItem('akapay-theme'); if (v === 'light' || v === 'dark') p = v; } catch (e) {}
       var dark = p === 'dark' || (p === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
       document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
     })();
   </script>
   <style>
-    /* YOUPI Merchant & Supervisor Hub
+    /* AKA PAY Merchant & Supervisor Hub
        Direction: a payments ledger. Cool stone neutrals, one emerald accent,
        Sora for display (brand, headings, figures), DM Sans for UI text, both self-hosted
        from /fonts because the CSP is style-src 'self'. Icons: Heroicons outline sprite.
@@ -40,174 +40,174 @@
       --font-ui: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
       --font-display: "Sora", "DM Sans", system-ui, sans-serif;
       --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
-      --r-ctl: 6px;
-      --r-surf: 10px;
-      --r-tag: 4px;
+      --r-ctl: 8px;
+      --r-surf: 14px;
+      --r-tag: 6px;
 
-      --bg: #eef0ee;
-      --bg-header: #12201c;
-      --bg-nav: #f7f8f6;
-      --bg-subnav: #eef0ee;
-      --bg-card: #fbfcfb;
-      --bg-surface: #f2f4f1;
-      --bg-box: #fbfcfb;
-      --bg-elevated: #e8ebe7;
-      --bg-slot: #fbfcfb;
-      --bg-table-th: #f2f4f1;
-      --bg-input: #ffffff;
+      --bg: #F8FAFC;
+      --bg-header: #0F172A;
+      --bg-nav: #FFFFFF;
+      --bg-subnav: #F1F5F9;
+      --bg-card: #FFFFFF;
+      --bg-surface: #F8FAFC;
+      --bg-box: #FFFFFF;
+      --bg-elevated: #E2E8F0;
+      --bg-slot: #FFFFFF;
+      --bg-table-th: #F1F5F9;
+      --bg-input: #FFFFFF;
 
-      --border: #d9ddd7;
-      --border-focus: #0f766e;
-      --border-subtle: #e4e7e2;
-      --border-hover: #b8beb5;
+      --border: #E2E8F0;
+      --border-focus: #059669;
+      --border-subtle: #F1F5F9;
+      --border-hover: #CBD5E1;
 
-      --text: #1b2421;
-      --text-muted: #55625d;
-      --text-dim: #66726c;
-      --text-heading: #101a17;
+      --text: #1E293B;
+      --text-muted: #64748B;
+      --text-dim: #94A3B8;
+      --text-heading: #0F172A;
 
-      --primary: #0f766e;
-      --primary-hover: #0b5f58;
-      --primary-glow: rgba(15, 118, 110, 0.18);
-      --primary-light: rgba(15, 118, 110, 0.07);
+      --primary: #059669;
+      --primary-hover: #047857;
+      --primary-glow: rgba(5, 150, 105, 0.2);
+      --primary-light: rgba(5, 150, 105, 0.08);
 
-      --success: #15803d;
-      --success-glow: rgba(21, 128, 61, 0.18);
-      --danger: #b91c1c;
-      --danger-glow: rgba(185, 28, 28, 0.18);
-      --warning: #b45309;
-      --warning-bg: rgba(180, 83, 9, 0.07);
-      --warning-glow: rgba(180, 83, 9, 0.18);
-      --info: #0369a1;
-      --info-glow: rgba(3, 105, 161, 0.18);
+      --success: #059669;
+      --success-glow: rgba(5, 150, 105, 0.2);
+      --danger: #E11D48;
+      --danger-glow: rgba(225, 29, 72, 0.2);
+      --warning: #D97706;
+      --warning-bg: rgba(217, 119, 6, 0.08);
+      --warning-glow: rgba(217, 119, 6, 0.2);
+      --info: #0284C7;
+      --info-glow: rgba(2, 132, 199, 0.2);
 
-      --card-shadow: 0 1px 0 rgba(16, 26, 23, 0.04);
-      --card-shadow-hover: 0 6px 18px -8px rgba(16, 26, 23, 0.18);
+      --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+      --card-shadow-hover: 0 10px 20px -5px rgba(0, 0, 0, 0.08);
 
-      --badge-success-bg: #e6f4ea;
-      --badge-success-text: #166534;
-      --badge-success-border: #b7dfc3;
-      --badge-danger-bg: #fbe9e7;
-      --badge-danger-text: #991b1b;
-      --badge-danger-border: #f0bdb7;
-      --badge-warning-bg: #fbf0dc;
-      --badge-warning-text: #8a4208;
-      --badge-warning-border: #ecd19b;
-      --badge-info-bg: #e3f0f7;
+      --badge-success-bg: #ECFDF5;
+      --badge-success-text: #065F46;
+      --badge-success-border: #A7F3D0;
+      --badge-danger-bg: #FFF1F2;
+      --badge-danger-text: #9F1239;
+      --badge-danger-border: #FECDD3;
+      --badge-warning-bg: #FFFBEB;
+      --badge-warning-text: #92400E;
+      --badge-warning-border: #FDE68A;
+      --badge-info-bg: #F0F9FF;
       --badge-info-text: #075985;
-      --badge-info-border: #b5d5e6;
-      --badge-neutral-bg: #e8ebe7;
-      --badge-neutral-text: #46524d;
-      --badge-neutral-border: #d2d7d0;
+      --badge-info-border: #BAE6FD;
+      --badge-neutral-bg: #F1F5F9;
+      --badge-neutral-text: #475569;
+      --badge-neutral-border: #CBD5E1;
 
-      --btn-sec-bg: #fbfcfb;
-      --btn-sec-text: #28332f;
-      --btn-sec-border: #c9cec7;
-      --btn-sec-hover-bg: #eef0ee;
-      --btn-sec-hover-text: #101a17;
+      --btn-sec-bg: #FFFFFF;
+      --btn-sec-text: #1E293B;
+      --btn-sec-border: #CBD5E1;
+      --btn-sec-hover-bg: #F8FAFC;
+      --btn-sec-hover-text: #0F172A;
 
-      --tr-hover: #f2f4f1;
-      --focus-ring: rgba(15, 118, 110, 0.22);
+      --tr-hover: #F8FAFC;
+      --focus-ring: rgba(5, 150, 105, 0.25);
 
-      --kpi-vol-color: #0f766e;
-      --kpi-success-color: #1b2421;
-      --kpi-queue-color: #b45309;
-      --kpi-pending-color: #b91c1c;
+      --kpi-vol-color: #059669;
+      --kpi-success-color: #0F172A;
+      --kpi-queue-color: #D97706;
+      --kpi-pending-color: #E11D48;
 
-      --header-bg: #12201c;
-      --header-border: #12201c;
-      --header-title: #f1f5f2;
-      --nav-bg: #f7f8f6;
-      --nav-border: #d9ddd7;
-      --subnav-bg: #eef0ee;
-      --subnav-border: #d9ddd7;
+      --header-bg: #0F172A;
+      --header-border: #1E293B;
+      --header-title: #FFFFFF;
+      --nav-bg: #FFFFFF;
+      --nav-border: #E2E8F0;
+      --subnav-bg: #F8FAFC;
+      --subnav-border: #E2E8F0;
       --pill-bg: transparent;
-      --pill-text: #55625d;
+      --pill-text: #64748B;
       --pill-border: transparent;
     }
 
     [data-theme="dark"] {
       --theme: dark;
 
-      --bg: #0b0f0e;
-      --bg-header: #070a09;
-      --bg-nav: #0f1514;
-      --bg-subnav: #0b0f0e;
-      --bg-card: #121917;
-      --bg-surface: #172120;
-      --bg-box: #0f1514;
-      --bg-elevated: #1d2927;
-      --bg-slot: #0f1514;
-      --bg-table-th: #0f1514;
-      --bg-input: #0b0f0e;
+      --bg: #07090E;
+      --bg-header: #07090E;
+      --bg-nav: #0B0F19;
+      --bg-subnav: #07090E;
+      --bg-card: #0E131F;
+      --bg-surface: #121826;
+      --bg-box: #0E131F;
+      --bg-elevated: #161F33;
+      --bg-slot: #0E131F;
+      --bg-table-th: #0B0F19;
+      --bg-input: #0A0E17;
 
-      --border: #243230;
-      --border-focus: #2dd4bf;
-      --border-subtle: rgba(255, 255, 255, 0.07);
-      --border-hover: #364643;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-focus: #00F59B;
+      --border-subtle: rgba(255, 255, 255, 0.05);
+      --border-hover: rgba(255, 255, 255, 0.16);
 
-      --text: #e6ece9;
-      --text-muted: #94a39e;
-      --text-dim: #8a9a94;
-      --text-heading: #f4f8f6;
+      --text: #F1F5F9;
+      --text-muted: #94A3B8;
+      --text-dim: #64748B;
+      --text-heading: #FFFFFF;
 
-      --primary: #14b8a6;
-      --primary-hover: #2dd4bf;
-      --primary-glow: rgba(45, 212, 191, 0.2);
-      --primary-light: rgba(45, 212, 191, 0.08);
+      --primary: #00F59B;
+      --primary-hover: #00DF89;
+      --primary-glow: rgba(0, 245, 155, 0.25);
+      --primary-light: rgba(0, 245, 155, 0.08);
 
-      --success: #4ade80;
-      --success-glow: rgba(74, 222, 128, 0.18);
-      --danger: #f87171;
-      --danger-glow: rgba(248, 113, 113, 0.18);
-      --warning: #fbbf24;
-      --warning-bg: rgba(251, 191, 36, 0.08);
-      --warning-glow: rgba(251, 191, 36, 0.18);
-      --info: #7dd3fc;
-      --info-glow: rgba(125, 211, 252, 0.18);
+      --success: #00F59B;
+      --success-glow: rgba(0, 245, 155, 0.22);
+      --danger: #F43F5E;
+      --danger-glow: rgba(244, 63, 94, 0.22);
+      --warning: #FBBF24;
+      --warning-bg: rgba(251, 191, 36, 0.1);
+      --warning-glow: rgba(251, 191, 36, 0.22);
+      --info: #00D4FF;
+      --info-glow: rgba(0, 212, 255, 0.22);
 
-      --card-shadow: none;
-      --card-shadow-hover: 0 8px 24px -10px rgba(0, 0, 0, 0.7);
+      --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+      --card-shadow-hover: 0 10px 30px -4px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 245, 155, 0.08);
 
-      --badge-success-bg: rgba(74, 222, 128, 0.12);
-      --badge-success-text: #86efac;
-      --badge-success-border: rgba(74, 222, 128, 0.3);
-      --badge-danger-bg: rgba(248, 113, 113, 0.12);
-      --badge-danger-text: #fca5a5;
-      --badge-danger-border: rgba(248, 113, 113, 0.3);
+      --badge-success-bg: rgba(0, 245, 155, 0.12);
+      --badge-success-text: #00F59B;
+      --badge-success-border: rgba(0, 245, 155, 0.3);
+      --badge-danger-bg: rgba(244, 63, 94, 0.12);
+      --badge-danger-text: #F43F5E;
+      --badge-danger-border: rgba(244, 63, 94, 0.3);
       --badge-warning-bg: rgba(251, 191, 36, 0.12);
-      --badge-warning-text: #fcd34d;
+      --badge-warning-text: #FBBF24;
       --badge-warning-border: rgba(251, 191, 36, 0.3);
-      --badge-info-bg: rgba(125, 211, 252, 0.12);
-      --badge-info-text: #bae6fd;
-      --badge-info-border: rgba(125, 211, 252, 0.3);
-      --badge-neutral-bg: #1d2927;
-      --badge-neutral-text: #a5b3ae;
-      --badge-neutral-border: #2e3d3a;
+      --badge-info-bg: rgba(0, 212, 255, 0.12);
+      --badge-info-text: #00D4FF;
+      --badge-info-border: rgba(0, 212, 255, 0.3);
+      --badge-neutral-bg: rgba(255, 255, 255, 0.05);
+      --badge-neutral-text: #94A3B8;
+      --badge-neutral-border: rgba(255, 255, 255, 0.1);
 
-      --btn-sec-bg: #172120;
-      --btn-sec-text: #d6dfdb;
-      --btn-sec-border: #2e3d3a;
-      --btn-sec-hover-bg: #1f2d2b;
-      --btn-sec-hover-text: #ffffff;
+      --btn-sec-bg: #141C2E;
+      --btn-sec-text: #E2E8F0;
+      --btn-sec-border: rgba(255, 255, 255, 0.1);
+      --btn-sec-hover-bg: #1B263E;
+      --btn-sec-hover-text: #FFFFFF;
 
-      --tr-hover: rgba(255, 255, 255, 0.025);
-      --focus-ring: rgba(45, 212, 191, 0.25);
+      --tr-hover: rgba(255, 255, 255, 0.03);
+      --focus-ring: rgba(0, 245, 155, 0.3);
 
-      --kpi-vol-color: #2dd4bf;
-      --kpi-success-color: #e6ece9;
-      --kpi-queue-color: #fbbf24;
-      --kpi-pending-color: #f87171;
+      --kpi-vol-color: #00F59B;
+      --kpi-success-color: #F1F5F9;
+      --kpi-queue-color: #FBBF24;
+      --kpi-pending-color: #F43F5E;
 
-      --header-bg: #070a09;
-      --header-border: #1a2523;
-      --header-title: #f4f8f6;
-      --nav-bg: #0f1514;
-      --nav-border: #1a2523;
-      --subnav-bg: #0b0f0e;
-      --subnav-border: #1a2523;
+      --header-bg: #07090E;
+      --header-border: rgba(255, 255, 255, 0.08);
+      --header-title: #FFFFFF;
+      --nav-bg: #0B0F19;
+      --nav-border: rgba(255, 255, 255, 0.08);
+      --subnav-bg: #07090E;
+      --subnav-border: rgba(255, 255, 255, 0.06);
       --pill-bg: transparent;
-      --pill-text: #94a39e;
+      --pill-text: #94A3B8;
       --pill-border: transparent;
     }
 
@@ -244,7 +244,11 @@
     }
 
     body {
-      background: var(--bg);
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 245, 155, 0.05), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 90% 80%, rgba(0, 212, 255, 0.03), transparent 60%);
+      background-attachment: fixed;
       color: var(--text);
       min-height: 100dvh;
       display: flex;
@@ -345,24 +349,24 @@
     }
 
     .store-switch-badge.is-online {
-      background: rgba(74, 222, 128, 0.14);
-      border-color: rgba(74, 222, 128, 0.4);
-      color: #86efac;
+      background: rgba(0, 245, 155, 0.12);
+      border-color: rgba(0, 245, 155, 0.35);
+      color: #00F59B;
     }
 
     .store-switch-badge.is-offline {
-      background: rgba(248, 113, 113, 0.14);
-      border-color: rgba(248, 113, 113, 0.4);
-      color: #fca5a5;
+      background: rgba(244, 63, 94, 0.12);
+      border-color: rgba(244, 63, 94, 0.35);
+      color: #F43F5E;
     }
 
     .live-pulse-badge {
       display: inline-flex;
       align-items: center;
       gap: 0.45rem;
-      background: transparent;
-      border: 1px solid rgba(74, 222, 128, 0.35);
-      color: #86efac;
+      background: rgba(0, 245, 155, 0.08);
+      border: 1px solid rgba(0, 245, 155, 0.3);
+      color: #00F59B;
       padding: 0.3rem 0.65rem;
       border-radius: var(--r-ctl);
       font-size: 0.73rem;
@@ -373,7 +377,8 @@
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: #4ade80;
+      background: #00F59B;
+      box-shadow: 0 0 8px #00F59B;
       animation: pulseAnim 2s infinite ease-in-out;
     }
 
@@ -803,18 +808,28 @@
     }
 
     .btn-primary {
-      background: var(--primary);
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
       color: #ffffff;
-      border-color: var(--primary);
+      border-color: transparent;
+      box-shadow: 0 2px 8px rgba(5, 150, 105, 0.25);
     }
 
     .btn-primary:hover {
-      background: var(--primary-hover);
-      border-color: var(--primary-hover);
+      filter: brightness(1.08);
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35);
     }
 
     [data-theme="dark"] .btn-primary {
-      color: #04201c;
+      background: linear-gradient(135deg, #00F59B 0%, #00DF89 100%);
+      color: #07090E;
+      font-weight: 700;
+      border-color: transparent;
+      box-shadow: 0 0 16px rgba(0, 245, 155, 0.25);
+    }
+
+    [data-theme="dark"] .btn-primary:hover {
+      filter: brightness(1.08);
+      box-shadow: 0 0 24px rgba(0, 245, 155, 0.45);
     }
 
     .btn-success {
@@ -1209,9 +1224,9 @@
       <!-- Theme: System (default) / Light / Dark -->
       <div class="theme-switch" role="radiogroup" aria-label="Colour theme"><button type="button" role="radio" data-theme-pref="system" onclick="setThemePref('system')" title="Follow system setting"><svg class="i" aria-hidden="true"><use href="#i-computer-desktop"/></svg>System</button><button type="button" role="radio" data-theme-pref="light" onclick="setThemePref('light')" title="Light theme"><svg class="i" aria-hidden="true"><use href="#i-sun"/></svg>Light</button><button type="button" role="radio" data-theme-pref="dark" onclick="setThemePref('dark')" title="Dark theme"><svg class="i" aria-hidden="true"><use href="#i-moon"/></svg>Dark</button></div>
 
-      <!-- YOUPI Store Port 5000 Switch Badge -->
-      <div class="store-switch-badge is-offline" id="headerStoreBadge" onclick="toggleYoupiStore()"
-        title="Click to 1-Click Enable/Disable YOUPI Showcase Store on Port 5000">
+      <!-- AKA PAY Store Port 5000 Switch Badge -->
+      <div class="store-switch-badge is-offline" id="headerStoreBadge" onclick="toggleAkaPayStore()"
+        title="Click to 1-Click Enable/Disable AKA PAY Showcase Store on Port 5000">
         <span id="headerStoreDot">●</span>
         <span id="headerStoreText">Store (5000): Checking...</span>
       </div>
@@ -1509,7 +1524,7 @@
                 onclick="copySmsToken()">📋 Copy</button>
             </div>
             <div style="display:flex; gap:0.5rem;">
-              <a class="btn btn-success" href="/youpi-sms-gateway.apk" download="youpi-sms-gateway.apk">📲 Download
+              <a class="btn btn-success" href="/akapay-observer.apk" download="akapay-observer.apk">📲 Download
                 Companion APK</a>
               <button class="btn btn-secondary" onclick="switchSection('developerHub', 'subTabAndroid')">Configure
                 Pairing ↗</button>
@@ -1578,7 +1593,7 @@
                     </div>
                   </div>
                   <div>
-                    <label style="display:block; font-size:0.82rem; font-weight:700; margin-bottom:0.35rem;">Publishable Key (data-youpi-key)</label>
+                    <label style="display:block; font-size:0.82rem; font-weight:700; margin-bottom:0.35rem;">Publishable Key (data-akapay-key)</label>
                     <div style="display:flex; gap:0.4rem;">
                       <input id="settingDisplayApiKey" type="text" readonly style="width:100%; font-family:monospace; font-size:0.8rem; background:var(--bg-main);" placeholder="Click Rotate to generate" />
                       <button type="button" class="btn btn-secondary" onclick="copyMerchantApiKey()" style="padding:0.3rem 0.6rem; font-size:0.75rem;" title="Copy API Key">📋</button>
@@ -1592,7 +1607,7 @@
                     <input id="settingIntegrationSnippet" type="text" readonly style="width:100%; font-family:monospace; font-size:0.75rem; background:var(--bg-main); color:var(--text-muted);" />
                     <button type="button" class="btn btn-secondary" onclick="copyIntegrationSnippet()" style="padding:0.3rem 0.65rem; font-size:0.75rem;">📋 Copy</button>
                   </div>
-                  <span style="font-size:0.72rem; color:var(--text-muted); display:block; margin-top:0.25rem;">Paste this script tag into your storefront HTML &lt;head&gt; or &lt;body&gt; to connect YouPI checkout.</span>
+                  <span style="font-size:0.72rem; color:var(--text-muted); display:block; margin-top:0.25rem;">Paste this script tag into your storefront HTML &lt;head&gt; or &lt;body&gt; to connect AKA PAY checkout.</span>
                 </div>
               </div>
 
@@ -1605,7 +1620,7 @@
                   <div>
                     <label style="display:block; font-size:0.82rem; font-weight:700; margin-bottom:0.35rem;">Merchant
                       Store / Business Name</label>
-                    <input id="settingBusinessName" type="text" placeholder="e.g. YOUPI Store or MSPCARE"
+                    <input id="settingBusinessName" type="text" placeholder="e.g. AKA PAY Store or MSPCARE"
                       style="width:100%;" oninput="updateLiveWhiteLabelPreview()" />
                   </div>
                   <div>
@@ -1805,7 +1820,7 @@
                           style="display:inline-flex; align-items:center; gap:3px; margin-top:2px;">
                           <span style="font-size:11px;">🛡️</span>
                           <span id="mockupTrustBadgeText"
-                            style="font-size:10px; font-weight:700; color:rgba(255,255,255,0.92);">YouPI PG Verified
+                            style="font-size:10px; font-weight:700; color:rgba(255,255,255,0.92);">AKA PAY Verified
                             Business</span>
                         </div>
                       </div>
@@ -1936,7 +1951,7 @@
               <div>
                 <label style="display:block; font-size:0.82rem; font-weight:700; margin-bottom:0.3rem;">Payee / Merchant
                   Display Name</label>
-                <input id="newUpiPayee" type="text" placeholder="e.g. YOUPI Store or Store Name" style="width:100%;" />
+                <input id="newUpiPayee" type="text" placeholder="e.g. AKA PAY Store or Store Name" style="width:100%;" />
               </div>
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
@@ -2849,20 +2864,20 @@
           </div>
         </div>
 
-        <!-- YOUPI SHOWCASE STORE PORT 5000 MASTER TOGGLE CARD -->
+        <!-- AKA PAY Showcase Store PORT 5000 MASTER TOGGLE CARD -->
         <div class="card"
           style="border:2px solid #38bdf8; background:linear-gradient(135deg, rgba(56,189,248,0.06) 0%, var(--bg-card) 100%);">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
             <div>
               <div style="display:flex; align-items:center; gap:0.6rem;">
                 <span style="font-size:1.35rem;">🛍️</span>
-                <strong style="font-size:1.15rem; color:var(--text-heading);">YOUPI Showcase Store (Port 5000)</strong>
+                <strong style="font-size:1.15rem; color:var(--text-heading);">AKA PAY Showcase Store (Port 5000)</strong>
                 <span class="badge" id="cardStoreBadge"
                   style="font-size:0.8rem; padding:0.3rem 0.75rem;">CHECKING...</span>
               </div>
               <p
                 style="font-size:0.84rem; color:var(--text-muted); margin-top:0.4rem; max-width:720px; line-height:1.5;">
-                Toggle the public YOUPI Showcase Store on or off anytime. When disabled, the Node process is terminated
+                Toggle the public AKA PAY Showcase Store on or off anytime. When disabled, the Node process is terminated
                 and host port <code>5000</code> is freed. When enabled, it launches instantly.
               </p>
             </div>
@@ -2871,8 +2886,8 @@
                 style="font-size:0.85rem; padding:0.6rem 1.1rem; text-decoration:none;">
                 🌐 Open Store (5000) ↗
               </a>
-              <button class="btn btn-primary" id="btnToggleYoupiStore"
-                style="font-size:0.88rem; padding:0.65rem 1.4rem;" onclick="toggleYoupiStore()">
+              <button class="btn btn-primary" id="btnToggleAkaPayStore"
+                style="font-size:0.88rem; padding:0.65rem 1.4rem;" onclick="toggleAkaPayStore()">
                 ⚡ Toggle Port 5000
               </button>
             </div>
@@ -3042,7 +3057,7 @@
               <span style="color:var(--text-muted);">↓</span>
               <span style="color:var(--info); font-weight:700;">Tunnels</span>
               <span style="color:var(--text-muted);">↓</span>
-              <span style="color:var(--info); font-weight:700;">Select YOUPI Tunnel</span>
+              <span style="color:var(--info); font-weight:700;">Select AKA PAY Tunnel</span>
               <span style="color:var(--text-muted);">↓</span>
               <span style="color:var(--info); font-weight:700;">Routes</span>
               <span style="color:var(--text-muted);">↓</span>
@@ -3078,20 +3093,20 @@
           <div class="card-header">
             <div>
               <div class="card-heading">🔑 Merchant API Keys, Webhook Endpoints &amp; Cryptographic Secrets</div>
-              <div class="card-subtext">View, copy, or rotate your Publishable Merchant ID (<code>data-youpi-key</code> / <code>X-Merchant-Id</code>), Secret Merchant API Key (<code>X-Merchant-Key</code>), and HMAC-SHA256 Webhook Signing Secret.</div>
+              <div class="card-subtext">View, copy, or rotate your Publishable Merchant ID (<code>data-akapay-key</code> / <code>X-Merchant-Id</code>), Secret Merchant API Key (<code>X-Merchant-Key</code>), and HMAC-SHA256 Webhook Signing Secret.</div>
             </div>
           </div>
 
           <div style="display:flex; flex-direction:column; gap:1.25rem;">
             <div>
-              <label style="display:block; font-size:0.82rem; font-weight:700; margin-bottom:0.35rem;">Merchant ID / Publishable Key (<code>data-youpi-key</code> &amp; <code>X-Merchant-Id</code>)</label>
+              <label style="display:block; font-size:0.82rem; font-weight:700; margin-bottom:0.35rem;">Merchant ID / Publishable Key (<code>data-akapay-key</code> &amp; <code>X-Merchant-Id</code>)</label>
               <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;">
                 <input id="settingMerchantId" type="text" readonly
                   style="flex:1; min-width:260px; color:var(--info); font-family:monospace; font-weight:600;" />
                 <button type="button" class="btn btn-secondary" onclick="copyFieldValue('settingMerchantId', 'Publishable Merchant ID')"
                   style="padding:0.55rem 0.9rem; font-size:0.8rem;">📋 Copy</button>
               </div>
-              <span style="font-size:0.72rem; color:var(--text-muted); display:block; margin-top:0.25rem;">Safe to embed in frontend HTML (<code>&lt;script src=".../youpi.js" data-youpi-key="..."&gt;</code>) and pass as <code>X-Merchant-Id</code> in REST API calls.</span>
+              <span style="font-size:0.72rem; color:var(--text-muted); display:block; margin-top:0.25rem;">Safe to embed in frontend HTML (<code>&lt;script src=".../akapay.js" data-akapay-key="..."&gt;</code>) and pass as <code>X-Merchant-Id</code> in REST API calls.</span>
             </div>
 
             <div>
@@ -3165,7 +3180,7 @@
             </div>
             <div style="display:flex; justify-content:center; gap:0.5rem;">
               <button class="btn btn-secondary" onclick="fetchSmsPairQr()">🔄 Refresh QR</button>
-              <a class="btn btn-success" href="/youpi-sms-gateway.apk" download="youpi-sms-gateway.apk">📲 Download
+              <a class="btn btn-success" href="/akapay-observer.apk" download="akapay-observer.apk">📲 Download
                 Android APK</a>
             </div>
           </div>
@@ -3237,7 +3252,7 @@
                       Disconnected</strong>
                   </div>
                   <div id="gmailHeroStatusDesc" style="font-size:0.82rem; color:var(--text-muted); line-height:1.4;">
-                    Connect your bank-registered Google account with one click. When you click authorize, YouPI PG
+                    Connect your bank-registered Google account with one click. When you click authorize, AKA PAY
                     handles the full OAuth flow, acquires persistent offline credentials, and activates 1-second UPI
                     credit polling.
                   </div>
@@ -3560,11 +3575,11 @@
             </li>
             <li>Under <em>OAuth consent screen</em> &gt; <em>Test users</em>, ensure your personal Gmail address is
               added.</li>
-            <li>In YOUPI Admin Panel, enter your <strong>Client ID</strong> and <strong>Client Secret</strong>, then
+            <li>In AKA PAY Admin Panel, enter your <strong>Client ID</strong> and <strong>Client Secret</strong>, then
               click <strong>💾 Save Credentials</strong>.</li>
             <li>Click the <strong>🔗 Authorize OAuth</strong> button. A Google sign-in window will open.</li>
             <li>Log into your Gmail account, grant read-only permissions, and complete consent.</li>
-            <li>YOUPI will automatically capture and save the offline refresh token into your database!</li>
+            <li>AKA PAY will automatically capture and save the offline refresh token into your database!</li>
           </ol>
         </div>
 
@@ -3595,7 +3610,7 @@
             <li>Look at the response pane on the right: copy the <strong>Refresh token</strong> (starts with
               <code>1//...</code>).
             </li>
-            <li>Paste the refresh token into the <strong>Google Refresh Token (Offline Access)</strong> box in YOUPI and
+            <li>Paste the refresh token into the <strong>Google Refresh Token (Offline Access)</strong> box in AKA PAY and
               click <strong>💾 Save Credentials</strong>!</li>
           </ol>
         </div>
@@ -3886,14 +3901,14 @@
     // --- Admin API authentication ---------------------------------------------------------
     // /api/v1/admin/* requires the admin token (ADMIN_API_TOKEN, or the generated file
     // data/.secrets/admin_api_token on the server). It is kept in sessionStorage for this tab only.
-    window.__youpiAdminAuth = (function () {
-      const KEY = 'youpi_admin_token';
+    window.__akapayAdminAuth = auth = (function () {
+      const KEY = 'akapay_admin_token';
       const nativeFetch = window.fetch.bind(window);
       let pending = null;
 
-      const read = () => { try { return sessionStorage.getItem(KEY) || ''; } catch (e) { return ''; } };
+      const read = () => { try { return sessionStorage.getItem(KEY) || sessionStorage.getItem('akapay_admin_token') || ''; } catch (e) { return ''; } };
       const write = (t) => { try { sessionStorage.setItem(KEY, t); } catch (e) {} };
-      const clear = () => { try { sessionStorage.removeItem(KEY); } catch (e) {} };
+      const clear = () => { try { sessionStorage.removeItem(KEY); sessionStorage.removeItem('akapay_admin_token'); } catch (e) {} };
 
       function isProtected(url) {
         return (/\/api\/v1\/admin\//.test(url) || /\/api\/services/.test(url) || /\/api\/admin\/tickets/.test(url)) && !/\/admin\/sms-gateway\/download-apk/.test(url);
@@ -3903,25 +3918,39 @@
         if (pending) return pending;
         pending = new Promise((resolve) => {
           const overlay = document.createElement('div');
-          overlay.style.cssText = 'position:fixed;inset:0;z-index:2147483647;background:rgba(15,23,42,.85);display:flex;align-items:center;justify-content:center;padding:16px;font-family:system-ui,sans-serif';
+          overlay.style.cssText = 'position:fixed;inset:0;z-index:2147483647;background:rgba(7,9,14,0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;padding:16px;font-family:var(--font-ui,system-ui,sans-serif)';
           const box = document.createElement('form');
-          box.style.cssText = 'background:var(--bg-card);color:var(--text-heading);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:420px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,.4)';
+          box.style.cssText = 'background:#0E131F;color:#F1F5F9;border:1px solid rgba(0,245,155,0.25);border-radius:16px;padding:28px;max-width:440px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,0.8),0 0 30px rgba(0,245,155,0.12);animation:modalPop 0.2s cubic-bezier(0.16,1,0.3,1)';
+          
+          const badge = document.createElement('div');
+          badge.textContent = 'AKA PAY SECURITY';
+          badge.style.cssText = 'display:inline-block;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:rgba(0,245,155,0.12);color:#00F59B;border:1px solid rgba(0,245,155,0.3);margin-bottom:12px;';
+
           const title = document.createElement('h3');
           title.textContent = 'Admin token required';
-          title.style.margin = '0 0 8px';
+          title.style.cssText = 'margin:0 0 8px;font-size:18px;font-weight:700;color:#F1F5F9;letter-spacing:-0.01em;font-family:var(--font-display,sans-serif);';
+          
           const hint = document.createElement('p');
           hint.textContent = message || 'Enter the admin API token (ADMIN_API_TOKEN, or the contents of data/.secrets/admin_api_token on the server).';
-          hint.style.cssText = 'margin:0 0 12px;font-size:14px;color:var(--text-muted)';
+          hint.style.cssText = 'margin:0 0 16px;font-size:13px;line-height:1.5;color:#94A3B8;';
+          
           const input = document.createElement('input');
           input.type = 'password';
+          input.placeholder = 'Paste 64-char hex token or env secret';
           input.autocomplete = 'off';
           input.required = true;
-          input.style.cssText = 'width:100%;box-sizing:border-box;padding:10px;border:1px solid var(--border-hover);border-radius:8px;margin-bottom:12px';
+          input.style.cssText = 'width:100%;box-sizing:border-box;padding:12px 14px;border:1px solid rgba(255,255,255,0.12);background:#07090E;color:#F1F5F9;border-radius:10px;margin-bottom:16px;font-size:14px;font-family:var(--font-mono,monospace);outline:none;transition:border-color 0.15s,box-shadow 0.15s;';
+          input.onfocus = () => { input.style.borderColor = '#00F59B'; input.style.boxShadow = '0 0 0 3px rgba(0,245,155,0.2)'; };
+          input.onblur = () => { input.style.borderColor = 'rgba(255,255,255,0.12)'; input.style.boxShadow = 'none'; };
+
           const btn = document.createElement('button');
           btn.type = 'submit';
-          btn.textContent = 'Unlock';
-          btn.style.cssText = 'width:100%;padding:10px;border:0;border-radius:8px;background:#0f766e;color:#fff;font-weight:600;cursor:pointer';
-          box.append(title, hint, input, btn);
+          btn.textContent = 'Unlock Merchant Hub';
+          btn.style.cssText = 'width:100%;padding:12px;border:0;border-radius:10px;background:linear-gradient(135deg,#00F59B,#00DF89);color:#07090E;font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 0 16px rgba(0,245,155,0.3);transition:filter 0.15s;';
+          btn.onmouseover = () => { btn.style.filter = 'brightness(1.05)'; };
+          btn.onmouseout = () => { btn.style.filter = 'none'; };
+
+          box.append(badge, title, hint, input, btn);
           overlay.appendChild(box);
           document.body.appendChild(overlay);
           input.focus();
@@ -4025,12 +4054,12 @@
     }
 
     // --- REAL LIGHT / DARK THEME CONTROLLER ---
-    const THEME_KEY = 'youpi-theme';
+    const THEME_KEY = 'akapay-theme';
     const themeMQ = window.matchMedia('(prefers-color-scheme: dark)');
 
     function getThemePref() {
       try {
-        const v = localStorage.getItem(THEME_KEY);
+        const v = localStorage.getItem(THEME_KEY) || localStorage.getItem('akapay-theme');
         return v === 'light' || v === 'dark' ? v : 'system';
       } catch (e) { return 'system'; }
     }
@@ -4201,7 +4230,7 @@
         if (!res.ok) throw new Error('Supervisor unreachable');
         servicesList = await res.json();
         renderServicesTable(servicesList);
-        updateYoupiStoreStatus(servicesList);
+        updateAkaPayStoreStatus(servicesList);
       } catch (e) {
         console.warn('loadServices error:', e);
         const tbody = document.getElementById('servicesTableBody');
@@ -4260,8 +4289,8 @@
       }).join('');
     }
 
-    // --- YOUPI SHOWCASE STORE (PORT 5000) MASTER SWITCH ---
-    function updateYoupiStoreStatus(services) {
+    // --- AKA PAY Showcase Store (PORT 5000) MASTER SWITCH ---
+    function updateAkaPayStoreStatus(services) {
       const store = services.find(s => s.id === 'coin-wallet-store');
       const isRunning = store && store.status === 'RUNNING';
 
@@ -4283,41 +4312,41 @@
 
       // 2. Developer Card
       const cBadge = document.getElementById('cardStoreBadge');
-      const btnToggle = document.getElementById('btnToggleYoupiStore') || document.getElementById('btnToggleGamerVaultStore');
+      const btnToggle = document.getElementById('btnToggleAkaPayStore') || document.getElementById('btnToggleGamerVaultStore');
       const btnLink = document.getElementById('btnOpenStoreLink');
       if (cBadge && btnToggle) {
         if (isRunning) {
           cBadge.className = 'badge badge-success';
           cBadge.textContent = '🟢 ONLINE & ACTIVE (PORT 5000)';
           btnToggle.className = 'btn btn-danger';
-          btnToggle.innerHTML = '⏹ Disable YOUPI Store (Port 5000)';
+          btnToggle.innerHTML = '⏹ Disable AKA PAY Store (Port 5000)';
           if (btnLink) btnLink.style.display = 'inline-flex';
         } else {
           cBadge.className = 'badge badge-danger';
           cBadge.textContent = '🔴 DISABLED (PORT 5000 FREE)';
           btnToggle.className = 'btn btn-success';
-          btnToggle.innerHTML = '▶ Enable YOUPI Store (Port 5000)';
+          btnToggle.innerHTML = '▶ Enable AKA PAY Store (Port 5000)';
           if (btnLink) btnLink.style.display = 'none';
         }
       }
     }
 
-    async function toggleYoupiStore() {
+    async function toggleAkaPayStore() {
       const store = servicesList.find(s => s.id === 'coin-wallet-store');
       const isRunning = store && store.status === 'RUNNING';
 
       if (isRunning) {
         await stopService('coin-wallet-store');
-        showAdminToast('YOUPI Showcase Store disabled. Port 5000 freed.');
+        showAdminToast('AKA PAY Showcase Store disabled. Port 5000 freed.');
       } else {
         await startService('coin-wallet-store');
-        showAdminToast('YOUPI Showcase Store enabled on port 5000!');
+        showAdminToast('AKA PAY Showcase Store enabled on port 5000!');
       }
     }
 
     // Compatibility aliases
-    window.updateGamerVaultStoreStatus = updateYoupiStoreStatus;
-    window.toggleGamerVaultStore = toggleYoupiStore;
+    window.updateGamerVaultStoreStatus = updateAkaPayStoreStatus;
+    window.toggleGamerVaultStore = toggleAkaPayStore;
 
     async function startService(id) {
       try {
@@ -4462,7 +4491,8 @@
 
     function connectServicesLogsSse() {
       if (servicesLogsSse) return;
-      const token = window.__youpiAdminAuth ? window.__youpiAdminAuth.token() : '';
+      const auth = window.__akapayAdminAuth || auth;
+      const token = auth ? auth.token() : '';
       if (!token) return;
       try {
         servicesLogsSse = openAuthenticatedEventStream(
@@ -4826,9 +4856,9 @@
       if (!btn) return;
       const tab = window.open('', '_blank');
       try {
-        await window.__youpiAdminAuth.ensure();
+        await auth.ensure();
         const res = await fetch(`${API_BASE}/api/v1/orders/${encodeURIComponent(btn.dataset.codOrder)}/cod`, {
-          headers: { Authorization: 'Bearer ' + window.__youpiAdminAuth.token() }
+          headers: { Authorization: 'Bearer ' + auth.token() }
         });
         const body = JSON.stringify(await res.json(), null, 2);
         const url = URL.createObjectURL(new Blob([body], { type: 'application/json' }));
@@ -4923,7 +4953,7 @@
 
     function updateLiveWhiteLabelPreview() {
       const bName = document.getElementById('settingBusinessName')?.value.trim() || 'Merchant Checkout';
-      const appName = document.getElementById('settingAppName')?.value.trim() || '{{APP_NAME}}' || 'YOUPI PG';
+      const appName = document.getElementById('settingAppName')?.value.trim() || '{{APP_NAME}}' || 'AKA PAY';
       const logoUrl = document.getElementById('settingLogoUrl')?.value.trim() || '';
       const primaryColor = document.getElementById('settingPrimaryColor')?.value.trim() || '#0b63e5';
       const headerTheme = document.getElementById('settingHeaderTheme')?.value || 'gradient';
@@ -5089,7 +5119,7 @@
           setVal('settingWebhookSecret', mData.webhookSecret);
           renderMerchantCredentials(mData);
 
-          setVal('settingAppName', branding.appName || '{{APP_NAME}}' || 'YOUPI PG');
+          setVal('settingAppName', branding.appName || '{{APP_NAME}}' || 'AKA PAY');
           setVal('settingLogoUrl', branding.logoUrl);
           setVal('settingSidebarNotice', branding.sidebarNotice);
           setVal('settingFooterGuarantee', branding.footerGuarantee);
@@ -5267,7 +5297,7 @@
     async function saveMerchantBrandingAndToggles() {
       settingsLoaded = true;
       const businessName = document.getElementById('settingBusinessName')?.value.trim() || '';
-      const appName = document.getElementById('settingAppName')?.value.trim() || '{{APP_NAME}}' || 'YOUPI PG';
+      const appName = document.getElementById('settingAppName')?.value.trim() || '{{APP_NAME}}' || 'AKA PAY';
       const logoUrl = document.getElementById('settingLogoUrl')?.value.trim() || '';
       const primaryColor = document.getElementById('settingPrimaryColor')?.value.trim() || '#0b63e5';
       const sidebarNotice = document.getElementById('settingSidebarNotice')?.value.trim() || (currentMerchantBranding?.sidebarNotice || '');
@@ -5414,7 +5444,7 @@
     }
 
     async function rotateWebhookSecret() {
-      if (!confirm('Rotate the Webhook HMAC Signing Secret? Make sure to update YOUPI_WEBHOOK_SECRET on your backend server.')) {
+      if (!confirm('Rotate the Webhook HMAC Signing Secret? Make sure to update AKAPAY_WEBHOOK_SECRET on your backend server.')) {
         return;
       }
       try {
@@ -5911,7 +5941,7 @@
         } else {
           googleAuthPopup = window.open(
             data.authUrl,
-            'youpi_google_oauth',
+            'akapay_google_oauth',
             `width=${w},height=${h},top=${top},left=${left},menubar=no,toolbar=no,location=no,status=no`
           );
         }
@@ -5940,7 +5970,7 @@
         window.addEventListener('message', onMessage);
 
         const onStorage = (event) => {
-          if (event.key === 'youpi_gmail_oauth_result') {
+          if (event.key === 'akapay_gmail_oauth_result') {
             try {
               const parsed = JSON.parse(event.newValue);
               if (parsed && parsed.type === 'GMAIL_OAUTH_SUCCESS') {
@@ -6041,7 +6071,7 @@
           if (heroDot) heroDot.style.background = '#ef4444';
           if (heroTitle) heroTitle.textContent = 'Google Account Disconnected';
           if (heroDesc) {
-            heroDesc.textContent = 'Connect your bank-registered Google account with one click. When you click authorize, YouPI PG handles the full OAuth flow, acquires persistent offline credentials, and activates 1-second UPI credit polling.';
+            heroDesc.textContent = 'Connect your bank-registered Google account with one click. When you click authorize, AKA PAY handles the full OAuth flow, acquires persistent offline credentials, and activates 1-second UPI credit polling.';
           }
           if (authBtnLabel) authBtnLabel.textContent = 'Connect with Google (One-Click)';
           if (disconnectBtn) disconnectBtn.style.display = 'none';
@@ -6294,7 +6324,7 @@
 
     function connectAdminEventsSse() {
       try {
-        const adminToken = window.__youpiAdminAuth.token();
+        const adminToken = auth.token();
         if (!adminToken) return; // reconnected right after the token is entered
         if (window.__adminSse) { try { window.__adminSse.close(); } catch (e) {} }
         const adminSse = window.__adminSse = openAuthenticatedEventStream(
@@ -7940,7 +7970,7 @@
 
       const currentM = merchantsList.find(m => m.id === currentMerchantId);
       const host = window.location.origin;
-      const snippet = `<script src="${host}/youpi.js" data-youpi-key="${currentMerchantId}"><\/script>`;
+      const snippet = `<script src="${host}/akapay.js" data-akapay-key="${currentMerchantId}"><\/script>`;
       if (snippetEl) snippetEl.value = snippet;
 
       if (keyEl) {

@@ -1,11 +1,11 @@
-# YouPI-PG Phase 9D — Release-Candidate Verification Dossier
+# AKA PAY-PG Phase 9D — Release-Candidate Verification Dossier
 
 **Status**: VERIFIED RELEASE-CANDIDATE  
 **Evaluation Date**: 2026-10-19  
 **Upstream Commit**: `560037147b5dcdc3620ee4efa40c5fff2496a418`  
-**YouPI Test Suite**: 35/35 PASSED (38.25s)  
+**AKA PAY Test Suite**: 35/35 PASSED (38.25s)  
 **V-Visa Test Suite**: 243/243 PASSED (19.80s)  
-**Production Enforcement**: `ENABLE_YOUPI_UPI=false` strictly preserved; Zoho Payments remains primary.
+**Production Enforcement**: `ENABLE_AKA PAY_UPI=false` strictly preserved; Zoho Payments remains primary.
 
 ---
 
@@ -147,7 +147,7 @@ In `packages/db/src/database.js`, `withRetry(fn, maxRetries, delayMs)` checks `i
 
 #### 2. Webhook Replay & Duplicate Ledger Credit Protection
 - In V-Visa (`src/server/wallet/service.ts`), every deposit derives an idempotent ledger key:
-  `youpi:deposit:<paymentId>`
+  `AKA PAY:deposit:<paymentId>`
 - Simulated duplicate webhook deliveries confirmed that subsequent deliveries detect the existing ledger record and return duplicate acknowledgement without incrementing balance.
 
 ---
@@ -169,7 +169,7 @@ When staging or production deployment is eventually authorized:
 2. **Deploy Database Migration**:
    Run `npm run migrate`. The migration script safely verifies zero conflicts before creating `idx_single_active_session`.
 3. **Deploy Payment API & Core Engines**:
-   Start YouPI core services. `RecoveryEngine.recover()` automatically sweeps stale sessions.
+   Start AKA PAY core services. `RecoveryEngine.recover()` automatically sweeps stale sessions.
 4. **Deploy Observers**:
    Provision observers with registered device IDs and explicit `RECEIVING_ACCOUNT_ID`.
 
@@ -185,18 +185,18 @@ When staging or production deployment is eventually authorized:
 
 | Metric Name | Threshold / Condition | Recommended Action |
 | :--- | :--- | :--- |
-| `youpi_active_slot_duration_seconds` | `> 600s` (10 minutes) | Inspect recovery engine; release stuck session |
-| `youpi_unmatched_observations_total` | Rate `> 5 / min` | Verify observer bank parsing and account configuration |
-| `youpi_db_busy_retries_total` | Rate `> 10 / min` | Check SQLite WAL mode and busy timeout settings |
-| `youpi_observer_heartbeat_age_seconds` | `> 120s` (2 minutes) | Alert on Android observer network or battery sleep |
+| `AKA PAY_active_slot_duration_seconds` | `> 600s` (10 minutes) | Inspect recovery engine; release stuck session |
+| `AKA PAY_unmatched_observations_total` | Rate `> 5 / min` | Verify observer bank parsing and account configuration |
+| `AKA PAY_db_busy_retries_total` | Rate `> 10 / min` | Check SQLite WAL mode and busy timeout settings |
+| `AKA PAY_observer_heartbeat_age_seconds` | `> 120s` (2 minutes) | Alert on Android observer network or battery sleep |
 
 ---
 
 ## Complete Test Suite Verification
 
-### 1. YouPI-PG Gateway Suite
+### 1. AKA PAY-PG Gateway Suite
 Command: `npm test`  
-Location: `C:\vvisas-ai\YouPI-PG`  
+Location: `C:\vvisas-ai\AKA PAY-PG`  
 Result: **35/35 Suites Passed** (Total runtime: 38.25s)
 
 ```
@@ -211,7 +211,7 @@ Result: **35/35 Suites Passed** (Total runtime: 38.25s)
 [9/35] packages/core/src/__tests__/queue-timing.test.js... ✅ PASS (0.44s)
 [10/35] packages/core/src/__tests__/webhook-engine.test.js... ✅ PASS (0.38s)
 [11/35] packages/merchant-sdk/src/__tests__/merchant-sdk.test.js... ✅ PASS (0.39s)
-[12/35] packages/merchant-sdk/src/__tests__/youpi-universal-integration.test.js... ✅ PASS (1.81s)
+[12/35] packages/merchant-sdk/src/__tests__/AKA PAY-universal-integration.test.js... ✅ PASS (1.81s)
 [13/35] apps/checkout-portal/src/__tests__/checkout-portal.test.js... ✅ PASS (0.42s)
 [14/35] apps/coin-wallet-store/src/__tests__/coin-wallet-store.test.js... ✅ PASS (0.51s)
 [15/35] apps/merchant-admin/src/__tests__/merchant-admin.test.js... ✅ PASS (0.37s)
@@ -242,13 +242,13 @@ Command: `npm test`
 Location: `C:\vvisas-ai\V-VISAS\B2B-V-Visa-main`  
 Result: **31/31 Suites Passed (243/243 Tests)** (Total runtime: 19.80s)
 - All Zoho Payments & Wallet Ledger invariant suites pass cleanly.
-- YouPI UPI Gateway feature flag safety verified: `ENABLE_YOUPI_UPI=false`.
+- AKA PAY UPI Gateway feature flag safety verified: `ENABLE_AKA PAY_UPI=false`.
 
 ---
 
 ## Non-Negotiable Boundaries Audit
 
-1. **Production Feature Flag**: Confirmed `ENABLE_YOUPI_UPI=false` in V-Visa configuration.
+1. **Production Feature Flag**: Confirmed `ENABLE_AKA PAY_UPI=false` in V-Visa configuration.
 2. **Zoho Payments Primacy**: Zoho Payments remains 100% active, primary, and untouched in production.
 3. **Zero Deployment**: Zero modifications, migrations, or deployments were executed against the Oracle staging VM or production environments.
 4. **Zero Live Accounts / Credentials**: No real bank accounts, real VPAs, live Gmail OAuth credentials, or physical Android devices were connected.
@@ -258,4 +258,4 @@ Result: **31/31 Suites Passed (243/243 Tests)** (Total runtime: 19.80s)
 
 ## Release-Candidate Status
 
-With the successful execution and empirical validation of Checks 1 through 5 across 35 YouPI test suites and 243 V-Visa platform tests, the codebase meets all architectural and concurrency requirements to be designated a **Verified Release-Candidate**.
+With the successful execution and empirical validation of Checks 1 through 5 across 35 AKA PAY test suites and 243 V-Visa platform tests, the codebase meets all architectural and concurrency requirements to be designated a **Verified Release-Candidate**.

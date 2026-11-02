@@ -1,8 +1,8 @@
 import { test, describe, before, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { Database } from '@youpi/db';
-import { PaymentStatus, ObserverSource } from '@youpi/common';
-import { ObservationNormalizer } from '@youpi/core';
+import { Database } from '@akapay/db';
+import { PaymentStatus, ObserverSource } from '@akapay/common';
+import { ObservationNormalizer } from '@akapay/core';
 import { startServer as startPaymentApi } from '../index.js';
 import { TEST_ADMIN_TOKEN, TEST_OBSERVER_TOKEN } from '../../../../scripts/test-support.js';
 

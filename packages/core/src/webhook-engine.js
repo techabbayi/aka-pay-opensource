@@ -1,13 +1,13 @@
 import crypto from 'node:crypto';
-import { PaymentSessionRepository } from '@youpi/db';
-import { generateHmac, toRupeesString, validateOutboundWebhookUrl } from '@youpi/common';
+import { PaymentSessionRepository } from '@akapay/db';
+import { generateHmac, toRupeesString, validateOutboundWebhookUrl } from '@akapay/common';
 import { toPublicOutcome, isDispatchableOutcome, settlementStateFor } from './state-machine.js';
 
 export class WebhookEngine {
   /**
    * @param {{
-   *   db: import('@youpi/db').Database,
-   *   merchantRepo: import('@youpi/db').MerchantRepository,
+   *   db: import('@akapay/db').Database,
+   *   merchantRepo: import('@akapay/db').MerchantRepository,
    *   maxRetries?: number
    * }} options
    */

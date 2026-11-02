@@ -9,7 +9,7 @@ import { spawnSync } from 'node:child_process';
 const repoRoot = fileURLToPath(new URL('..', import.meta.url));
 
 function runDev(t, { envFile, shellEnv = {} } = {}) {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'youpi dev env '));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'akapay dev env '));
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));
   fs.writeFileSync(path.join(root, 'package.json'), '{"type":"module"}');
 
@@ -21,8 +21,11 @@ function runDev(t, { envFile, shellEnv = {} } = {}) {
     fs.cpSync(path.join(repoRoot, 'packages', name, 'src'), path.join(destination, 'src'), { recursive: true });
     fs.copyFileSync(path.join(repoRoot, 'packages', name, 'package.json'), path.join(destination, 'package.json'));
   }
-  fs.mkdirSync(path.join(root, 'node_modules', '@youpi'), { recursive: true });
-  fs.symlinkSync(path.join(root, 'packages', 'common'), path.join(root, 'node_modules', '@youpi', 'common'),
+  fs.mkdirSync(path.join(root, 'node_modules', '@akapay'), { recursive: true });
+  fs.symlinkSync(path.join(root, 'packages', 'common'), path.join(root, 'node_modules', '@akapay', 'common'),
+    process.platform === 'win32' ? 'junction' : 'dir');
+  fs.mkdirSync(path.join(root, 'node_modules', '@akapay'), { recursive: true });
+  fs.symlinkSync(path.join(root, 'packages', 'common'), path.join(root, 'node_modules', '@akapay', 'common'),
     process.platform === 'win32' ? 'junction' : 'dir');
   fs.mkdirSync(path.join(root, 'scripts'));
   fs.copyFileSync(path.join(repoRoot, 'scripts', 'dev.js'), path.join(root, 'scripts', 'dev.js'));
@@ -40,7 +43,7 @@ console.log('CHILD_CONFIG ' + JSON.stringify({
   merchant: db.queryOne('SELECT business_name FROM merchants').business_name,
   port: Number(process.env.PAYMENT_API_PORT || 6100),
   nodeEnv: process.env.NODE_ENV,
-  mode: process.env.YOUPI_MODE
+  mode: process.env.AKAPAY_MODE
 }));
 db.close();
 `);
@@ -56,7 +59,7 @@ export async function startControlCenter() {
     merchant: db.queryOne('SELECT business_name FROM merchants').business_name,
     port: manager.getService('payment-api').port,
     nodeEnv: process.env.NODE_ENV,
-    mode: process.env.YOUPI_MODE
+    mode: process.env.AKAPAY_MODE
   }));
   manager.on('log', entry => console.log(entry.line));
   manager.startAll = async () => {
@@ -88,7 +91,7 @@ export async function startControlCenter() {
   return {
     parent: readConfig('PARENT_CONFIG '),
     child: readConfig('CHILD_CONFIG '),
-    defaultDatabaseExists: fs.existsSync(path.join(root, 'data', 'youpi_pg.sqlite'))
+    defaultDatabaseExists: fs.existsSync(path.join(root, 'data', 'akapay.sqlite'))
   };
 }
 
@@ -112,7 +115,7 @@ test('dev loads root .env before migrating and constructing the service registry
 });
 
 test('dev defaults keep priority over production modes in .env', t => {
-  const { parent, child } = runDev(t, { envFile: `${configuredEnv}\nNODE_ENV=production\nYOUPI_MODE=production\n` });
+  const { parent, child } = runDev(t, { envFile: `${configuredEnv}\nNODE_ENV=production\nAKAPAY_MODE=production\n` });
   for (const config of [parent, child]) {
     assert.equal(config.nodeEnv, 'development');
     assert.equal(config.mode, 'localhost');
@@ -122,8 +125,8 @@ test('dev defaults keep priority over production modes in .env', t => {
 test('dev still starts with shared defaults when .env is absent', t => {
   const { parent, child } = runDev(t);
   assert.deepEqual(parent, {
-    database: path.join('data', 'youpi_pg.sqlite'),
-    merchant: 'YOUPI Demo Store',
+    database: path.join('data', 'akapay.sqlite'),
+    merchant: 'AKA PAY Demo Store',
     port: 6100,
     nodeEnv: 'development',
     mode: 'localhost'
@@ -133,13 +136,13 @@ test('dev still starts with shared defaults when .env is absent', t => {
 
 test('explicit shell configuration retains priority over .env and dev defaults', t => {
   const { parent, child, defaultDatabaseExists } = runDev(t, {
-    envFile: `${configuredEnv}\nNODE_ENV=development\nYOUPI_MODE=localhost\n`,
+    envFile: `${configuredEnv}\nNODE_ENV=development\nAKAPAY_MODE=localhost\n`,
     shellEnv: {
       SQLITE_DB_PATH: './data/shell.sqlite',
       DEFAULT_MERCHANT_NAME: 'Shell Fixture Merchant',
       PAYMENT_API_PORT: '17100',
       NODE_ENV: 'production',
-      YOUPI_MODE: 'production'
+      AKAPAY_MODE: 'production'
     }
   });
   assert.deepEqual(parent, {

@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
 import { HttpServer } from '../server.js';
-import { PaymentStatus, PaymentMethod, SellingMode, AuditActorType, isValidVpa, toRupeesString, deriveCloudflareRoutes, resolveRuntimeUrls, resolveGmailRedirectUri, createOAuthState, validateOutboundWebhookUrl } from '@youpi/common';
-import { PaymentVerificationPipeline } from '@youpi/core';
+import { PaymentStatus, PaymentMethod, SellingMode, AuditActorType, isValidVpa, toRupeesString, deriveCloudflareRoutes, resolveRuntimeUrls, resolveGmailRedirectUri, createOAuthState, validateOutboundWebhookUrl } from '@akapay/common';
+import { PaymentVerificationPipeline } from '@akapay/core';
 import { globalTunnelManager } from '../services/tunnel-manager.js';
 import { formatQrDataUrl } from '../services/whatsapp-berry.service.js';
 
@@ -85,12 +85,12 @@ function resolveSellingModeAndMethods(body, currentBranding = {}) {
  * Registers merchant admin dashboard routes.
  * @param {HttpServer} server
  * @param {{
- *   db: import('@youpi/db').Database,
- *   sessionRepo: import('@youpi/db').PaymentSessionRepository,
- *   accountRepo: import('@youpi/db').ReceivingAccountRepository,
- *   merchantRepo: import('@youpi/db').MerchantRepository,
- *   auditRepo: import('@youpi/db').AuditLogRepository,
- *   queueEngine: import('@youpi/core').QueueEngine
+ *   db: import('@akapay/db').Database,
+ *   sessionRepo: import('@akapay/db').PaymentSessionRepository,
+ *   accountRepo: import('@akapay/db').ReceivingAccountRepository,
+ *   merchantRepo: import('@akapay/db').MerchantRepository,
+ *   auditRepo: import('@akapay/db').AuditLogRepository,
+ *   queueEngine: import('@akapay/core').QueueEngine
  * }} ctx
  */
 export function registerAdminRoutes(server, ctx) {
@@ -737,7 +737,7 @@ export function registerAdminRoutes(server, ctx) {
       privacyPolicyUrl,
       sellingMode,
       branding: {
-        appName: branding.appName || (process.env.DEFAULT_APP_NAME || '').trim() || 'YOUPI PG',
+        appName: branding.appName || (process.env.DEFAULT_APP_NAME || '').trim() || 'AKA PAY',
         primaryColor: branding.primaryColor || (process.env.DEFAULT_PRIMARY_COLOR || '').trim() || '#2563eb',
         headerTheme: branding.headerTheme || 'gradient',
         logoUrl: branding.logoUrl !== undefined ? branding.logoUrl : ((process.env.DEFAULT_LOGO_URL || '').trim() || null),
@@ -748,7 +748,7 @@ export function registerAdminRoutes(server, ctx) {
         hideSubbanner: Boolean(branding.hideSubbanner),
         hidePoweredBy: branding.hidePoweredBy !== undefined ? Boolean(branding.hidePoweredBy) : (process.env.DEFAULT_HIDE_POWERED_BY === 'true'),
         hideTimeSavingBanner: Boolean(branding.hideTimeSavingBanner),
-        footerGuarantee: branding.footerGuarantee || (process.env.DEFAULT_FOOTER_GUARANTEE || '').trim() || `Secured by ${branding.appName || (process.env.DEFAULT_APP_NAME || '').trim() || 'YOUPI PG'} 256-Bit Encryption`,
+        footerGuarantee: branding.footerGuarantee || (process.env.DEFAULT_FOOTER_GUARANTEE || '').trim() || `Secured by ${branding.appName || (process.env.DEFAULT_APP_NAME || '').trim() || 'AKA PAY'} 256-Bit Encryption`,
         counterInstructions: branding.counterInstructions || 'Please visit the store billing counter and present this screen to the cashier.',
         cardCounterInstructions: branding.cardCounterInstructions || 'Please swipe, insert, or tap your credit or debit card on the store POS terminal at the billing desk.',
         termsUrl: branding.termsUrl || null,
@@ -802,7 +802,7 @@ export function registerAdminRoutes(server, ctx) {
     const inputBranding = body.branding || {};
     const mergedBranding = { ...currentBranding };
 
-    if (inputBranding.appName !== undefined) mergedBranding.appName = inputBranding.appName.trim() || currentBranding.appName || (process.env.DEFAULT_APP_NAME || '').trim() || 'YOUPI PG';
+    if (inputBranding.appName !== undefined) mergedBranding.appName = inputBranding.appName.trim() || currentBranding.appName || (process.env.DEFAULT_APP_NAME || '').trim() || 'AKA PAY';
     if (inputBranding.logoUrl !== undefined) mergedBranding.logoUrl = inputBranding.logoUrl ? inputBranding.logoUrl.trim() : null;
     if (inputBranding.primaryColor !== undefined) mergedBranding.primaryColor = inputBranding.primaryColor.trim() || currentBranding.primaryColor || (process.env.DEFAULT_PRIMARY_COLOR || '').trim() || '#2563eb';
     if (inputBranding.sidebarNotice !== undefined) mergedBranding.sidebarNotice = inputBranding.sidebarNotice ? inputBranding.sidebarNotice.trim() : null;
@@ -1121,7 +1121,7 @@ export function registerAdminRoutes(server, ctx) {
       const currentBranding = merchant.branding || {};
       const mergedBranding = { ...currentBranding };
 
-      if (inputBranding.appName !== undefined) mergedBranding.appName = inputBranding.appName.trim() || currentBranding.appName || (process.env.DEFAULT_APP_NAME || '').trim() || 'YOUPI PG';
+      if (inputBranding.appName !== undefined) mergedBranding.appName = inputBranding.appName.trim() || currentBranding.appName || (process.env.DEFAULT_APP_NAME || '').trim() || 'AKA PAY';
       if (inputBranding.logoUrl !== undefined) mergedBranding.logoUrl = inputBranding.logoUrl ? inputBranding.logoUrl.trim() : null;
       if (inputBranding.primaryColor !== undefined) mergedBranding.primaryColor = inputBranding.primaryColor.trim() || currentBranding.primaryColor || (process.env.DEFAULT_PRIMARY_COLOR || '').trim() || '#2563eb';
       if (inputBranding.headerTheme !== undefined) mergedBranding.headerTheme = inputBranding.headerTheme || 'gradient';

@@ -68,8 +68,8 @@ async function runTestSuite() {
 
     console.log('=== TEST 1: Check Initiated Session - Sign in to Pay with Single Saved Account ===');
     await evaluate(`
-      localStorage.setItem('youpi.customer.accounts', JSON.stringify([
-        { id: '74879c31-ea68-427a-87a6-a02d08109afd', name: 'Demo Customer', email: 'demo-customer@youpi.local', mobileNumber: '9000000000' }
+      localStorage.setItem('akapay.customer.accounts', JSON.stringify([
+        { id: '74879c31-ea68-427a-87a6-a02d08109afd', name: 'Demo Customer', email: 'demo-customer@akapay.local', mobileNumber: '9000000000' }
       ]));
       renderSavedAccountsUI();
     `);
@@ -100,7 +100,7 @@ async function runTestSuite() {
         id: '74879c31-ea68-427a-87a6-a02d08109afd',
         name: 'Demo Customer',
         fullName: 'Demo Customer',
-        email: 'demo-customer@youpi.local',
+        email: 'demo-customer@akapay.local',
         mobileNumber: '9000000000'
       };
       const token = 'csess_d145cc98752c919be77306be94545332982b8bced1f0be5262d8ce97e798ac1d';

@@ -1,7 +1,7 @@
 /**
  * Checkout Portal Centralized Branding Configuration
  */
-import { BRANDING_CONFIG as COMMON_BRANDING } from '@youpi/common';
+import { BRANDING_CONFIG as COMMON_BRANDING } from '@akapay/common';
 
 export const BRANDING_CONFIG = Object.freeze({
   businessName: process.env.CHECKOUT_BUSINESS_NAME || COMMON_BRANDING.businessName,

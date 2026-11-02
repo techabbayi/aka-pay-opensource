@@ -1,6 +1,6 @@
 import { HttpServer } from '../server.js';
-import { toPaise, toRupeesString, resolveRuntimeUrls, PaymentStatus, PaymentMethod } from '@youpi/common';
-import { isTerminalStatus, toPublicOutcome, settlementStateFor, verifyRegisteredDeviceCredentials } from '@youpi/core';
+import { toPaise, toRupeesString, resolveRuntimeUrls, PaymentStatus, PaymentMethod } from '@akapay/common';
+import { isTerminalStatus, toPublicOutcome, settlementStateFor, verifyRegisteredDeviceCredentials } from '@akapay/core';
 import { isAdminRequest, isPaymentOwner } from '../auth-guard.js';
 import { checkUpiServerHealth, observerHealthEnforced, upiObserversAcceptingPayments } from './checkout.routes.js';
 
@@ -8,12 +8,12 @@ import { checkUpiServerHealth, observerHealthEnforced, upiObserversAcceptingPaym
  * Registers merchant-facing payment routes.
  * @param {HttpServer} server
  * @param {{
- *   merchantRepo: import('@youpi/db').MerchantRepository,
- *   accountRepo: import('@youpi/db').ReceivingAccountRepository,
- *   sessionRepo: import('@youpi/db').PaymentSessionRepository,
- *   queueEngine: import('@youpi/core').QueueEngine,
- *   timingEngine: import('@youpi/core').TimingEngine,
- *   auditRepo: import('@youpi/db').AuditLogRepository,
+ *   merchantRepo: import('@akapay/db').MerchantRepository,
+ *   accountRepo: import('@akapay/db').ReceivingAccountRepository,
+ *   sessionRepo: import('@akapay/db').PaymentSessionRepository,
+ *   queueEngine: import('@akapay/core').QueueEngine,
+ *   timingEngine: import('@akapay/core').TimingEngine,
+ *   auditRepo: import('@akapay/db').AuditLogRepository,
  *   checkoutBaseUrl: string
  * }} ctx
  */
@@ -136,7 +136,7 @@ export function registerPaymentRoutes(server, ctx) {
         HttpServer.json(res, 400, { error: 'returnUrl must use the http or https scheme.' });
         return;
       }
-      const allowedReturnOrigins = String(process.env.AKAPAY_ALLOWED_RETURN_ORIGINS || process.env.YOUPI_ALLOWED_RETURN_ORIGINS || '')
+      const allowedReturnOrigins = String(process.env.AKAPAY_ALLOWED_RETURN_ORIGINS || process.env.AKAPAY_ALLOWED_RETURN_ORIGINS || '')
         .split(/[\s,]+/).map(value => value.trim()).filter(Boolean);
       if (!allowedReturnOrigins.includes(parsedReturnUrl.origin)) {
         HttpServer.json(res, 400, { error: 'returnUrl origin is not allowlisted for this gateway.' });

@@ -1,8 +1,8 @@
 import { test, describe, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
-import { Database } from '@youpi/db';
-import { PaymentStatus, PaymentMethod } from '@youpi/common';
+import { Database } from '@akapay/db';
+import { PaymentStatus, PaymentMethod } from '@akapay/common';
 import { startServer } from '../index.js';
 import { authFetch } from '../../../../scripts/test-support.js';
 

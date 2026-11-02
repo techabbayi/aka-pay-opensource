@@ -23,7 +23,7 @@ Closes #
 ---
 
 ### Security & Invariant Checklist
-<!-- Confirm compliance with YOUPI PG V2 architectural and security invariants (see AGENTS.md) -->
+<!-- Confirm compliance with AKA PAY architectural and security invariants (see AGENTS.md) -->
 - [ ] **No Force-Success Endpoint**: Payment verification remains strictly bound to verified banking observations (SMS/Gmail).
 - [ ] **Webhook Raw Payload Integrity**: HMAC signature is computed over raw unparsed payload bytes (`X-Gateway-Signature: sha256=...`).
 - [ ] **Secret Isolation**: No private keys, database credentials, or observer tokens exposed to client scripts.

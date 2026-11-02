@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
-import { getDatabase, runMigrations, PaymentSessionRepository, ObservationRepository, SupportTicketRepository, AuditLogRepository, ReceivingAccountRepository, MerchantRepository } from '@youpi/db';
-import { AttributionEngine } from '@youpi/core';
-import { ObservationNormalizer } from '@youpi/core';
-import { PaymentStatus, ObservationAttributionStatus } from '@youpi/common';
+import { getDatabase, runMigrations, PaymentSessionRepository, ObservationRepository, SupportTicketRepository, AuditLogRepository, ReceivingAccountRepository, MerchantRepository } from '@akapay/db';
+import { AttributionEngine } from '@akapay/core';
+import { ObservationNormalizer } from '@akapay/core';
+import { PaymentStatus, ObservationAttributionStatus } from '@akapay/common';
 
 async function runPilotReadinessVerification() {
   console.log('====================================================');

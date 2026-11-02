@@ -1,4 +1,5 @@
-# YouPI-PG security & bug-fix status
+# AKA PAY — Security & Bug-Fix Status
+> **AKA PAY:** UPI & Payment Infrastructure, Also Known As. Always Connected.
 
 **Status: EXPERIMENTAL; NOT APPROVED FOR REAL-MONEY PRODUCTION.**
 Scope is limited to the fork's `security/webhook-durability-hardening` branch.

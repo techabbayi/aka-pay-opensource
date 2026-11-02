@@ -3,9 +3,9 @@ import path from 'node:path';
 import { Database } from '../packages/db/src/database.js';
 
 async function auditDatabase() {
-  console.log('=== YOUPI PG DATABASE AUDIT ===');
+  console.log('=== AKA PAY DATABASE AUDIT ===');
 
-  const prodDataDb = path.resolve('data/youpi_pg.sqlite');
+  const prodDataDb = path.resolve((fs.existsSync('data/akapay.sqlite') ? 'data/akapay.sqlite' : 'data/akapay.sqlite'));
   console.log('Production local DB path:', prodDataDb);
   console.log('Exists:', fs.existsSync(prodDataDb));
 

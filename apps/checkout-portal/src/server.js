@@ -3,8 +3,8 @@ import https from 'node:https';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { generateQrSvg, generateStandSvg, generateStandHtml, formatIndianMobile } from '@youpi/core';
-import { getInternalServiceToken, buildStandUpiUri, toPaise } from '@youpi/common';
+import { generateQrSvg, generateStandSvg, generateStandHtml, formatIndianMobile } from '@akapay/core';
+import { getInternalServiceToken, buildStandUpiUri, toPaise } from '@akapay/common';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,7 +21,7 @@ const HTML_ESCAPES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'
 
 /**
  * Origins allowed to embed the checkout page, from CHECKOUT_FRAME_ANCESTORS
- * (comma or space separated, e.g. "https://shop.example.com"). youpi.js opens the
+ * (comma or space separated, e.g. "https://shop.example.com"). akapay.js opens the
  * checkout in an iframe on the merchant's own site, which `frame-ancestors 'self'`
  * blocks whenever the store and the portal are on different origins. Anything that
  * is not a plain http(s) origin is ignored, so the CSP cannot be widened by accident.
@@ -41,11 +41,11 @@ export function frameAncestorOrigins(raw = process.env.CHECKOUT_FRAME_ANCESTORS)
 }
 
 /**
- * True for production launches. scripts/start.js sets YOUPI_MODE/NODE_ENV to
+ * True for production launches. scripts/start.js sets AKAPAY_MODE/NODE_ENV to
  * 'production'; the dev script and the test runner leave them on development/test.
  */
 export function isProductionLike(env = process.env) {
-  return env.YOUPI_MODE === 'production' || env.NODE_ENV === 'production';
+  return env.AKAPAY_MODE === 'production' || env.AKAPAY_MODE === 'production' || env.NODE_ENV === 'production';
 }
 
 /**
@@ -182,7 +182,10 @@ export class CheckoutServer {
 
     this.apiBaseUrl = options.apiBaseUrl || process.env.PAYMENT_API_URL || process.env.BASE_PAYMENT_API_URL || 'http://localhost:6100';
     this.htmlTemplatePath = path.join(__dirname, 'views', 'checkout.html');
-    this.sdkScriptPath = path.join(__dirname, 'sdk', 'youpi-checkout.js');
+    this.sdkScriptPath = path.join(__dirname, 'sdk', 'akapay.js');
+    if (!fs.existsSync(this.sdkScriptPath)) {
+      this.sdkScriptPath = path.join(__dirname, 'sdk', 'akapay-checkout.js');
+    }
     this.template = fs.readFileSync(this.htmlTemplatePath, 'utf8');
   }
 
@@ -342,14 +345,14 @@ export class CheckoutServer {
         return;
       }
 
-      // Official SDK script: GET /akapay.js, /youpi.js or /sdk/akapay-checkout.js
+      // Official SDK script: GET /akapay.js, /akapay.js or /sdk/akapay-checkout.js
       if (pathname === '/akapay.js' || pathname === '/sdk/akapay.js' || pathname === '/sdk/akapay-checkout.js' ||
-          pathname === '/youpi.js' || pathname === '/sdk/youpi.js' || pathname === '/sdk/youpi-checkout.js') {
+          pathname === '/akapay.js' || pathname === '/sdk/akapay.js' || pathname === '/sdk/akapay-checkout.js') {
         try {
           const resolvedSdkPath = fs.existsSync(path.join(__dirname, 'sdk', 'akapay.js'))
             ? path.join(__dirname, 'sdk', 'akapay.js')
-            : (fs.existsSync(path.join(__dirname, 'sdk', 'youpi.js'))
-              ? path.join(__dirname, 'sdk', 'youpi.js')
+            : (fs.existsSync(path.join(__dirname, 'sdk', 'akapay.js'))
+              ? path.join(__dirname, 'sdk', 'akapay.js')
               : this.sdkScriptPath);
           const sdkContent = fs.readFileSync(resolvedSdkPath, 'utf8');
           res.writeHead(200, {

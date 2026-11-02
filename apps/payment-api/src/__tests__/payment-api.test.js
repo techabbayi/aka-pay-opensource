@@ -2,9 +2,9 @@ import { test, describe, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
 import net from 'node:net';
-import { Database, MerchantRepository } from '@youpi/db';
+import { Database, MerchantRepository } from '@akapay/db';
 import { startServer } from '../index.js';
-import { PaymentStatus, ObserverSource, verifyHmac } from '@youpi/common';
+import { PaymentStatus, ObserverSource, verifyHmac } from '@akapay/common';
 import { authHeadersFor, merchantHeaders } from '../../../../scripts/test-support.js';
 
 /** A port that is free right now, for a server that is started just for one test. */
@@ -30,7 +30,7 @@ describe('Payment API End-to-End HTTP Integration Tests', () => {
 
   before(async () => {
     process.env.NODE_ENV = 'test';
-    process.env.YOUPI_ALLOWED_RETURN_ORIGINS = 'https://merchant.example';
+    process.env.AKAPAY_ALLOWED_RETURN_ORIGINS = 'https://merchant.example';
     testDb = new Database({ inMemory: true });
     // Use an ephemeral random port (e.g. 0 or high port 6199) to prevent collisions
     serverInstance = await startServer(6199, testDb);
@@ -1202,7 +1202,7 @@ describe('Payment API End-to-End HTTP Integration Tests', () => {
       });
       assert.equal(payWithKeyAsId.status, 400);
 
-      // 6. Create payment when developer leaves documentation placeholder YOUR_MERCHANT_KEY in data-youpi-key
+      // 6. Create payment when developer leaves documentation placeholder YOUR_MERCHANT_KEY in data-akapay-key
       const payWithPlaceholder = await request('/api/v1/payments', {
         method: 'POST',
         headers: {

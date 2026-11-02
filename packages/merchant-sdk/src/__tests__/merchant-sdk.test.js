@@ -1,9 +1,9 @@
 import { test, describe, before, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { Database, MerchantRepository } from '@youpi/db';
+import { Database, MerchantRepository } from '@akapay/db';
 import { startServer as startPaymentApi } from '../../../../apps/payment-api/src/index.js';
-import { YoupiPaymentClient } from '../index.js';
-import { generateHmac } from '@youpi/common';
+import { AkaPayClient, AkaPayPaymentClient } from '../index.js';
+import { generateHmac } from '@akapay/common';
 
 describe('Merchant SDK Integration Tests', () => {
   let apiInstance;
@@ -13,7 +13,10 @@ describe('Merchant SDK Integration Tests', () => {
   const merchantApiKey = 'mk_live_sdk_api_key_not_the_webhook_secret_9988';
 
   before(async () => {
-    process.env.YOUPI_ALLOWED_RETURN_ORIGINS = 'https://store.example';
+    process.env.NODE_ENV = 'test';
+    process.env.AKAPAY_MODE = 'localhost';
+    process.env.AKAPAY_ALLOWED_RETURN_ORIGINS = 'https://store.example';
+    process.env.AKAPAY_ALLOWED_RETURN_ORIGINS = 'https://store.example';
     testDb = new Database({ inMemory: true });
     apiInstance = await startPaymentApi(6195, testDb);
 
@@ -24,7 +27,7 @@ describe('Merchant SDK Integration Tests', () => {
     ]);
     new MerchantRepository(testDb).update('00000000-0000-0000-0000-000000000001', { apiKey: merchantApiKey });
 
-    client = new YoupiPaymentClient({
+    client = new AkaPayClient({
       apiUrl: `http://localhost:${apiInstance.port}`,
       merchantId: '00000000-0000-0000-0000-000000000001',
       apiKey: merchantApiKey,

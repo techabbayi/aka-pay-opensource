@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { AdminServer } from './server.js';
-import { getDatabase, runMigrations, ensureDatabaseInitialized } from '@youpi/db';
+import { getDatabase, runMigrations, ensureDatabaseInitialized } from '@akapay/db';
 
 export function startAdminServer(port = null, options = {}) {
   const finalPort = port || Number(process.env.MERCHANT_ADMIN_PORT || 6001);
@@ -15,7 +15,7 @@ export function startAdminServer(port = null, options = {}) {
   // Bind to loopback unless explicitly overridden. These services hold admin/observer
   // credentials and are reached through a local Cloudflare Tunnel, so exposing every
   // network interface is unnecessary.
-  const bindHost = process.env.YOUPI_BIND_HOST || '127.0.0.1';
+  const bindHost = process.env.AKAPAY_BIND_HOST || process.env.AKAPAY_BIND_HOST || '127.0.0.1';
 
   return new Promise(resolve => {
     const instance = rawServer.listen(finalPort, bindHost, () => {

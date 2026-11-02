@@ -14,13 +14,13 @@ The full financial lifecycle for Mitto Pay payments adheres to this strict seque
 ```
 [Payment Creation] -> [PaymentOrder: PENDING]
         |
-[Customer Checkout] -> [YouPI Session: INITIATED -> ACTIVE]
+[Customer Checkout] -> [AKA PAY Session: INITIATED -> ACTIVE]
         |
 [Bank Confirmation] -> [Channel 1: SMS Observer -> PROCESSING (Level 1)]
         |
 [Dual Confirmation] -> [Channel 2: Gmail API / WhatsApp -> SUCCESS (Level 2)]
         |
-[Authenticated Webhook] -> [POST /api/payments/youpi/webhook (HMAC-SHA256 verified)]
+[Authenticated Webhook] -> [POST /api/payments/AKA PAY/webhook (HMAC-SHA256 verified)]
         |
 [Atomic DB Transaction]:
    1. PaymentTransaction created (status: CONFIRMED, webhookEventId deduplicated)

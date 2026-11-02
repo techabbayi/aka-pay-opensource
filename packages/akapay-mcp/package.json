@@ -1,0 +1,27 @@
+{
+  "name": "@akapay/mcp",
+  "version": "1.0.0",
+  "description": "Model Context Protocol (MCP) server for AKA PAY payment gateway debugging, slot inspection, and transaction simulation",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "bin": {
+    "akapay-mcp": "./src/index.js"
+  },
+  "dependencies": {
+    "@akapay/common": "*"
+  },
+  "author": {
+    "name": "techabbayi",
+    "email": "srssltd@gmail.com",
+    "url": "https://github.com/techabbayi"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/techabbayi/aka-pay-opensource.git",
+    "directory": "packages/akapay-mcp"
+  }
+}

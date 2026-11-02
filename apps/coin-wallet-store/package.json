@@ -1,15 +1,26 @@
 {
   "name": "coin-wallet-store",
   "version": "1.0.0",
-  "description": "YOUPI Store — Official Gateway Showcase & E-Commerce Demo Store integrated with YOUPI PG",
+  "description": "AKA PAY Store — Official Gateway Showcase & E-Commerce Demo Store integrated with AKA PAY",
   "type": "module",
   "main": "./src/index.js",
   "scripts": {
     "start": "node src/index.js",
     "test": "node --test src/__tests__/**/*.test.js"
   },
+  "author": {
+    "name": "techabbayi",
+    "email": "srssltd@gmail.com",
+    "url": "https://github.com/techabbayi"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/techabbayi/aka-pay-opensource.git",
+    "directory": "apps/coin-wallet-store"
+  },
   "dependencies": {
-    "@youpi/common": "*",
-    "@youpi/merchant-sdk": "*"
+    "@akapay/common": "*",
+    "@akapay/merchant-sdk": "*"
   }
 }

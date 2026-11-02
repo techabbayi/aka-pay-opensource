@@ -4,7 +4,7 @@ import http from 'node:http';
 
 async function runStagingVerification() {
   console.log('====================================================');
-  console.log('🔍 YouPI Gate 1 — Tunnel Staging Verification Suite');
+  console.log('🔍 AKA PAY Gate 1 — Tunnel Staging Verification Suite');
   console.log('====================================================');
 
   const CHECKOUT_BASE = 'http://localhost:7000';

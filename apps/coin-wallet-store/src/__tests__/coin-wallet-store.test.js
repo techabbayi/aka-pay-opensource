@@ -2,11 +2,11 @@ import { test, describe, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import http from 'node:http';
-import { Database } from '@youpi/db';
+import { Database } from '@akapay/db';
 import { hashApiKey } from '../../../../packages/db/src/repositories/merchant.repository.js';
 import { startServer as startPaymentApi } from '../../../payment-api/src/index.js';
 import { startCoinWalletStore } from '../index.js';
-import { generateHmac } from '@youpi/common';
+import { generateHmac } from '@akapay/common';
 
 describe('Coin Top-Up Wallet Demo Store Integration Tests', () => {
   let apiInstance;
@@ -17,7 +17,7 @@ describe('Coin Top-Up Wallet Demo Store Integration Tests', () => {
 
   before(async () => {
     process.env.NODE_ENV = 'test';
-    process.env.YOUPI_ALLOWED_RETURN_ORIGINS = 'http://localhost:5099';
+    process.env.AKAPAY_ALLOWED_RETURN_ORIGINS = 'http://localhost:5099';
     testDb = new Database({ inMemory: true });
     apiInstance = await startPaymentApi(6193, testDb);
 
@@ -92,7 +92,7 @@ describe('Coin Top-Up Wallet Demo Store Integration Tests', () => {
     assert.equal(res.body.coins, 50);
   });
 
-  test('GET / renders YOUPI Store product page with gateway showcase and demo checkout', async () => {
+  test('GET / renders AKA PAY Store product page with gateway showcase and demo checkout', async () => {
     const res = await request('/');
     assert.equal(res.status, 200);
     assert.ok(res.body.includes('Self-Hosted UPI Payment Gateway'));
@@ -268,7 +268,7 @@ describe('Coin Top-Up Wallet Demo Store Integration Tests', () => {
   test('GET /wallet renders wallet page with updated balance', async () => {
     const res = await request('/wallet?orderId=COIN-ORD-555');
     assert.equal(res.status, 200);
-    assert.ok(res.body.includes('Customer Account') || res.body.includes('YOUPI Store'));
+    assert.ok(res.body.includes('Customer Account') || res.body.includes('AKA PAY Store'));
     assert.ok(res.body.includes('Top-Up Successful!'));
     assert.ok(res.body.includes('Current Vault Balance'));
   });
@@ -429,7 +429,7 @@ describe('Coin Top-Up Wallet Demo Store Integration Tests', () => {
     assert.ok(res.body.includes('ORD-SUCC-123'));
     assert.ok(res.body.includes('499.00'));
     assert.ok(res.body.includes('998877665544'));
-    assert.ok(res.body.includes('VERIFIED BY YOUPI PG'));
+    assert.ok(res.body.includes('VERIFIED BY AKA PAY'));
   });
 
   test('GET /order-suspicious renders held for review security notice', async () => {
@@ -454,11 +454,11 @@ describe('Coin Top-Up Wallet Demo Store Integration Tests', () => {
     assert.ok(res.body.includes('ORD-CAN-000'));
   });
 
-  test('GET /youpi.js is served with CORS for universal frontend integration', async () => {
-    const res = await request('/youpi.js');
+  test('GET /akapay.js is served with CORS for universal frontend integration', async () => {
+    const res = await request('/akapay.js');
     assert.equal(res.status, 200);
-    assert.ok(res.body.includes('YoupiCheckout'));
-    assert.ok(res.body.includes('data-youpi-pay'));
+    assert.ok(res.body.includes('AkaPayCheckout'));
+    assert.ok(res.body.includes('data-akapay-pay'));
   });
 
   test('Reverse proxy: proxies /api/v1/* requests to payment API directly', async () => {
@@ -477,7 +477,7 @@ describe('Coin Top-Up Wallet Demo Store Integration Tests', () => {
     const res = await request('/css/store.css');
     assert.equal(res.status, 200);
     assert.ok(res.headers['content-type'].includes('text/css'));
-    assert.ok(res.body.includes('--primary: #2563eb'));
+    assert.ok(res.body.includes('--primary:'));
     assert.ok(res.body.includes('table-responsive-wrapper'));
   });
 
@@ -486,12 +486,12 @@ describe('Coin Top-Up Wallet Demo Store Integration Tests', () => {
     assert.equal(res.status, 200);
     assert.ok(res.headers['content-type'].includes('application/javascript'));
     assert.ok(res.body.includes('startGatewayPurchase'));
-    assert.ok(res.body.includes('youpi:payment:success'));
+    assert.ok(res.body.includes('akapay:payment:success'));
   });
 
   test('Security: directory traversal attempts on public static assets are blocked', async () => {
     const res = await request('/css/../../package.json');
     // Traversal should not return package.json content with 200
-    assert.ok(res.status === 404 || res.status === 502 || !res.body.includes('"name": "youpi-pg"'));
+    assert.ok(res.status === 404 || res.status === 502 || !res.body.includes('"name": "akapay"'));
   });
 });

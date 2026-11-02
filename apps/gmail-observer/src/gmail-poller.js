@@ -1,8 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { PaymentObserverClient } from '@youpi/observer-sdk';
-import { getObserverToken } from '@youpi/common';
+import { PaymentObserverClient } from '@akapay/observer-sdk';
+import { getObserverToken } from '@akapay/common';
 import { BankEmailParser, redactSensitiveData, isAuthorizedBankEmailSender } from './parser.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -62,7 +62,7 @@ export class GmailPoller {
    * }} options
    */
   constructor(options = {}) {
-    const isLocalhost = process.env.YOUPI_MODE === 'localhost' || !process.env.YOUPI_MODE;
+    const isLocalhost = process.env.AKAPAY_MODE === 'localhost' || !process.env.AKAPAY_MODE;
     this.apiBaseUrl = options.apiBaseUrl || (isLocalhost ? `http://127.0.0.1:${process.env.PAYMENT_API_PORT || 6100}` : (process.env.BASE_PAYMENT_API_URL || 'http://localhost:6100'));
     this.receivingAccountId = options.receivingAccountId || process.env.RECEIVING_ACCOUNT_ID || null;
     this.pollIntervalMs = options.pollIntervalMs || Number(process.env.GMAIL_POLL_INTERVAL_MS || 2000);

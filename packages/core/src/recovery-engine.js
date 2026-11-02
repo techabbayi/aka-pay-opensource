@@ -1,15 +1,15 @@
-import { PaymentStatus } from '@youpi/common';
+import { PaymentStatus } from '@akapay/common';
 
 export class RecoveryEngine {
   /**
    * @param {{
-   *   db: import('@youpi/db').Database,
-   *   sessionRepo: import('@youpi/db').PaymentSessionRepository,
-   *   accountRepo: import('@youpi/db').ReceivingAccountRepository,
+   *   db: import('@akapay/db').Database,
+   *   sessionRepo: import('@akapay/db').PaymentSessionRepository,
+   *   accountRepo: import('@akapay/db').ReceivingAccountRepository,
    *   queueEngine: import('./queue-engine.js').QueueEngine,
    *   timingEngine: import('./timing-engine.js').TimingEngine,
    *   webhookEngine?: import('./webhook-engine.js').WebhookEngine,
-   *   auditRepo?: import('@youpi/db').AuditLogRepository,
+   *   auditRepo?: import('@akapay/db').AuditLogRepository,
    *   eventEmitter?: { emit: (event: string, payload: any) => void }
    * }} options
    */

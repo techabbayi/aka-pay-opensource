@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { Database, runMigrations, PaymentSessionRepository } from '@youpi/db';
+import { Database, runMigrations, PaymentSessionRepository } from '@akapay/db';
 import { TimingEngine } from '../timing-engine.js';
 
 test('failed cancel transaction preserves an actual ACTIVE session and deadline', () => {

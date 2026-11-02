@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import crypto from 'node:crypto';
-import { getCoinStoreWebhookSecret, LEGACY_DEFAULT_WEBHOOK_SECRET, resolveDefaultBranding } from '@youpi/common';
+import { getCoinStoreWebhookSecret, LEGACY_DEFAULT_WEBHOOK_SECRET, resolveDefaultBranding } from '@akapay/common';
 import { getDatabase } from './database.js';
 import { MerchantRepository } from './repositories/merchant.repository.js';
 import { ReceivingAccountRepository } from './repositories/receiving-account.repository.js';
@@ -177,9 +177,9 @@ export function runMigrations(targetDb) {
   let defaultMerchant;
   if (existing.length === 0) {
     const branding = resolveDefaultBranding();
-    const businessName = process.env.DEFAULT_MERCHANT_NAME || 'YOUPI Demo Store';
+    const businessName = process.env.DEFAULT_MERCHANT_NAME || 'AKA PAY Demo Store';
     const slug = process.env.DEFAULT_MERCHANT_SLUG || 'demo-store';
-    const contactEmail = process.env.DEFAULT_SUPPORT_EMAIL || 'merchant@youpi.local';
+    const contactEmail = process.env.DEFAULT_SUPPORT_EMAIL || 'merchant@akapay.local';
     const contactPhone = process.env.DEFAULT_SUPPORT_PHONE || '9876543210';
 
     defaultMerchant = merchantRepo.create({
@@ -229,14 +229,14 @@ export function runMigrations(targetDb) {
   // Previously this unconditionally created a customer with a real name, phone number and
   // email, and flagged the phone as verified — shipping someone's PII (and a pre-authorised
   // OTP login identity) into every merchant deployment.
-  if (process.env.YOUPI_SEED_DEMO_CUSTOMER === 'true') {
+  if (process.env.AKAPAY_SEED_DEMO_CUSTOMER === 'true' || process.env.AKAPAY_SEED_DEMO_CUSTOMER === 'true') {
     const customerRepo = new CustomerRepository(db);
     const demoMobile = '9000000000';
     if (!customerRepo.findByMobile(demoMobile)) {
       customerRepo.create({
         id: '00000000-0000-0000-0000-000000000002',
         name: 'Demo Customer',
-        email: 'demo-customer@youpi.local',
+        email: 'demo-customer@akapay.local',
         mobileNumber: demoMobile,
         isPhoneVerified: false
       });
@@ -266,7 +266,7 @@ export function reinitializeCustomerIdentity(targetDb) {
 
 // Auto-run if executed directly as script
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  console.log('Running YOUPI PG database migrations...');
+  console.log('Running AKA PAY database migrations...');
   const result = runMigrations();
   console.log(`Migration completed successfully. Default merchant: ${result.defaultMerchant.businessName} (${result.defaultMerchant.id})`);
 }

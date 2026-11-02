@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import { hashPassword, verifyPassword, normalizeEmail, normalizeMobile, isValidEmail, isValidMobile, isValidPassword, safeEqual, encryptAtRest, decryptAtRest } from '@youpi/common';
+import { hashPassword, verifyPassword, normalizeEmail, normalizeMobile, isValidEmail, isValidMobile, isValidPassword, safeEqual, encryptAtRest, decryptAtRest } from '@akapay/common';
 
 /** Wrong guesses tolerated per issued OTP before the challenge is burned. */
 const OTP_MAX_ATTEMPTS = 5;
@@ -40,7 +40,7 @@ export class CustomerRepository {
       throw new Error('Invalid mobile number format (must be a valid 10-digit number).');
     }
     if (!email) {
-      email = `${mobileNumber}@customer.youpi.local`;
+      email = `${mobileNumber}@customer.akapay.local`;
     } else if (!isValidEmail(email)) {
       throw new Error('Invalid email address format.');
     }

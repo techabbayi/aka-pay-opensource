@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import { blindIndex } from '@youpi/common';
+import { blindIndex } from '@akapay/common';
 
 /** Namespace so session-token and device-token digests can never collide. */
 const INDEX_NS = 'csess';

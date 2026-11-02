@@ -1,4 +1,4 @@
-import { buildStandUpiUri, isValidVpa } from '@youpi/common';
+import { buildStandUpiUri, isValidVpa } from '@akapay/common';
 import { QrCode } from './qr.js';
 
 /**
@@ -461,7 +461,7 @@ export function generateStandSvg(options) {
     <rect x="-480" y="-75" width="960" height="150" rx="24" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" filter="url(#standCardShadow)"/>
     <text text-anchor="middle" y="-24" font-family="system-ui, -apple-system, sans-serif" font-size="34" font-weight="800" fill="#0f172a">UPI ID: ${escapeXml(payeeVpa)}</text>
     ${phonePeMobile ? `<text text-anchor="middle" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="700" fill="${primaryColor}">PhonePe Number: ${escapeXml(phonePeMobile)}</text>` : ''}
-    <text text-anchor="middle" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="500" fill="#94a3b8">Instant banking observation via YouPI PG Network</text>
+    <text text-anchor="middle" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="500" fill="#94a3b8">Instant banking observation via AKA PAY Network</text>
   </g>
 
   <!-- Footer Bottom Bar -->

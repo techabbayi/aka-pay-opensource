@@ -1,4 +1,4 @@
-package com.youpi.observer;
+package com.akapay.observer;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -20,7 +20,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class ApiClient {
     private static final String TAG = "MittoPayApiClient";
     private static final String PREFS_NAME = "mittopay_gateway_prefs";
-    private static final String LEGACY_PREFS_NAME = "youpi_gateway_prefs";
+    private static final String LEGACY_PREFS_NAME = "akapay_gateway_prefs";
     private final SharedPreferences prefs;
     private final Context context;
 

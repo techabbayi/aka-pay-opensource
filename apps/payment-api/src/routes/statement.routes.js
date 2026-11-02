@@ -1,5 +1,5 @@
 import { HttpServer } from '../server.js';
-import { StatementReconciliation } from '@youpi/core';
+import { StatementReconciliation } from '@akapay/core';
 
 /**
  * Operator import of a downloaded bank statement. This is not a bank API

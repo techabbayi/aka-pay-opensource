@@ -1,9 +1,9 @@
 /**
- * YOUPI PG V2 — Safe Package Synchronization Script
- * Synchronizes from the master repo (repo_clone) to the clean distributable package (YOUPI PG PACKAGE).
+ * AKA PAY — Safe Package Synchronization Script
+ * Synchronizes from the master repo to the clean distributable package.
  * 
  * Rules:
- * - repo_clone is the sole Source of Truth.
+ * - Master repo is the sole Source of Truth.
  * - Strips all sensitive, runtime, cache, and state files (.env, active DB, node_modules, sessions, screenshots).
  * - Copies clean production code, SDKs, demo store, outcome pages, openapi.yaml, and documentation.
  * - Preserves existing application architecture without modification.
@@ -12,16 +12,16 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
-// Root master directory (repo_clone)
+// Root master directory
 const SOURCE_DIR = path.resolve(__dirname, '..');
 
-// Default target directory: ../YOUPI PG PACKAGE
+// Default target directory: ../AKA PAY PACKAGE
 const TARGET_DIR = process.env.TARGET_PACKAGE_DIR || 
   process.argv[2] || 
-  path.resolve(SOURCE_DIR, '..', 'YOUPI PG PACKAGE');
+  path.resolve(SOURCE_DIR, '..', 'AKA PAY PACKAGE');
 
 console.log('============================================================');
-console.log('📦 YOUPI PG V2 — PACKAGE SYNCHRONIZATION');
+console.log('📦 AKA PAY — PACKAGE SYNCHRONIZATION');
 console.log('============================================================');
 console.log(`[Source Master] : ${SOURCE_DIR}`);
 console.log(`[Target Package]: ${TARGET_DIR}`);
@@ -208,7 +208,7 @@ console.log('\n[→] Verifying package integrity and sanitation...');
 const forbiddenItems = [
   '.env',
   '.env.production',
-  'data/youpi_pg.sqlite',
+  (fs.existsSync('data/akapay.sqlite') ? 'data/akapay.sqlite' : 'data/akapay.sqlite'),
   'berrysdk.db',
   '.berry-sessions',
   '.claude',
@@ -233,8 +233,8 @@ const requiredItems = [
   'README.md',
   'docs/DEVELOPER_INTEGRATION.md',
   'docs/DEPLOYMENT.md',
-  'packages/merchant-sdk/src/youpi.js',
-  'apps/checkout-portal/src/sdk/youpi.js',
+  'packages/merchant-sdk/src/akapay.js',
+  'apps/checkout-portal/src/sdk/akapay.js',
   'apps/coin-wallet-store/src/server.js',
   'apps/coin-wallet-store/src/order-success.html',
   'apps/coin-wallet-store/src/order-failed.html',

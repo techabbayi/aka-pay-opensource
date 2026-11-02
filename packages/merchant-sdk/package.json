@@ -1,13 +1,27 @@
 {
-  "name": "@youpi/merchant-sdk",
+  "name": "@akapay/merchant-sdk",
   "version": "1.0.0",
-  "description": "Developer SDK and client library for integrating with YOUPI PG",
+  "description": "Developer SDK and client library for integrating with AKA PAY",
   "type": "module",
   "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
   "scripts": {
     "test": "node --test src/__tests__/**/*.test.js"
   },
   "dependencies": {
-    "@youpi/common": "*"
+    "@akapay/common": "*"
+  },
+  "author": {
+    "name": "techabbayi",
+    "email": "srssltd@gmail.com",
+    "url": "https://github.com/techabbayi"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/techabbayi/aka-pay-opensource.git",
+    "directory": "packages/merchant-sdk"
   }
 }

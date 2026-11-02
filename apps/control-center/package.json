@@ -1,14 +1,25 @@
 {
   "name": "control-center",
   "version": "1.0.0",
-  "description": "Native Host Process Supervisor and Operational Control for YOUPI PG",
+  "description": "Native Host Process Supervisor and Operational Control for AKA PAY",
   "type": "module",
   "main": "./src/index.js",
   "scripts": {
     "start": "node src/index.js",
     "test": "node --test src/__tests__/**/*.test.js"
   },
+  "author": {
+    "name": "techabbayi",
+    "email": "srssltd@gmail.com",
+    "url": "https://github.com/techabbayi"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/techabbayi/aka-pay-opensource.git",
+    "directory": "apps/control-center"
+  },
   "dependencies": {
-    "@youpi/common": "*"
+    "@akapay/common": "*"
   }
 }

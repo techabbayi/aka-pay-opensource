@@ -18,7 +18,7 @@
   "vmEnvironment": {
     "host": "130.210.28.51",
     "currentDeployedCommit": "560037147b5dcdc3620ee4efa40c5fff2496a418+gate4-gmail-observer",
-    "knownGoodBackup": "/opt/youpi-pg-backup-pre-gate4"
+    "knownGoodBackup": "/opt/aka-pay-backup-pre-gate4"
   },
   "securityPolicies": {
     "canaryMode": "FAIL_CLOSED",
@@ -26,7 +26,7 @@
     "approvedStagingMerchantUid": "VVANFTTKRA",
     "vvisaIntegration": {
       "defaultGateway": "ZOHO",
-      "enableYoupiUpi": false,
+      "enableAKA PAYUpi": false,
       "pilotAgencyUid": "VVISA-INTERNAL-OPS"
     }
   },

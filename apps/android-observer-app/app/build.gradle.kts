@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.youpi.observer"
+    namespace = "com.akapay.observer"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.youpi.observer"
+        applicationId = "com.akapay.observer"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

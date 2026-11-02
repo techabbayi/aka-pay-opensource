@@ -6,6 +6,16 @@ info:
     Official public integration API and webhook contract for AKA PAY:
     UPI & Payment Infrastructure, Also Known As. Always Connected.
     Allows merchants to create payment sessions, query verification status, and receive authoritative HMAC-SHA256 signed webhooks.
+  contact:
+    name: techabbayi
+    email: srssltd@gmail.com
+    url: https://github.com/techabbayi
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+externalDocs:
+  description: Open-Source Repository & Documentation
+  url: https://github.com/techabbayi/aka-pay-opensource
 
 servers:
   - url: http://localhost:7000
@@ -21,7 +31,7 @@ paths:
       summary: Create Payment Session / Order
       description: |
         Initializes a new payment session. Returns the payment identifier and the checkoutUrl
-        to be loaded inside the YOUPI modal iframe or standalone browser window.
+        to be loaded inside the AKA PAY modal iframe or standalone browser window.
       operationId: createPayment
       parameters:
         - name: X-Merchant-Id
@@ -179,7 +189,7 @@ components:
           example: "https://mystore.example/order-success?orderId=ORDER-1001"
         metadata:
           type: object
-          description: Unmodified custom key-value pairs preserved by YOUPI PG.
+          description: Unmodified custom key-value pairs preserved by AKA PAY.
           additionalProperties: true
           example:
             product_id: "TSHIRT-01"

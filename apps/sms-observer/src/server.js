@@ -1,5 +1,5 @@
 import http from 'node:http';
-import { hasBearer, getObserverToken, getAdminToken } from '@youpi/common';
+import { hasBearer, getObserverToken, getAdminToken } from '@akapay/common';
 import { SmsObserverService } from './sms-service.js';
 import { GoogleMessagesAutomator } from './browser-automator.js';
 

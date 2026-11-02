@@ -2,11 +2,11 @@ import { test, describe, before, after, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import { Database } from '@youpi/db';
+import { Database } from '@akapay/db';
 import { startServer as startPaymentApi } from '../../../payment-api/src/index.js';
 import { startGmailObserver } from '../index.js';
 import { BankEmailParser, redactSensitiveData, isAuthorizedBankEmailSender } from '../parser.js';
-import { PaymentStatus } from '@youpi/common';
+import { PaymentStatus } from '@akapay/common';
 import { TEST_ADMIN_TOKEN } from '../../../../scripts/test-support.js';
 
 describe('Gmail Bank Alert Security & Verification Suite', () => {

@@ -23,7 +23,8 @@ local.properties
 **/captures/
 *.apk
 *.aar
-!apps/android-observer-app/youpi-sms-gateway.apk
+!apps/android-observer-app/akapay-observer.apk
+!apps/android-observer-app/akapay-observer.apk
 
 # Environment and Secrets
 .env
@@ -55,12 +56,15 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# OS / Editor Artifacts
+# OS / Editor / AI Agent Artifacts
 .DS_Store
 Thumbs.db
+.agents/
+.gemini/
 .claude/
 .impeccable/
 .system_generated/
+.gitleaks.toml
 *.tmp
 *.temp
 \# File Tree*

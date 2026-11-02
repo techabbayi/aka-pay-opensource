@@ -1,5 +1,5 @@
 # ==============================================================================
-# YOUPI PG V2 - Automated Dependency & Security Updates via GitHub Dependabot
+# AKA PAY - Automated Dependency & Security Updates via GitHub Dependabot
 # Keeps npm packages and GitHub Actions versions secure with grouped PRs
 # ==============================================================================
 version: 2

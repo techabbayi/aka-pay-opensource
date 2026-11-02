@@ -1,4 +1,4 @@
-import { toPaise } from '@youpi/common';
+import { toPaise } from '@akapay/common';
 
 /**
  * List of recognized and trusted Indian commercial bank email domains.
@@ -43,7 +43,7 @@ export function isAuthorizedBankEmailSender(sender) {
   if (!sender || typeof sender !== 'string') return false;
   const match = sender.match(/<([^>]+)>/);
   const cleanEmail = (match ? match[1] : sender).trim().toLowerCase();
-  if (cleanEmail === 'test' || cleanEmail.endsWith('.youpi.local') || cleanEmail === 'gmail-browser-automator') {
+  if (cleanEmail === 'test' || cleanEmail.endsWith('.akapay.local') || cleanEmail.endsWith('.akapay.local') || cleanEmail === 'gmail-browser-automator') {
     return true;
   }
   const domain = cleanEmail.includes('@') ? cleanEmail.split('@')[1] : cleanEmail;

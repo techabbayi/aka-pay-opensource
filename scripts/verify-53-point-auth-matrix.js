@@ -12,7 +12,7 @@ import { QueueEngine } from '../packages/core/src/queue-engine.js';
 import { TimingEngine } from '../packages/core/src/timing-engine.js';
 import { AttributionEngine } from '../packages/core/src/attribution-engine.js';
 import { WebhookEngine } from '../packages/core/src/webhook-engine.js';
-import { generateQrSvg } from '@youpi/core';
+import { generateQrSvg } from '@akapay/core';
 import {
   buildUpiUri,
   buildUpiIntentUri,
@@ -29,7 +29,7 @@ import {
 } from '../packages/common/src/index.js';
 import { startServer as startPaymentApi } from '../apps/payment-api/src/index.js';
 import { CoinWalletStoreServer } from '../apps/coin-wallet-store/src/server.js';
-import { YoupiPaymentClient } from '../packages/merchant-sdk/src/client.js';
+import { AkaPayClient } from '../packages/merchant-sdk/src/client.js';
 
 async function run53PointMatrix() {
   console.log('============================================================');
@@ -269,7 +269,7 @@ async function run53PointMatrix() {
 
     // 13. Payment session does NOT need to be recreated just because page refreshed
     console.log('[Test 13] Payment session does not need recreation on page refresh...');
-    const paymentClient = new YoupiPaymentClient({
+    const paymentClient = new AkaPayClient({
       apiUrl: apiBase,
       merchantId: merchant.id,
       webhookSecret: merchant.webhookSecret

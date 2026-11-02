@@ -1,7 +1,8 @@
 # Merchant Integration & Webhook Guide
+> **AKA PAY** — UPI & Payment Infrastructure, Also Known As. Always Connected.
 
 ## 1. Overview
-The YOUPI PG public contract is designed to be minimal and robust. Merchant systems do not need to understand queue mechanics, five-minute timers, 30-second verification windows, or multi-channel observation.
+The AKA PAY public contract is designed to be minimal and robust. Merchant systems do not need to understand queue mechanics, five-minute timers, 30-second verification windows, or multi-channel observation.
 
 An observer match is not a bank settlement. UPI alerts move a session to `OBSERVED_SUCCESS` with `settlementState: NOT_RECONCILED`. `RECONCILED` is emitted only after an admin imports a bank-statement CSV and one line matches that session on receiving account, amount in paise, and 12-digit reference. There is no bank API and no scheduled pull. Do not fulfill a UPI order on `SUCCESS` or `OBSERVED_SUCCESS`.
 
@@ -20,18 +21,18 @@ Webhook crash recovery queues each new dispatchable outcome in the same SQLite t
 
 ---
 
-## 2. Using `@youpi/merchant-sdk`
+## 2. Using `@akapay/merchant-sdk`
 
 ### Installation
 ```bash
-npm install @youpi/merchant-sdk
+npm install @akapay/merchant-sdk
 ```
 
 ### Initialize Client
 ```javascript
-import { YoupiPaymentClient } from '@youpi/merchant-sdk';
+import { AkaPayPaymentClient } from '@akapay/merchant-sdk';
 
-const client = new YoupiPaymentClient({
+const client = new AkaPayPaymentClient({
   apiUrl: 'https://pay.yourbusiness.com',
   merchantId: 'your-merchant-uuid',
   webhookSecret: 'your-webhook-secret-key'

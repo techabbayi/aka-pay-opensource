@@ -4,8 +4,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { DatabaseSync } from 'node:sqlite';
-import { YoupiPaymentClient } from '@youpi/merchant-sdk';
-import { getCoinStoreWebhookSecret } from '@youpi/common';
+import { AkaPayClient } from '@akapay/merchant-sdk';
+import { getCoinStoreWebhookSecret } from '@akapay/common';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -128,7 +128,8 @@ export class CoinWalletStoreServer {
         : path.resolve(__dirname, '../../../data/coin-wallet-fulfillment.sqlite'));
     this.openFulfillmentLedger();
 
-    this.paymentClient = new YoupiPaymentClient({
+    const ClientClass = AkaPayClient || AkaPayClient;
+    this.paymentClient = new ClientClass({
       apiUrl: this.gatewayApiUrl,
       merchantId: this.merchantId,
       webhookSecret: this.webhookSecret
@@ -299,11 +300,11 @@ export class CoinWalletStoreServer {
         return;
       }
 
-      // GET /akapay.js or /youpi.js (Universal Frontend Integration Script)
-      if (pathname === '/akapay.js' || pathname === '/sdk/akapay.js' || pathname === '/youpi.js' || pathname === '/sdk/youpi-checkout.js' || pathname === '/sdk/youpi.js') {
+      // GET /akapay.js or /akapay.js (Universal Frontend Integration Script)
+      if (pathname === '/akapay.js' || pathname === '/sdk/akapay.js' || pathname === '/akapay.js' || pathname === '/sdk/akapay-checkout.js' || pathname === '/sdk/akapay.js') {
         const sdkPath = fs.existsSync(path.resolve(__dirname, '../../checkout-portal/src/sdk/akapay.js'))
           ? path.resolve(__dirname, '../../checkout-portal/src/sdk/akapay.js')
-          : path.resolve(__dirname, '../../checkout-portal/src/sdk/youpi.js');
+          : path.resolve(__dirname, '../../checkout-portal/src/sdk/akapay.js');
         if (fs.existsSync(sdkPath)) {
           res.writeHead(200, {
             'Content-Type': 'application/javascript; charset=utf-8',
@@ -577,7 +578,7 @@ export class CoinWalletStoreServer {
             const amountPaise = Math.round(price * 100);
             const packName = sanitizePackName(data.packName || data.productName);
 
-            // Call YOUPI Payment Gateway via SDK
+            // Call AKA PAY Gateway via SDK
             const payment = await this.paymentClient.createPayment({
               orderId,
               amount: amountStr,
@@ -706,7 +707,7 @@ export class CoinWalletStoreServer {
         return;
       }
 
-      // POST /api/webhook or /webhook (Signed webhook listener from YOUPI PG)
+      // POST /api/webhook or /webhook (Signed webhook listener from AKA PAY Gateway)
       if ((pathname === '/api/webhook' || pathname === '/webhook') && method === 'POST') {
         let rawBody = '';
         let bodyTooLarge = false;

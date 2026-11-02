@@ -1,6 +1,6 @@
 # Custom Payment QR Code Stand & Soundbox Service Guide
 
-This guide provides the complete architectural, operational, and integration blueprint for delivering a customized physical and digital payment QR code stand service to merchants, using **YOUPI PG V2** as the underlying zero-fee payment infrastructure.
+This guide provides the complete architectural, operational, and integration blueprint for delivering a customized physical and digital payment QR code stand service to merchants, using **AKA PAY** as the underlying zero-fee payment infrastructure.
 
 ---
 
@@ -25,7 +25,7 @@ When customers attempt to pay using an image or screenshot saved in their phone'
 
 ## 2. Solution Architecture
 
-YOUPI PG provides three synchronized layers to deliver a reliable, enterprise-grade payment stand service:
+AKA PAY provides three synchronized layers to deliver a reliable, enterprise-grade payment stand service:
 
 ```
   ┌────────────────────────────────────────────────────────────────────────┐
@@ -49,7 +49,7 @@ YOUPI PG provides three synchronized layers to deliver a reliable, enterprise-gr
   ├────────────────────────────────────────────────────────────────────────┤
   │ 1. PhonePe Push Notification: "Received ₹3,500 on PhonePe from ..."    │
   │ 2. Bank Credit SMS: "A/c *1234 credited with INR 3,500.00 ..."         │
-  │ 3. YouPI Android Observer App (com.youpi.observer) parses amount & UTR │
+  │ 3. AKA PAY Android Observer App (com.AKA PAY.observer) parses amount & UTR │
   │ 4. HMAC-SHA256 signed event dispatched to Payment Core REST API        │
   └─────────────────┬──────────────────────────────────────────────────────┘
                     │
@@ -84,7 +84,7 @@ To configure the payment stand for your customer, collect:
 
 ## 4. Physical Stand Fabrication & Printing Specifications
 
-YOUPI PG generates production-ready, resolution-independent vector SVGs and print-calibrated HTML documents.
+AKA PAY generates production-ready, resolution-independent vector SVGs and print-calibrated HTML documents.
 
 ### Recommended Dimensions & Acrylic Formats
 | Format Name | Physical Dimensions | Aspect Ratio | Target Acrylic Holder |
@@ -129,7 +129,7 @@ For stores utilizing a tablet, spare Android smartphone, iPad, or customer-facin
 
 To ensure incoming PhonePe payments are recorded and confirmed automatically:
 
-1. Download the certified APK: `apps/android-observer-app/youpi-sms-gateway.apk`.
+1. Download the certified APK: `apps/android-observer-app/AKA PAY-sms-gateway.apk`.
 2. Install it on the merchant's Android phone (the device with the PhonePe registered SIM).
 3. Open the app and grant:
    - **Notification Listener Permission** (allows capturing PhonePe app push alerts).

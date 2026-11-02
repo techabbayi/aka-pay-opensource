@@ -11,7 +11,7 @@ import {
   AuditLogRepository,
   CustomerRepository,
   DatabaseBusyError
-} from '@youpi/db';
+} from '@akapay/db';
 import {
   AttributionEngine,
   PaymentVerificationPipeline,
@@ -24,7 +24,7 @@ import { startServer as startPaymentApi } from '../../../../apps/payment-api/src
 import { TEST_ADMIN_TOKEN, TEST_OBSERVER_TOKEN } from '../../../../scripts/test-support.js';
 import { SmsObserverService } from '../../../../apps/sms-observer/src/sms-service.js';
 import { GmailPoller } from '../../../../apps/gmail-observer/src/gmail-poller.js';
-import { PaymentStatus } from '@youpi/common';
+import { PaymentStatus } from '@akapay/common';
 
 describe('Phase 9D: Release-Candidate Verification Suite', () => {
   let db;
@@ -79,7 +79,7 @@ describe('Phase 9D: Release-Candidate Verification Suite', () => {
       slug: 'vvisa-staging',
       contactEmail: 'ops@vvisa.in',
       contactPhone: '9876543210',
-      webhookUrl: 'http://localhost:3000/api/payments/youpi/webhook',
+      webhookUrl: 'http://localhost:3000/api/payments/akapay/webhook',
       webhookSecret: 'secret_vvisa_phase9d'
     });
 

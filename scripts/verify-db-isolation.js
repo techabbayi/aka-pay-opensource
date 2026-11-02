@@ -9,7 +9,7 @@ async function verifyIsolation() {
   console.log('============================================================');
 
   // 1. Check Production Database
-  const dbPath = path.resolve(process.cwd(), 'data/youpi_pg.sqlite');
+  const dbPath = path.resolve(process.cwd(), (fs.existsSync('data/akapay.sqlite') ? 'data/akapay.sqlite' : 'data/akapay.sqlite'));
   const prodDb = new Database({ dbPath });
   const prodMerchants = prodDb.queryOne('SELECT count(*) as c FROM merchants').c;
   const prodAccounts = prodDb.queryOne('SELECT count(*) as c FROM payment_receiving_accounts').c;
@@ -46,7 +46,7 @@ async function verifyIsolation() {
   prodDb.close();
 
   // 2. Check Development Database (MUST BE UNTOUCHED)
-  const devDbPath = process.env.DEV_DB_PATH || path.resolve(process.cwd(), 'data/youpi_pg_dev.sqlite');
+  const devDbPath = process.env.DEV_DB_PATH || path.resolve(process.cwd(), 'data/akapay_dev.sqlite');
   if (fs.existsSync(devDbPath)) {
     const devDb = new Database({ dbPath: devDbPath });
   const devMerchants = devDb.queryOne('SELECT count(*) as c FROM merchants').c;

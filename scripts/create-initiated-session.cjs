@@ -1,5 +1,5 @@
 const { Database } = require('./packages/db/src/database.js');
-const db = new Database('data/youpi_pg.sqlite');
+const db = new Database((fs.existsSync('data/akapay.sqlite') ? 'data/akapay.sqlite' : 'data/akapay.sqlite'));
 db.execute(`
   INSERT OR REPLACE INTO payment_sessions (
     id, merchant_id, receiving_account_id, order_id, amount_paise, status, created_at, updated_at

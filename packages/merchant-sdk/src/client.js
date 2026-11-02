@@ -1,6 +1,6 @@
-import { verifyHmac } from '@youpi/common';
+import { verifyHmac } from '@akapay/common';
 
-export class YoupiPaymentClient {
+export class AkaPayClient {
   /**
    * @param {{
    *   apiUrl?: string,
@@ -212,3 +212,5 @@ export class YoupiPaymentClient {
     return parsed;
   }
 }
+
+export const AkaPayPaymentClient = AkaPayClient;

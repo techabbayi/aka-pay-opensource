@@ -1,10 +1,10 @@
 import { AndroidObserverDriver } from './driver.js';
-import { resolveSecret } from '@youpi/common';
+import { resolveSecret } from '@akapay/common';
 
 /**
  * Android Notification Push Simulator CLI.
  * Simulates real status bar notifications being captured on an Android device
- * and dispatched to the self-hosted YOUPI Payment Gateway.
+ * and dispatched to the self-hosted AKA PAY Payment Gateway.
  */
 
 const API_BASE = process.env.BASE_PAYMENT_API_URL || 'http://localhost:6100';
@@ -12,7 +12,7 @@ const ENROLLMENT_SECRET = resolveSecret('android_enrollment_secret', 'ANDROID_EN
 
 async function main() {
   console.log('========================================================');
-  console.log('📱 YOUPI Android Payment Observer Notification Simulator');
+  console.log('📱 AKA PAY Android Payment Observer Notification Simulator');
   console.log('========================================================');
 
   const driver = new AndroidObserverDriver({

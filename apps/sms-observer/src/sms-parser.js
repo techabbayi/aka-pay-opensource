@@ -1,4 +1,4 @@
-import { toPaise } from '@youpi/common';
+import { toPaise } from '@akapay/common';
 
 /**
  * Intelligent Monetary Amount Extractor for Indian UPI & Bank SMS.

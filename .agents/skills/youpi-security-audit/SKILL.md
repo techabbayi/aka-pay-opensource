@@ -1,13 +1,14 @@
 ---
-name: youpi-security-audit
+name: akapay-security-audit
 description: Verify payment state machine invariants, raw payload HMAC signatures, device binding fail-closed security, and session token enforcement. Use when modifying checkout endpoints, webhook delivery, auth guards, or running security regression test suites.
 metadata:
   version: "1.0.0"
 ---
 
-# YouPI Security & Invariants Audit Skill
+# AKA PAY Security & Invariants Audit Skill
+> **AKA PAY** — UPI & Payment Infrastructure, Also Known As. Always Connected.
 
-Use this skill when auditing or modifying core payment APIs, checkout lifecycle, webhook signatures, or authorization guards in YOUPI PG V2.
+Use this skill when auditing or modifying core payment APIs, checkout lifecycle, webhook signatures, or authorization guards in AKA PAY.
 
 ## Mandatory Architectural & Security Invariants
 
@@ -19,7 +20,7 @@ Use this skill when auditing or modifying core payment APIs, checkout lifecycle,
   - `X-Gateway-Timestamp: <ms>`
   - `X-Gateway-Event: SUCCESS`
   - `X-Gateway-Delivery-Id: <uuid>`
-- Signature verification helper: `YoupiPaymentClient.verifyWebhook(rawPayloadString, signatureHeader, customSecret)` verifies `HMAC-SHA256(secret, rawBody)` in constant time. It takes no timestamp argument; replay protection is implemented by the RECEIVER, for example `apps/coin-wallet-store/src/server.js` (X-Gateway-Timestamp skew window plus X-Gateway-Delivery-Id deduplication).
+- Signature verification helper: `AkaPayClient.verifyWebhook(rawPayloadString, signatureHeader, customSecret)` verifies `HMAC-SHA256(secret, rawBody)` in constant time. It takes no timestamp argument; replay protection is implemented by the RECEIVER, for example `apps/coin-wallet-store/src/server.js` (X-Gateway-Timestamp skew window plus X-Gateway-Delivery-Id deduplication).
 
 ### 2. Device Binding & Fail-Closed Access Control
 - `checkSessionDeviceAccess(session, req, body, ctx)` in `apps/payment-api/src/routes/checkout.routes.js`:

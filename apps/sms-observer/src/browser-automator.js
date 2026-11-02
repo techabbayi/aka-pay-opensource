@@ -1,8 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { BrowserLauncher } from '@youpi/observer-sdk';
-import { getObserverToken } from '@youpi/common';
+import { BrowserLauncher } from '@akapay/observer-sdk';
+import { getObserverToken } from '@akapay/common';
 import { BankSmsParser } from './sms-parser.js';
 
 const __filename = fileURLToPath(import.meta.url);

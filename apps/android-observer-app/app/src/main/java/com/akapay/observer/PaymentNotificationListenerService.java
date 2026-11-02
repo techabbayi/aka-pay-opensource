@@ -1,4 +1,4 @@
-package com.youpi.observer;
+package com.akapay.observer;
 
 import android.app.Notification;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PaymentNotificationListenerService extends NotificationListenerService {
-    private static final String TAG = "YoupiNotifListener";
+    private static final String TAG = "AkaPayNotifListener";
     private ApiClient apiClient;
 
     // Generated from packages/common/src/upi-providers.js - Single Source of Truth

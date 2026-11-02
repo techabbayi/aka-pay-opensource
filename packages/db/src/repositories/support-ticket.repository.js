@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import { TicketStatus, SenderType } from '@youpi/common';
+import { TicketStatus, SenderType } from '@akapay/common';
 
 export class SupportTicketRepository {
   /**

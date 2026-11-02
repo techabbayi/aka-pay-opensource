@@ -1,4 +1,4 @@
-import { getObserverToken } from '@youpi/common';
+import { getObserverToken } from '@akapay/common';
 
 /**
  * ObserverPollerService
@@ -14,10 +14,10 @@ import { getObserverToken } from '@youpi/common';
 export class ObserverPollerService {
   /**
    * @param {{
-   *   db: import('@youpi/db').Database,
-   *   sessionRepo: import('@youpi/db').PaymentSessionRepository,
-   *   obsRepo: import('@youpi/db').ObservationRepository,
-   *   attributionEngine: import('@youpi/core').AttributionEngine,
+   *   db: import('@akapay/db').Database,
+   *   sessionRepo: import('@akapay/db').PaymentSessionRepository,
+   *   obsRepo: import('@akapay/db').ObservationRepository,
+   *   attributionEngine: import('@akapay/core').AttributionEngine,
    *   eventEmitter: import('node:events').EventEmitter,
    *   pollIntervalMs?: number,
    *   minSweepCooldownMs?: number,

@@ -4,7 +4,7 @@ import {
   PaymentStatus,
   ObserverSource,
   ObservationAttributionStatus
-} from '@youpi/common';
+} from '@akapay/common';
 import {
   AttributionEngine,
   ObservationNormalizer,
@@ -21,7 +21,7 @@ import {
   CustomerRepository,
   ReceivingAccountRepository,
   MerchantRepository
-} from '@youpi/db';
+} from '@akapay/db';
 
 describe('Phase 9A Fail-Closed Payment Attribution Hardening Suite', () => {
   let db;
@@ -62,7 +62,7 @@ describe('Phase 9A Fail-Closed Payment Attribution Hardening Suite', () => {
       slug: 'vvisa-b2b',
       contactEmail: 'ops@vvisa.in',
       contactPhone: '9876543210',
-      webhookUrl: 'http://localhost:3000/api/payments/youpi/webhook',
+      webhookUrl: 'http://localhost:3000/api/payments/akapay/webhook',
       webhookSecret: 'secret_a_test'
     });
 

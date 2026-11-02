@@ -1,7 +1,7 @@
 {
-  "name": "@youpi/common",
+  "name": "@akapay/common",
   "version": "1.0.0",
-  "description": "Shared protocols, types, currency utilities, and cryptographic helpers for YOUPI PG",
+  "description": "Shared protocols, types, currency utilities, and cryptographic helpers for AKA PAY (UPI & Payment Infrastructure, Also Known As. Always Connected.)",
   "type": "module",
   "main": "./src/index.js",
   "exports": {
@@ -11,5 +11,16 @@
   "scripts": {
     "build": "tsc",
     "test": "node --test dist/__tests__/**/*.test.js"
+  },
+  "author": {
+    "name": "techabbayi",
+    "email": "srssltd@gmail.com",
+    "url": "https://github.com/techabbayi"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/techabbayi/aka-pay-opensource.git",
+    "directory": "packages/common"
   }
 }

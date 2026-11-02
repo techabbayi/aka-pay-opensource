@@ -18,9 +18,6 @@ services:
       - key: AKAPAY_BIND_HOST
         value: 0.0.0.0
 
-      - key: YOUPI_BIND_HOST
-        value: 0.0.0.0
-
       - key: USE_SQLITE_FALLBACK
         value: "true"
 
@@ -33,11 +30,5 @@ services:
       - key: AKAPAY_ALLOW_DEV_TOOLS
         value: "false"
 
-      - key: YOUPI_ALLOW_DEV_TOOLS
-        value: "false"
-
       - key: AKAPAY_EXPOSE_DEV_OTP
-        value: "false"
-
-      - key: YOUPI_EXPOSE_DEV_OTP
         value: "false"

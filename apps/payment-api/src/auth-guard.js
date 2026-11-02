@@ -1,4 +1,4 @@
-import { getAdminToken, getObserverToken, safeEqual, hasBearer } from '@youpi/common';
+import { getAdminToken, getObserverToken, safeEqual, hasBearer } from '@akapay/common';
 import { HttpServer } from './server.js';
 
 /** Admin-prefixed routes that are intentionally public (static APK download for pairing). */
@@ -42,7 +42,7 @@ export function authGuard(req, res, pathname, url) {
   const method = req.method.toUpperCase();
 
   // Developer simulators push synthetic bank messages into the real pipeline and can settle live sessions.
-  if (method !== 'GET' && isDevTool(pathname) && process.env.NODE_ENV === 'production' && process.env.YOUPI_ALLOW_DEV_TOOLS !== 'true') {
+  if (method !== 'GET' && isDevTool(pathname) && process.env.NODE_ENV === 'production' && process.env.AKAPAY_ALLOW_DEV_TOOLS !== 'true' && process.env.AKAPAY_ALLOW_DEV_TOOLS !== 'true') {
     HttpServer.json(res, 403, { error: 'Developer tools are disabled in production.', code: 'DEV_TOOLS_DISABLED' });
     return true;
   }

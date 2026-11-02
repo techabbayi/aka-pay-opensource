@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 process.env.NODE_ENV = process.env.NODE_ENV || 'test';
 
 import { createPaymentApp } from '../index.js';
-import { Database } from '@youpi/db';
+import { Database } from '@akapay/db';
 import { authFetch } from '../../../../scripts/test-support.js';
 import { createOfflineWhatsApp } from './fixtures/offline-whatsapp.js';
 

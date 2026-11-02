@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { GmailPoller } from '../gmail-poller.js';
 
-function createTempDir(prefix = 'youpi-pages-') {
+function createTempDir(prefix = 'akapay-pages-') {
   return fs.mkdtempSync(path.join(os.tmpdir(), prefix));
 }
 

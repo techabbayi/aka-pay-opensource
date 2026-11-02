@@ -8,9 +8,11 @@ export const TEST_OBSERVER_TOKEN = 'test-observer-token-0123456789abcdef01234567
 process.env.ADMIN_API_TOKEN = TEST_ADMIN_TOKEN;
 process.env.OBSERVER_API_TOKEN = TEST_OBSERVER_TOKEN;
 // Lets the OTP suites read the code from the response instead of WhatsApp.
-process.env.YOUPI_EXPOSE_DEV_OTP = 'true';
+process.env.AKAPAY_EXPOSE_DEV_OTP = 'true';
+process.env.AKAPAY_EXPOSE_DEV_OTP = 'true';
 // Webhook suites deliver to a local mock receiver on loopback, which the SSRF guard blocks by default.
-process.env.YOUPI_ALLOW_PRIVATE_WEBHOOKS = 'true';
+process.env.AKAPAY_ALLOW_PRIVATE_WEBHOOKS = 'true';
+process.env.AKAPAY_ALLOW_PRIVATE_WEBHOOKS = 'true';
 
 /** Admin bearer header, optionally merged with extra headers. */
 export function authHeaders(extra = {}) {

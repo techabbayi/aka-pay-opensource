@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.youpi.observer"
+    package="com.akapay.observer"
     android:versionCode="1"
     android:versionName="1.0.0">
 
@@ -38,7 +38,7 @@
         android:networkSecurityConfig="@xml/network_security_config">
 
         <activity
-            android:name="com.youpi.observer.MainActivity"
+            android:name="com.akapay.observer.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait">
@@ -49,20 +49,20 @@
         </activity>
 
         <activity
-            android:name="com.youpi.observer.QrScannerActivity"
+            android:name="com.akapay.observer.QrScannerActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
         <!-- Ongoing Sticky Background Daemon Service -->
         <service
-            android:name="com.youpi.observer.ForegroundService"
+            android:name="com.akapay.observer.ForegroundService"
             android:exported="false"
             android:foregroundServiceType="dataSync|specialUse" />
 
         <!-- Notification Listener Service for UPI Apps -->
         <service
-            android:name="com.youpi.observer.PaymentNotificationListenerService"
+            android:name="com.akapay.observer.PaymentNotificationListenerService"
             android:label="Mitto Pay Observer Service"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
             android:exported="true">
@@ -73,7 +73,7 @@
 
         <!-- High-Priority SMS Broadcast Receiver -->
         <receiver
-            android:name="com.youpi.observer.SmsReceiver"
+            android:name="com.akapay.observer.SmsReceiver"
             android:permission="android.permission.BROADCAST_SMS"
             android:exported="true">
             <intent-filter android:priority="999">
@@ -83,7 +83,7 @@
 
         <!-- Auto-launch on Phone Reboot -->
         <receiver
-            android:name="com.youpi.observer.BootReceiver"
+            android:name="com.akapay.observer.BootReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

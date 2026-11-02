@@ -1,13 +1,14 @@
 ---
-name: youpi-banking-observer
+name: akapay-banking-observer
 description: Audit, simulate, and extend bank SMS and Gmail payment observation parsers. Use when adding bank notification regex patterns, testing UTR extraction, or simulating webhook payloads for SBI, HDFC, ICICI, Axis, Kotak, and UPI apps.
 metadata:
   version: "1.0.0"
 ---
 
-# YouPI Banking Observer Skill
+# AKA PAY Banking Observer Skill
+> **AKA PAY** — UPI & Payment Infrastructure, Also Known As. Always Connected.
 
-Use this skill when developing, testing, or auditing payment observation parsers (SMS and Gmail push notifications) in YOUPI PG V2.
+Use this skill when developing, testing, or auditing payment observation parsers (SMS and Gmail push notifications) in AKA PAY.
 
 ## Core Banking Principles
 

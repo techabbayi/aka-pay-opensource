@@ -1,8 +1,8 @@
 /**
- * YOUPI PG V2 — Universal One-Script Integration SDK
+ * AKA PAY — Universal One-Script Integration SDK
  *
- * Official Distributable Browser Script (youpi.js / youpi-checkout.js)
- * Provides zero-JavaScript button configuration [data-youpi-pay] and programmatic Youpi.pay({...})
+ * Official Distributable Browser Script (akapay.js / akapay-checkout.js)
+ * Provides zero-JavaScript button configuration [data-akapay-pay] and programmatic AkaPay.pay({...})
  * Launches the responsive iframe checkout modal with background blur.
  * Emits normalized browser payment events and manages checkout modal lifecycle.
  *
@@ -16,10 +16,10 @@
   'use strict';
 
   // Prevent multiple initializations
-  if (globalScope.__YOUPI_SDK_INITIALIZED__) {
+  if (globalScope.__AKAPAY_SDK_INITIALIZED__) {
     return;
   }
-  globalScope.__YOUPI_SDK_INITIALIZED__ = true;
+  globalScope.__AKAPAY_SDK_INITIALIZED__ = true;
 
   const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
 
@@ -40,7 +40,7 @@
     if (!isBrowser) return {};
 
     const script = document.currentScript ||
-      document.querySelector('script[src*="youpi.js"], script[src*="youpi-checkout.js"]');
+      document.querySelector('script[src*="akapay.js"], script[src*="akapay-checkout.js"], script[src*="akapay.js"], script[src*="akapay-checkout.js"]');
 
     if (!script) return {};
 
@@ -70,9 +70,9 @@
   const scriptConfig = getScriptConfig();
 
   /**
-   * YoupiCheckout class
+   * AkaPayCheckout class
    */
-  class YoupiCheckout {
+  class AkaPayCheckout {
     /**
      * @param {{
      *   order_id?: string,
@@ -158,10 +158,10 @@
     }
 
     /**
-     * Primary static programmatic entry point: Youpi.pay(options)
+     * Primary static programmatic entry point: AkaPay.pay(options)
      */
     static async pay(options = {}) {
-      const instance = new YoupiCheckout(options);
+      const instance = new AkaPayCheckout(options);
 
       // If checkoutUrl is already provided, open modal directly
       if (instance.options.checkoutUrl) {
@@ -176,14 +176,14 @@
         return instance;
       }
 
-      throw new Error('Create the payment on your server using trusted order data, then pass checkoutUrl or paymentId to Youpi.pay(). Never put a merchant API secret in browser code.');
+      throw new Error('Create the payment on your server using trusted order data, then pass checkoutUrl or paymentId to AkaPay.pay(). Never put a merchant API secret in browser code.');
     }
 
     /**
-     * Backward-compatible static entry point: YoupiCheckout.open(options)
+     * Backward-compatible static entry point: AkaPayCheckout.open(options)
      */
     static open(options) {
-      const instance = new YoupiCheckout(options);
+      const instance = new AkaPayCheckout(options);
       instance.open();
       return instance;
     }
@@ -193,13 +193,13 @@
      */
     open() {
       if (!isBrowser) {
-        console.warn('YoupiCheckout.open() can only be invoked in a browser DOM environment.');
+        console.warn('AkaPayCheckout.open() can only be invoked in a browser DOM environment.');
         return;
       }
       if (this.isOpen) return;
       this.isOpen = true;
 
-      YoupiCheckout._ensureStyles();
+      AkaPayCheckout._ensureStyles();
 
       let targetUrl = '';
       if (this.options.checkoutUrl) {
@@ -230,7 +230,7 @@
       try {
         const parsed = new URL(window.location.href);
         if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
-          targetUrl += `&youpiParentOrigin=${encodeURIComponent(parsed.origin)}`;
+          targetUrl += `&akapayParentOrigin=${encodeURIComponent(parsed.origin)}`;
         }
       } catch {}
 
@@ -285,13 +285,13 @@
 
     _injectModal(targetUrl) {
       const backdrop = document.createElement('div');
-      backdrop.className = 'youpi-checkout-backdrop';
+      backdrop.className = 'akapay-checkout-backdrop';
 
       const container = document.createElement('div');
-      container.className = 'youpi-checkout-container';
+      container.className = 'akapay-checkout-container';
 
       const closeBtn = document.createElement('button');
-      closeBtn.className = 'youpi-checkout-close-btn';
+      closeBtn.className = 'akapay-checkout-close-btn';
       closeBtn.textContent = '✕';
       closeBtn.title = 'Close Checkout';
       closeBtn.type = 'button';
@@ -299,7 +299,7 @@
         try {
           if (iframe && iframe.contentWindow) {
             if (this._iframeOrigin) {
-              iframe.contentWindow.postMessage({ event: 'youpi.request_cancel' }, this._iframeOrigin);
+              iframe.contentWindow.postMessage({ event: 'akapay.request_cancel' }, this._iframeOrigin);
             }
             return;
           }
@@ -309,7 +309,7 @@
       };
 
       const iframe = document.createElement('iframe');
-      iframe.className = 'youpi-checkout-iframe';
+      iframe.className = 'akapay-checkout-iframe';
       iframe.src = sanitizeModalUrl(targetUrl);
       // Only messages from this exact iframe/origin are trusted (see _handleMessage).
       this._iframe = iframe;
@@ -321,10 +321,8 @@
       backdrop.appendChild(container);
       document.body.appendChild(backdrop);
 
-      requestAnimationFrame(() => {
-        backdrop.classList.add('active');
-        container.classList.add('active');
-      });
+      backdrop.classList.add('active');
+      container.classList.add('active');
 
       this.backdrop = backdrop;
       this.container = container;
@@ -350,7 +348,7 @@
       backdrop.addEventListener('mouseup', stopOutsideDismiss, true);
     }
 
-    _isSafeRedirect(url) {
+_isSafeRedirect(url) {
       try {
         const u = new URL(url, window.location.href);
         return u.protocol === 'http:' || u.protocol === 'https:';
@@ -367,8 +365,7 @@
       try {
         // Only an explicitly configured checkout URL is authoritative. `portalUrl` defaults
         // to localhost, so including it would make this check reject legitimate messages.
-        const url = this.options.checkoutUrl;
-        if (url) return new URL(url, window.location.href).origin;
+        if (this.options.checkoutUrl) return new URL(this.options.checkoutUrl, window.location.href).origin;
       } catch (e) { }
       return null;
     }
@@ -385,7 +382,7 @@
       const event = e.data.event;
       const rawData = e.data.data || e.data;
 
-      if (event === 'youpi.payment_success') {
+      if (event === 'akapay.payment_success') {
         const successBackdrop = this.backdrop;
         const payload = e.data.data || {};
         const result = {
@@ -399,8 +396,8 @@
           raw: payload
         };
 
-        YoupiCheckout._emitEvent('youpi:payment:success', result);
-        YoupiCheckout._emitEvent('youpi:payment:result', result);
+        AkaPayCheckout._emitEvent('akapay:payment:success', result);
+        AkaPayCheckout._emitEvent('akapay:payment:result', result);
 
         if (typeof this.options.handler === 'function') {
           this.options.handler(result);
@@ -418,11 +415,11 @@
             }
           });
         }, 1500);
-      } else if (event === 'youpi.payment_observed' || event === 'youpi.payment_reconciled' || event === 'youpi.payment_manual_review') {
+      } else if (event === 'akapay.payment_observed' || event === 'akapay.payment_reconciled' || event === 'akapay.payment_manual_review') {
         const payload = e.data.data || {};
-        const status = event === 'youpi.payment_reconciled'
+        const status = event === 'akapay.payment_reconciled'
           ? 'RECONCILED'
-          : (event === 'youpi.payment_manual_review' ? 'MANUAL_REVIEW' : 'OBSERVED_SUCCESS');
+          : (event === 'akapay.payment_manual_review' ? 'MANUAL_REVIEW' : 'OBSERVED_SUCCESS');
         const result = {
           status,
           order_id: payload.orderId || this.options.orderId || this.options.order_id,
@@ -435,13 +432,13 @@
           raw: payload
         };
         const domEvent = status === 'RECONCILED'
-          ? 'youpi:payment:success'
-          : (status === 'MANUAL_REVIEW' ? 'youpi:payment:suspicious' : 'youpi:payment:observed');
-        YoupiCheckout._emitEvent(domEvent, result);
-        YoupiCheckout._emitEvent('youpi:payment:result', result);
+          ? 'akapay:payment:success'
+          : (status === 'MANUAL_REVIEW' ? 'akapay:payment:suspicious' : 'akapay:payment:observed');
+        AkaPayCheckout._emitEvent(domEvent, result);
+        AkaPayCheckout._emitEvent('akapay:payment:result', result);
         if (typeof this.options.handler === 'function') this.options.handler(result);
         if (status === 'RECONCILED' && typeof this.options.onSuccess === 'function') this.options.onSuccess(result);
-      } else if (event === 'youpi.payment_failed') {
+      } else if (event === 'akapay.payment_failed') {
         const payload = e.data.data || e.data || {};
         const result = {
           status: 'FAILED',
@@ -455,8 +452,8 @@
           raw: payload
         };
 
-        YoupiCheckout._emitEvent('youpi:payment:failed', result);
-        YoupiCheckout._emitEvent('youpi:payment:result', result);
+        AkaPayCheckout._emitEvent('akapay:payment:failed', result);
+        AkaPayCheckout._emitEvent('akapay:payment:result', result);
 
         if (typeof this.options.onFailed === 'function') {
           try { this.options.onFailed(result); } catch (err) { }
@@ -473,7 +470,7 @@
             window.location.href = payload.redirectUrl;
           }
         });
-      } else if (event === 'youpi.payment_blocked' || event === 'youpi.payment_blocked_exit') {
+      } else if (event === 'akapay.payment_blocked' || event === 'akapay.payment_blocked_exit') {
         const payload = e.data.data || e.data || {};
         const result = {
           status: 'SUSPICIOUS',
@@ -487,8 +484,8 @@
           raw: payload
         };
 
-        YoupiCheckout._emitEvent('youpi:payment:suspicious', result);
-        YoupiCheckout._emitEvent('youpi:payment:result', result);
+        AkaPayCheckout._emitEvent('akapay:payment:suspicious', result);
+        AkaPayCheckout._emitEvent('akapay:payment:result', result);
 
         if (typeof this.options.onSuspicious === 'function') {
           try { this.options.onSuspicious(result); } catch (err) { }
@@ -500,7 +497,7 @@
             window.location.href = `${this.options.suspiciousUrl}${delim}order_id=${encodeURIComponent(result.order_id)}&reason=SUSPICIOUS`;
           }
         });
-      } else if (event === 'youpi.payment_expired') {
+      } else if (event === 'akapay.payment_expired') {
         const payload = e.data.data || e.data || {};
         const result = {
           status: 'EXPIRED',
@@ -508,8 +505,8 @@
           timestamp: new Date().toISOString()
         };
 
-        YoupiCheckout._emitEvent('youpi:payment:expired', result);
-        YoupiCheckout._emitEvent('youpi:payment:result', result);
+        AkaPayCheckout._emitEvent('akapay:payment:expired', result);
+        AkaPayCheckout._emitEvent('akapay:payment:result', result);
 
         if (typeof this.options.onExpired === 'function') {
           try { this.options.onExpired(result); } catch (err) { }
@@ -521,7 +518,7 @@
             window.location.href = `${this.options.expiredUrl}${delim}order_id=${encodeURIComponent(result.order_id)}`;
           }
         });
-      } else if (event === 'youpi.modal_close' || event === 'youpi.close' || event === 'youpi.cancel' || event === 'youpi.payment_cancelled') {
+      } else if (event === 'akapay.modal_close' || event === 'akapay.close' || event === 'akapay.cancel' || event === 'akapay.payment_cancelled') {
         this._dispatchCancelled();
         const redirectUrl = e.data.redirectUrl;
         this.close(() => {
@@ -541,8 +538,8 @@
         order_id: this.options.orderId || this.options.order_id || '',
         timestamp: new Date().toISOString()
       };
-      YoupiCheckout._emitEvent('youpi:payment:cancelled', result);
-      YoupiCheckout._emitEvent('youpi:payment:result', result);
+      AkaPayCheckout._emitEvent('akapay:payment:cancelled', result);
+      AkaPayCheckout._emitEvent('akapay:payment:result', result);
 
       if (typeof this.options.onCancelled === 'function') {
         try { this.options.onCancelled(result); } catch (e) { }
@@ -555,11 +552,17 @@
         const ev = new CustomEvent(name, { detail, bubbles: true, cancelable: true });
         window.dispatchEvent(ev);
         document.dispatchEvent(ev);
+        if (name.startsWith('akapay:')) {
+          const akaName = name;
+          const akaEv = new CustomEvent(akaName, { detail, bubbles: true, cancelable: true });
+          window.dispatchEvent(akaEv);
+          document.dispatchEvent(akaEv);
+        }
       } catch (e) { }
     }
 
     /**
-     * Handles clicks on elements with [data-youpi-pay] attribute
+     * Handles clicks on elements with [data-akapay-pay] attribute
      */
     static handleButtonClick(btn) {
       if (!btn) return;
@@ -603,7 +606,7 @@
       const expiredUrl = btn.getAttribute('data-expired-url') || scriptConfig.expiredUrl || '';
       const cancelledUrl = btn.getAttribute('data-cancelled-url') || scriptConfig.cancelledUrl || '';
 
-      YoupiCheckout.pay({
+      AkaPayCheckout.pay({
         order_id: orderId,
         orderId: orderId,
         amount: amount,
@@ -620,20 +623,20 @@
         expiredUrl: expiredUrl,
         cancelledUrl: cancelledUrl
       }).catch(err => {
-        console.error('[YouPI JS] Pay error:', err);
+        console.error('[AKA PAY JS] Pay error:', err);
       });
     }
 
     static _ensureStyles() {
       if (!isBrowser) return;
-      let styleEl = document.getElementById('youpi-checkout-styles');
+      let styleEl = document.getElementById('akapay-checkout-styles');
       if (!styleEl) {
         styleEl = document.createElement('style');
-        styleEl.id = 'youpi-checkout-styles';
+        styleEl.id = 'akapay-checkout-styles';
         document.head.appendChild(styleEl);
       }
       styleEl.textContent = `
-        .youpi-checkout-backdrop {
+        .akapay-checkout-backdrop {
           position: fixed;
           top: 0;
           left: 0;
@@ -657,10 +660,10 @@
           -webkit-user-select: none;
           -webkit-tap-highlight-color: transparent;
         }
-        .youpi-checkout-backdrop.active {
+        .akapay-checkout-backdrop.active {
           opacity: 1;
         }
-        .youpi-checkout-container {
+        .akapay-checkout-container {
           position: relative;
           width: 440px;
           max-width: 95vw;
@@ -678,13 +681,13 @@
           user-select: auto !important;
           -webkit-user-select: auto !important;
         }
-        .youpi-checkout-container.active {
+        .akapay-checkout-container.active {
           transform: translateY(0) scale(1);
         }
-        .youpi-checkout-container.closing {
+        .akapay-checkout-container.closing {
           transform: translateY(20px) scale(0.96);
         }
-        .youpi-checkout-iframe {
+        .akapay-checkout-iframe {
           width: 100%;
           height: 100%;
           border: none;
@@ -692,7 +695,7 @@
           background: #ffffff;
           touch-action: auto !important;
         }
-        .youpi-checkout-close-btn {
+        .akapay-checkout-close-btn {
           position: absolute;
           top: 14px;
           right: 14px;
@@ -710,13 +713,13 @@
           justify-content: center;
           transition: background 0.15s;
         }
-        .youpi-checkout-close-btn:hover {
+        .akapay-checkout-close-btn:hover {
           background: rgba(255, 255, 255, 0.4);
         }
 
         /* DESKTOP / PC MODAL STYLES (Razorpay 2-Column Exact Layout) */
         @media (min-width: 768px) {
-          .youpi-checkout-container {
+          .akapay-checkout-container {
             width: 900px;
             max-width: 95vw;
             height: 600px;
@@ -724,59 +727,77 @@
             border-radius: 16px;
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
           }
-          .youpi-checkout-close-btn {
+          .akapay-checkout-close-btn {
             display: none; /* Native in-modal close button inside the checkout header bar */
           }
         }
 
         /* MOBILE BOTTOM DRAWER / BOTTOM SHEET STYLES */
         @media (max-width: 767px) {
-          .youpi-checkout-backdrop {
-            align-items: flex-end;
+          .akapay-checkout-backdrop {
+            position: fixed !important;
+            inset: 0 !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            display: flex !important;
+            align-items: flex-end !important;
+            justify-content: center !important;
+            padding: 0 !important;
+            margin: 0 !important;
           }
-          .youpi-checkout-container {
-            width: 100vw;
-            max-width: 100vw;
-            height: 100dvh;
-            height: 100vh;
-            height: 100%;
-            max-height: 100dvh;
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-            border-top-left-radius: 18px;
-            border-top-right-radius: 18px;
-            transform: translateY(100%);
+          .akapay-checkout-container {
+            width: 100vw !important;
+            max-width: 100vw !important;
+            height: 90vh !important;
+            height: 90dvh !important;
+            max-height: 94vh !important;
+            border-bottom-left-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+            border-top-left-radius: 20px !important;
+            border-top-right-radius: 20px !important;
+            margin: 0 !important;
+            transform: translateY(100%) !important;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6) !important;
             touch-action: auto !important;
-            overflow: hidden;
+            overflow: hidden !important;
           }
-          .youpi-checkout-container.active {
-            transform: translateY(0);
+          .akapay-checkout-container.active {
+            transform: translateY(0) !important;
           }
-          .youpi-checkout-container.closing {
-            transform: translateY(100%);
+          .akapay-checkout-container.closing {
+            transform: translateY(100%) !important;
           }
         }
       `;
     }
   }
 
-  // Auto-bind click listener for all [data-youpi-pay] buttons on page
+  // Auto-bind click listener for all [data-akapay-pay]  buttons on page
   if (isBrowser) {
     document.addEventListener('click', function (e) {
-      const btn = e.target && e.target.closest && e.target.closest('[data-youpi-pay]');
+      const btn = e.target && e.target.closest && (e.target.closest('[data-akapay-pay]') );
       if (btn) {
         e.preventDefault();
-        YoupiCheckout.handleButtonClick(btn);
+        AkaPayCheckout.handleButtonClick(btn);
       }
     });
   }
 
-  // Export globals
-  globalScope.YoupiCheckout = YoupiCheckout;
-  globalScope.Youpi = YoupiCheckout;
+  // Export globals for AKA PAY
+  globalScope.AkaPayCheckout = AkaPayCheckout;
+  globalScope.AkaPay = AkaPayCheckout;
+  
+  
   if (typeof module !== 'undefined' && module.exports) {
-    module.exports = YoupiCheckout;
-    module.exports.YoupiCheckout = YoupiCheckout;
-    module.exports.Youpi = YoupiCheckout;
+    module.exports = AkaPayCheckout;
+    module.exports.AkaPayCheckout = AkaPayCheckout;
+    module.exports.AkaPay = AkaPayCheckout;
+    
+    
   }
 })(typeof window !== 'undefined' ? window : globalThis);

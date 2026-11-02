@@ -1,12 +1,12 @@
-import { PaymentStatus } from '@youpi/common';
+import { PaymentStatus } from '@akapay/common';
 
 export class QueueEngine {
   /**
    * @param {{
-   *   sessionRepo: import('@youpi/db').PaymentSessionRepository,
-   *   accountRepo: import('@youpi/db').ReceivingAccountRepository,
+   *   sessionRepo: import('@akapay/db').PaymentSessionRepository,
+   *   accountRepo: import('@akapay/db').ReceivingAccountRepository,
    *   eventEmitter?: { emit: (event: string, payload: any) => void },
-   *   auditRepo?: import('@youpi/db').AuditLogRepository,
+   *   auditRepo?: import('@akapay/db').AuditLogRepository,
    *   activeDurationMs?: number
    * }} options
    */

@@ -6,9 +6,9 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 import '../../../../scripts/test-support.js';
-import { Database, runMigrations, MerchantRepository, PaymentSessionRepository, ObservationRepository } from '@youpi/db';
+import { Database, runMigrations, MerchantRepository, PaymentSessionRepository, ObservationRepository } from '@akapay/db';
 import { WebhookEngine } from '../webhook-engine.js';
-import { verifyHmac } from '@youpi/common';
+import { verifyHmac } from '@akapay/common';
 
 describe('Webhook Engine Integration Tests', () => {
   let db;
@@ -290,7 +290,7 @@ describe('Webhook Engine Integration Tests', () => {
   });
 
   test('survives SIGKILL mid-first-delivery and delivers webhook on restart (Issue #86)', async () => {
-    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'youpi-wh-crash-'));
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'akapay-wh-crash-'));
     const dbPath = path.join(tmpDir, 'crash-test.db');
 
     let acceptRequests = false;
@@ -325,8 +325,8 @@ describe('Webhook Engine Integration Tests', () => {
       // which will hang waiting for hangServer while we SIGKILL the child process.
       const childScript = `
         import './scripts/test-support.js';
-        import { Database, runMigrations, MerchantRepository, PaymentSessionRepository } from '@youpi/db';
-        import { WebhookEngine } from '@youpi/core';
+        import { Database, runMigrations, MerchantRepository, PaymentSessionRepository } from '@akapay/db';
+        import { WebhookEngine } from '@akapay/core';
 
         const db = new Database({ dbPath: process.env.CRASH_DB_PATH });
         runMigrations(db);

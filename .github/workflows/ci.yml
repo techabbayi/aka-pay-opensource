@@ -137,9 +137,11 @@ jobs:
         timeout-minutes: 10
         env:
           NODE_ENV: test
-          YOUPI_MODE: localhost
+          AKAPAY_MODE: localhost
+          AKAPAY_MODE: localhost
           SKIP_FLAKY_TEST_4_1: "true"
-          YOUPI_ALLOW_PRIVATE_WEBHOOKS: "true"
+          AKAPAY_ALLOW_PRIVATE_WEBHOOKS: "true"
+          AKAPAY_ALLOW_PRIVATE_WEBHOOKS: "true"
 
   # =============================================================
   # Stage 5: Update ReviewGround Sticky Comment with CI Status

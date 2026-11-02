@@ -4,7 +4,7 @@
  * Enforces strict production canary boundaries:
  * 1. If Canary Mode is active, only explicit server-authorized merchants may create or restart sessions.
  * 2. If Canary Mode is enabled and the allowlist is missing, blank, or malformed, the system FAILS CLOSED.
- * 3. Canary settlement strictly mandates YOUPI_VERIFICATION_POLICY === 'REQUIRE_DUAL_CHANNEL'.
+ * 3. Canary settlement strictly mandates AKAPAY_VERIFICATION_POLICY === 'REQUIRE_DUAL_CHANNEL'.
  * 4. Never trusts client-supplied request body merchant identifiers over server-resolved identity.
  */
 
@@ -81,10 +81,10 @@ export function parseCanaryAllowlist(rawAllowlist = process.env.CANARY_MERCHANT_
  * Asserts that the verification policy satisfies Canary mode requirements.
  * Canary settlement strictly requires REQUIRE_DUAL_CHANNEL.
  *
- * @param {string} [policy] Optional policy string (defaults to process.env.YOUPI_VERIFICATION_POLICY)
+ * @param {string} [policy] Optional policy string (defaults to process.env.AKAPAY_VERIFICATION_POLICY)
  * @throws {CanaryConfigurationError} If policy is not REQUIRE_DUAL_CHANNEL
  */
-export function assertCanaryVerificationPolicy(policy = process.env.YOUPI_VERIFICATION_POLICY) {
+export function assertCanaryVerificationPolicy(policy = (process.env.AKAPAY_VERIFICATION_POLICY || process.env.AKAPAY_VERIFICATION_POLICY)) {
   const currentPolicy = String(policy || 'STANDARD').trim().toUpperCase();
   const allowedPolicies = ['REQUIRE_DUAL_CHANNEL', 'SINGLE_CHANNEL_VALIDATED_GMAIL'];
   if (!allowedPolicies.includes(currentPolicy)) {
@@ -131,7 +131,7 @@ export function evaluateCanaryMerchantEligibility(merchant, options = {}) {
 
   // 2. Strict Verification Policy Enforcement (Fail Closed)
   try {
-    assertCanaryVerificationPolicy(env.YOUPI_VERIFICATION_POLICY);
+    assertCanaryVerificationPolicy(env.AKAPAY_VERIFICATION_POLICY || env.AKAPAY_VERIFICATION_POLICY);
   } catch (err) {
     return {
       allowed: false,

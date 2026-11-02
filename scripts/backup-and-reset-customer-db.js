@@ -8,7 +8,7 @@ async function backupAndResetProduction() {
   console.log('🛡️ PRODUCTION DATABASE BACKUP & SAFE IDENTITY RESET');
   console.log('====================================================');
 
-  const dbPath = path.resolve('data/youpi_pg.sqlite');
+  const dbPath = path.resolve((fs.existsSync('data/akapay.sqlite') ? 'data/akapay.sqlite' : 'data/akapay.sqlite'));
   console.log('Database type: SQLite3 (better-sqlite3)');
   console.log('Database path:', dbPath);
 
@@ -23,7 +23,7 @@ async function backupAndResetProduction() {
   }
 
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-  const backupPath = path.join(backupDir, `youpi_pg_pre_auth_rebuild_${timestamp}.sqlite`);
+  const backupPath = path.join(backupDir, `akapay_pre_auth_rebuild_${timestamp}.sqlite`);
   fs.copyFileSync(dbPath, backupPath);
 
   const backupStat = fs.statSync(backupPath);

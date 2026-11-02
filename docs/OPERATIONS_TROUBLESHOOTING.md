@@ -2,7 +2,7 @@
 
 ## 1. Crash Recovery Mechanics
 
-YOUPI PG's `RecoveryEngine` executes automatically whenever the Payment API process boots:
+AKA PAY's `RecoveryEngine` executes automatically whenever the Payment API process boots:
 
 ### Automatic Reconciliation Actions
 1. **Overdue `PROCESSING` Sessions:**
@@ -38,17 +38,17 @@ A customer pays via their UPI app near the end of their 5-minute payment window,
 ### PostgreSQL Production Backup
 ```bash
 # Automated Daily Backup Script
-pg_dump -U youpi -d youpi_pg -F c -b -v -f "/var/backups/youpi_pg_$(date +\%Y\%m\%d).dump"
+pg_dump -U akapay -d akapay -F c -b -v -f "/var/backups/akapay_$(date +\%Y\%m\%d).dump"
 
 # Restore from Backup
-pg_restore -U youpi -d youpi_pg -v "/var/backups/youpi_pg_20260908.dump"
+pg_restore -U akapay -d akapay -v "/var/backups/akapay_20260908.dump"
 ```
 
 ### SQLite Local Backup
 For embedded/small deployments using SQLite:
 ```bash
 # Atomic SQLite Online Backup
-sqlite3 ./data/youpi_pg.sqlite ".backup './data/youpi_pg_backup.sqlite'"
+sqlite3 ./data/akapay.sqlite ".backup './data/akapay_backup.sqlite'"
 ```
 
 ---

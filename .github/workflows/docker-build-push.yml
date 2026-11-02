@@ -104,7 +104,7 @@ jobs:
           context: .
           file: ./Dockerfile
           load: true
-          tags: youpi-pg:scan-target
+          tags: akapay:scan-target
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -115,7 +115,7 @@ jobs:
         if: steps.filter.outputs.should_build == 'true'
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
-          image-ref: 'youpi-pg:scan-target'
+          image-ref: 'akapay:scan-target'
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true

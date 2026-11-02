@@ -6,9 +6,9 @@
     let activeCustomer = null;
     let activeToken = null;
 
-    const STORAGE_KEY_IDENTITY = 'youpi.customer.identity';
-    const STORAGE_KEY_ACCOUNTS = 'youpi.customer.accounts';
-    const STORAGE_KEY_ACTIVE = 'youpi.customer.activeId';
+    const STORAGE_KEY_IDENTITY = 'akapay.customer.identity';
+    const STORAGE_KEY_ACCOUNTS = 'akapay.customer.accounts';
+    const STORAGE_KEY_ACTIVE = 'akapay.customer.activeId';
     const MAX_IDENTITY_AGE_MS = 7 * 24 * 60 * 60 * 1000; // 7 days (maximum 1 week)
 
     // Client-side obfuscation layer for localStorage to prevent casual/cleartext inspection of customer tokens
@@ -121,7 +121,7 @@
     if (window.parent !== window || location.search.includes('embedded=1')) {
       document.body.classList.add('is-embedded');
       try {
-        postToMerchant({ event: 'youpi.modal_ready', paymentId: PAYMENT_ID });
+        postToMerchant({ event: 'akapay.modal_ready', paymentId: PAYMENT_ID });
       } catch (e) { }
     }
 
@@ -233,6 +233,13 @@
       if (!target) return;
       try {
         window.parent.postMessage(message, target);
+        if (message && typeof message === 'object' && message.event) {
+          if (message.event.startsWith('akapay.')) {
+            window.parent.postMessage(message, target);
+          } else if (message.event.startsWith('akapay.')) {
+            
+          }
+        }
       } catch (e) { }
     }
 
@@ -289,7 +296,7 @@
       if (isEmbedded) {
         try {
           postToMerchant({
-            event: 'youpi.payment_failed',
+            event: 'akapay.payment_failed',
             data: {
               orderId,
               reason,
@@ -308,7 +315,7 @@
         // Fallback postMessage in case parent container only listens for modal_close
         try {
           postToMerchant({
-            event: 'youpi.modal_close',
+            event: 'akapay.modal_close',
             action: 'payment_failed',
             redirectUrl: failRedirectUrl
           });
@@ -324,7 +331,14 @@
     function emitTriggerHook(action, details = {}) {
       try {
         postToMerchant({
-          type: 'YOUPI_PAYMENT_HOOK',
+          type: 'AKAPAY_PAYMENT_HOOK',
+          action,
+          paymentId: PAYMENT_ID,
+          orderId: state?.orderId,
+          details
+        });
+        postToMerchant({
+          type: 'AKAPAY_PAYMENT_HOOK',
           action,
           paymentId: PAYMENT_ID,
           orderId: state?.orderId,
@@ -1271,7 +1285,7 @@
 
     // --- DEVICE IDENTITY & HARDWARE CONTEXT BINDING LAYER ---
     const DeviceIdentity = {
-      dbName: 'youpi_device_keystore_v1',
+      dbName: 'akapay_device_keystore_v1',
       storeName: 'keys',
       currentDeviceId: null,
       currentDeviceToken: null,
@@ -1333,7 +1347,7 @@
           const ctx = canvas.getContext('2d');
           ctx.textBaseline = 'top';
           ctx.font = "14px 'Arial'";
-          ctx.fillText('YouPI-PG-Device-Binding-2026', 2, 2);
+          ctx.fillText('AKAPAY-PG-Device-Binding-2026', 2, 2);
           canvasSig = canvas.toDataURL().slice(-32);
         } catch {}
 
@@ -1409,7 +1423,7 @@
           publicKeyBase64 = btoa(`fallback-device-key-${Math.random()}-${Date.now()}`);
         }
 
-        // 4. Register with YouPI backend
+        // 4. Register with AKA PAY backend
         const signals = this.collectSignals();
         try {
           const resp = await fetch(`${API_BASE}/api/v1/devices/register`, {
@@ -1552,8 +1566,8 @@
     function renderState(data) {
       state = data;
       const b = data.branding || {};
-      const appName = (b.appName && b.appName !== 'YOUPI PG') ? b.appName : 'Mitto Pay';
-      const merchantName = (data.merchantName && data.merchantName !== 'YOUPI Demo Store' && data.merchantName !== 'Merchant Checkout') ? data.merchantName : 'V-Visa Business';
+      const appName = (b.appName && b.appName !== 'AKA PAY' && b.appName !== 'AKA PAY') ? b.appName : 'AKA PAY';
+      const merchantName = (data.merchantName && data.merchantName !== 'AKA PAY Demo Store' && data.merchantName !== 'AKA PAY Demo Store' && data.merchantName !== 'Merchant Checkout') ? data.merchantName : 'Verified Merchant';
 
       // 1. Dynamic Title
       document.title = `${merchantName} · ${appName} Checkout`;
@@ -1870,10 +1884,10 @@
               const isEmbedded = (window.parent && window.parent !== window) || location.search.includes('embedded=1');
               if (isEmbedded) {
                 try {
-                  postToMerchant({ event: 'youpi.modal_close', redirectUrl: storeUrl });
-                  postToMerchant({ event: 'youpi.close', redirectUrl: storeUrl });
-                  postToMerchant({ event: 'youpi.cancel', redirectUrl: storeUrl });
-                  postToMerchant({ event: 'youpi.payment_cancelled', redirectUrl: storeUrl });
+                  postToMerchant({ event: 'akapay.modal_close', redirectUrl: storeUrl });
+                  postToMerchant({ event: 'akapay.close', redirectUrl: storeUrl });
+                  postToMerchant({ event: 'akapay.cancel', redirectUrl: storeUrl });
+                  postToMerchant({ event: 'akapay.payment_cancelled', redirectUrl: storeUrl });
                 } catch (e) {}
               } else {
                 const safeStoreUrl = sanitizeRedirectUrl(storeUrl);
@@ -1955,7 +1969,7 @@
 
           try {
             postToMerchant({
-              event: 'youpi.payment_success',
+              event: 'akapay.payment_success',
               data: data
             });
           } catch (e) { }
@@ -2385,10 +2399,10 @@
 
         if (isEmbedded) {
           try {
-            postToMerchant({ event: 'youpi.modal_close', redirectUrl: storeUrl });
-            postToMerchant({ event: 'youpi.close', redirectUrl: storeUrl });
-            postToMerchant({ event: 'youpi.cancel', redirectUrl: storeUrl });
-            postToMerchant({ event: 'youpi.payment_cancelled', redirectUrl: storeUrl });
+            postToMerchant({ event: 'akapay.modal_close', redirectUrl: storeUrl });
+            postToMerchant({ event: 'akapay.close', redirectUrl: storeUrl });
+            postToMerchant({ event: 'akapay.cancel', redirectUrl: storeUrl });
+            postToMerchant({ event: 'akapay.payment_cancelled', redirectUrl: storeUrl });
           } catch (e) { }
         }
 
@@ -2403,7 +2417,7 @@
 
     // Listen for cancel requests from parent iframe cross button
     window.addEventListener('message', (e) => {
-      if (e.data && e.data.event === 'youpi.request_cancel') {
+      if (e.data && e.data.event === 'akapay.request_cancel') {
         openCancelPaymentModal();
       }
     });
@@ -2534,7 +2548,7 @@
 
       try {
         postToMerchant({
-          event: 'youpi.payment_blocked',
+          event: 'akapay.payment_blocked',
           data: {
             status: 'BLOCKED',
             isBanned: true,
@@ -2550,7 +2564,7 @@
       if (window.parent && window.parent !== window) {
         try {
           postToMerchant({
-            event: 'youpi.payment_blocked_exit',
+            event: 'akapay.payment_blocked_exit',
             data: { status: 'BLOCKED', isBanned: true, orderId: state?.orderId }
           });
         } catch (e) {}

@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import { PaymentStatus } from '@youpi/common';
+import { PaymentStatus } from '@akapay/common';
 import { parseStatementCsv } from './statement-parser.js';
 
 /** Statement value date may post on the observation day or the next two calendar days. */

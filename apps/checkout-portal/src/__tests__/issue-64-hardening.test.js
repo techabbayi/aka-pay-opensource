@@ -6,7 +6,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { startHelpServer } from '../../../payment-help/src/index.js';
 import { startServer as startPaymentApi } from '../../../payment-api/src/index.js';
-import { Database, MerchantRepository, PaymentSessionRepository } from '@youpi/db';
+import { Database, MerchantRepository, PaymentSessionRepository } from '@akapay/db';
 import { authHeadersFor } from '../../../../scripts/test-support.js';
 import { checkoutFrameHeaders, isProductionLike } from '../server.js';
 
@@ -69,29 +69,29 @@ describe('Issue #64 hardening: returnUrl, branding sinks, postMessage, framing',
 
     test('targets the referrer origin', () => {
       const { window, document, posted } = sandboxWindow({ referrer: 'https://store.test/cart' });
-      lifted(window, document).postToMerchant({ event: 'youpi.payment_success' });
+      lifted(window, document).postToMerchant({ event: 'akapay.payment_success' });
       assert.equal(posted[0][1], 'https://store.test');
     });
 
-    test('falls back to the origin declared by youpi.js when the referrer is stripped', () => {
+    test('falls back to the origin declared by akapay.js when the referrer is stripped', () => {
       const { window, document, posted } = sandboxWindow({
-        search: '?youpiParentOrigin=https%3A%2F%2Fshop.test&embedded=1'
+        search: '?akapayParentOrigin=https%3A%2F%2Fshop.test&embedded=1'
       });
-      lifted(window, document).postToMerchant({ event: 'youpi.payment_success' });
+      lifted(window, document).postToMerchant({ event: 'akapay.payment_success' });
       assert.equal(posted[0][1], 'https://shop.test');
     });
 
     test('drops the message instead of broadcasting when no origin is known', () => {
       const { window, document, posted } = sandboxWindow({});
-      lifted(window, document).postToMerchant({ event: 'youpi.payment_success', data: { orderId: 'X' } });
+      lifted(window, document).postToMerchant({ event: 'akapay.payment_success', data: { orderId: 'X' } });
       assert.equal(posted.length, 0);
     });
 
     test('never resolves a non-http(s) declared origin', () => {
       const { window, document, posted } = sandboxWindow({
-        search: '?youpiParentOrigin=javascript%3Aalert(1)'
+        search: '?akapayParentOrigin=javascript%3Aalert(1)'
       });
-      lifted(window, document).postToMerchant({ event: 'youpi.payment_success' });
+      lifted(window, document).postToMerchant({ event: 'akapay.payment_success' });
       assert.equal(posted.length, 0);
     });
   });
@@ -146,8 +146,8 @@ describe('Issue #64 hardening: returnUrl, branding sinks, postMessage, framing',
   describe('checkout frame-ancestors defaults', () => {
     test('production defaults to self-fencing when nothing is configured', () => {
       assert.ok(checkoutFrameHeaders({ NODE_ENV: 'production' })['Content-Security-Policy'].includes("frame-ancestors 'self'"));
-      assert.ok(checkoutFrameHeaders({ YOUPI_MODE: 'production', NODE_ENV: 'development' })['Content-Security-Policy'].includes("frame-ancestors 'self'"));
-      assert.equal(isProductionLike({ YOUPI_MODE: 'production' }), true);
+      assert.ok(checkoutFrameHeaders({ AKAPAY_MODE: 'production', NODE_ENV: 'development' })['Content-Security-Policy'].includes("frame-ancestors 'self'"));
+      assert.equal(isProductionLike({ AKAPAY_MODE: 'production' }), true);
       assert.equal(isProductionLike({ NODE_ENV: 'test' }), false);
     });
 
@@ -210,7 +210,7 @@ describe('Issue #64 hardening: returnUrl, branding sinks, postMessage, framing',
 
     before(async () => {
       process.env.NODE_ENV = 'test';
-      process.env.YOUPI_ALLOWED_RETURN_ORIGINS = 'https://store.test';
+      process.env.AKAPAY_ALLOWED_RETURN_ORIGINS = 'https://store.test';
       testDb = new Database({ inMemory: true });
       apiInstance = await startPaymentApi(6194, testDb);
       apiBaseUrl = `http://localhost:${apiInstance.port}`;

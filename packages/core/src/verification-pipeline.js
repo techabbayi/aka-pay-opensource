@@ -6,7 +6,7 @@ import {
   toPaise,
   normalizeEmail,
   normalizeMobile
-} from '@youpi/common';
+} from '@akapay/common';
 import { extractIntelligentAmount } from './bank-sms-parser.js';
 import { ObservationNormalizer } from './normalizer.js';
 
@@ -81,13 +81,13 @@ const FRAUD_PATTERNS = [
 export class PaymentVerificationPipeline {
   /**
    * @param {{
-   *   db: import('@youpi/db').Database,
-   *   sessionRepo: import('@youpi/db').PaymentSessionRepository,
-   *   obsRepo: import('@youpi/db').ObservationRepository,
-   *   customerRepo?: import('@youpi/db').CustomerRepository,
+   *   db: import('@akapay/db').Database,
+   *   sessionRepo: import('@akapay/db').PaymentSessionRepository,
+   *   obsRepo: import('@akapay/db').ObservationRepository,
+   *   customerRepo?: import('@akapay/db').CustomerRepository,
    *   attributionEngine: import('./attribution-engine.js').AttributionEngine,
-   *   auditRepo?: import('@youpi/db').AuditLogRepository,
-   *   merchantRepo?: import('@youpi/db').MerchantRepository
+   *   auditRepo?: import('@akapay/db').AuditLogRepository,
+   *   merchantRepo?: import('@akapay/db').MerchantRepository
    * }} options
    */
   constructor(options) {
@@ -414,7 +414,7 @@ export class PaymentVerificationPipeline {
         emailDomain === 'fin.in' ||
         Array.from(KNOWN_BANK_DOMAINS).some(root => emailDomain === root || emailDomain.endsWith('.' + root));
       // In automated test suite or local dev, allow TEST sender and legacy test fixture domains
-      const isValidDomain = isBankDomain || sender === 'TEST' || cleanEmail === 'TEST' || sender === 'gmail-browser-automator' || emailDomain.endsWith('.youpi.local');
+      const isValidDomain = isBankDomain || sender === 'TEST' || cleanEmail === 'TEST' || sender === 'gmail-browser-automator' || emailDomain.endsWith('.akapay.local') || emailDomain.endsWith('.akapay.local');
 
       if (!isValidDomain) {
         if (!isAttributableToCustomer) {

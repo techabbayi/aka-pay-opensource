@@ -6,7 +6,7 @@ import path from 'node:path';
 import { GmailPoller } from '../gmail-poller.js';
 
 function setup(t) {
-  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'youpi-stop-'));
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'akapay-stop-'));
   const poller = new GmailPoller({ receivingAccountId: 'synthetic-account', storagePath: path.join(directory, 'ids.json') });
   poller.setCredentials({ clientId: 'synthetic-client', clientSecret: 'synthetic-secret', refreshToken: 'synthetic-refresh' });
   poller.pollCycle = async () => {};
@@ -62,7 +62,7 @@ test('an older boot cannot degrade a newer successful restart', async (t) => {
 
 test('an HTTP stop response remains stopped after the earlier start request completes', async (t) => {
   const { GmailObserverServer } = await import('../server.js');
-  const { getAdminToken } = await import('@youpi/common');
+  const { getAdminToken } = await import('@akapay/common');
   const poller = setup(t);
   let finish;
   let markStarted;

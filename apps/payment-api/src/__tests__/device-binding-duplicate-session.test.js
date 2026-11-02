@@ -2,11 +2,11 @@ import { test, describe, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
 import crypto from 'node:crypto';
-import { Database, CustomerRepository, CustomerSessionRepository, PaymentSessionRepository, MerchantRepository } from '@youpi/db';
+import { Database, CustomerRepository, CustomerSessionRepository, PaymentSessionRepository, MerchantRepository } from '@akapay/db';
 import { startServer as startPaymentApi } from '../index.js';
 import { authHeadersFor } from '../../../../scripts/test-support.js';
 
-describe('YOUPI PG: Device Binding & Duplicate Session Detection', () => {
+describe('AKA PAY: Device Binding & Duplicate Session Detection', () => {
   let apiInstance;
   let baseUrl;
   let testDb;

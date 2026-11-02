@@ -1,8 +1,8 @@
 import { test, describe, beforeEach, afterEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { EventEmitter } from 'node:events';
-import { getDatabase, ensureDatabaseInitialized, runMigrations, PaymentSessionRepository, ObservationRepository } from '@youpi/db';
-import { AttributionEngine } from '@youpi/core';
+import { getDatabase, ensureDatabaseInitialized, runMigrations, PaymentSessionRepository, ObservationRepository } from '@akapay/db';
+import { AttributionEngine } from '@akapay/core';
 import { ObserverPollerService } from '../services/observer-poller.service.js';
 
 describe('ObserverPollerService Hardening & Concurrency Protection', () => {

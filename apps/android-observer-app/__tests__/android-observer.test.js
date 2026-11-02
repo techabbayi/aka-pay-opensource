@@ -1,9 +1,9 @@
 import { test, describe, before, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { Database } from '@youpi/db';
+import { Database } from '@akapay/db';
 import { startServer as startPaymentApi } from '../../../apps/payment-api/src/index.js';
 import { AndroidObserverDriver } from '../driver.js';
-import { PaymentStatus, resolveSecret } from '@youpi/common';
+import { PaymentStatus, resolveSecret } from '@akapay/common';
 
 describe('Android Payment Observer Integration Tests', () => {
   let apiInstance;

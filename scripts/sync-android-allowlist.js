@@ -14,7 +14,7 @@ const REPO_ROOT = path.resolve(__dirname, '..');
 export function syncAndroidAllowlist() {
   const serviceFile = path.resolve(
     REPO_ROOT,
-    'apps/android-observer-app/app/src/main/java/com/youpi/observer/PaymentNotificationListenerService.java'
+    'apps/android-observer-app/app/src/main/java/com/akapay/observer/PaymentNotificationListenerService.java'
   );
 
   if (!fs.existsSync(serviceFile)) {

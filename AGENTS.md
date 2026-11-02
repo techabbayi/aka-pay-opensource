@@ -1,6 +1,6 @@
-# AGENTS.md — YOUPI PG V2 Operating & Integration Standard
+# AGENTS.md — AKA PAY Operating & Integration Standard
 
-This document establishes the mandatory architectural rules, Git workflows, security standards, and payment lifecycle invariants for both AI coding agents and human engineers contributing to or integrating with **YOUPI PG V2**.
+This document establishes the mandatory architectural rules, Git workflows, security standards, and payment lifecycle invariants for both AI coding agents and human engineers contributing to or integrating with **AKA PAY** (UPI & Payment Infrastructure, Also Known As. Always Connected.).
 
 ---
 
@@ -55,16 +55,16 @@ This document establishes the mandatory architectural rules, Git workflows, secu
 
 ### 1. Payment Lifecycle Architecture
 
-YOUPI PG V2 is a self-hosted, sovereign payment gateway designed for zero-fee UPI and counter payments with automated banking observation (SMS & Gmail parsing).
+AKA PAY is a self-hosted, sovereign payment gateway designed for zero-fee UPI and counter payments with automated banking observation (SMS & Gmail parsing).
 
 ```
   [ Merchant Website / App ]
               │
-    (1) Adds one script: <script src=".../youpi.js" data-youpi-key="...">
+    (1) Adds one script: <script src=".../akapay.js" data-akapay-key="...">
               │
-    (2) Maps payment button: <button data-youpi-pay data-order-id="..." data-amount="...">
+    (2) Maps payment button: <button data-akapay-pay data-order-id="..." data-amount="...">
               │
-    (3) YOUPI JS dims/blurs background & renders centered responsive modal (or mobile sheet)
+    (3) AKA PAY JS dims/blurs background & renders centered responsive modal (or mobile sheet)
               │
     (4) Existing iframe loads /checkout/:id with dynamic single-use QR and UPI intent
               │
@@ -79,7 +79,7 @@ YOUPI PG V2 is a self-hosted, sovereign payment gateway designed for zero-fee UP
      ┌────────┴──────────────────────────┐
      ▼                                   ▼
  [ Browser CustomEvents ]      [ Signed Webhook Delivery ]
- youpi:payment:success          POST /api/webhook (HMAC-SHA256)
+ akapay:payment:success         POST /api/webhook (HMAC-SHA256)
  (For instant UI feedback)      (AUTHORITATIVE PROOF OF PAYMENT)
 ```
 
@@ -93,21 +93,21 @@ Place the script tag in the page's HTML `<head>` or `<body>`:
 
 ```html
 <script
-  src="https://<youpi-checkout-host>/youpi.js"
-  data-youpi-key="YOUR_MERCHANT_KEY"
+  src="https://<checkout-host>/akapay.js"
+  data-akapay-key="YOUR_MERCHANT_KEY"
 ></script>
 ```
 
-- When running locally, `<youpi-checkout-host>` is `http://localhost:7000`.
+- When running locally, `<checkout-host>` is `http://localhost:7000`.
 - In production, it is your canonical checkout portal domain (e.g., `https://pay.yourdomain.com`).
 
 #### Step 2: One-Button Zero-JS Configuration
 
-Tag any clickable button with `data-youpi-pay`:
+Tag any clickable button with `data-akapay-pay`:
 
 ```html
 <button
-  data-youpi-pay
+  data-akapay-pay
   data-order-id="ORDER-1001"
   data-amount="499"
   data-currency="INR"
@@ -120,14 +120,14 @@ Tag any clickable button with `data-youpi-pay`:
 </button>
 ```
 
-The script automatically binds click events to elements with `[data-youpi-pay]`, including elements created dynamically at runtime.
+The script automatically binds click events to elements with `[data-akapay-pay]`, including elements created dynamically at runtime.
 
-#### Step 3: Programmatic API (`Youpi.pay`)
+#### Step 3: Programmatic API (`AkaPay.pay`)
 
 For single-page apps (React, Next.js, Vue, Nuxt, Svelte), use the programmatic interface:
 
 ```javascript
-Youpi.pay({
+AkaPay.pay({
   order_id: "ORDER-1001",
   amount: 499.0,
   currency: "INR",
@@ -157,12 +157,17 @@ The frontend script emits normalized DOM `CustomEvent`s on `window`:
 
 | Event Name                 | Trigger Condition                                       |
 | :------------------------- | :------------------------------------------------------ |
-| `youpi:payment:success`    | Payment verified by banking observers                   |
-| `youpi:payment:failed`     | Payment declined, wrong amount, or verification timeout |
-| `youpi:payment:suspicious` | Payment flagged by security/risk engine                 |
-| `youpi:payment:expired`    | 5-minute active payment window expired                  |
-| `youpi:payment:cancelled`  | Customer cancelled or dismissed the checkout            |
-| `youpi:payment:result`     | Unified event dispatched on any outcome                 |
+| `akapay:payment:success`   | Payment verified by banking observers                   |
+| `akapay:payment:failed`    | Payment declined, wrong amount, or verification timeout |
+| `akapay:payment:suspicious`| Payment flagged by security/risk engine                 |
+| `akapay:payment:expired`   | 5-minute active payment window expired                  |
+| `akapay:payment:cancelled` | Customer cancelled or dismissed the checkout            |
+| `akapay:payment:result`    | Unified event dispatched on any outcome                 |
+| `akapay:payment:failed`     | Payment declined, wrong amount, or verification timeout |
+| `akapay:payment:suspicious` | Payment flagged by security/risk engine                 |
+| `akapay:payment:expired`    | 5-minute active payment window expired                  |
+| `akapay:payment:cancelled`  | Customer cancelled or dismissed the checkout            |
+| `akapay:payment:result`     | Unified event dispatched on any outcome                 |
 
 #### Payload Contract (`event.detail`):
 
@@ -225,7 +230,7 @@ app.post(
   express.raw({ type: "application/json" }),
   (req, res) => {
     const signature = req.headers["x-gateway-signature"] || "";
-    const secret = process.env.YOUPI_WEBHOOK_SECRET;
+    const secret = process.env.AKAPAY_WEBHOOK_SECRET;
     const expected =
       "sha256=" +
       crypto.createHmac("sha256", secret).update(req.body).digest("hex");
@@ -259,7 +264,7 @@ app.post(
    - There is no endpoint that allows a client or developer to arbitrarily declare `SUCCESS`.
    - `SUCCESS` is generated solely by the internal verification engine after matching a genuine bank SMS/Gmail observation.
 2. **Never Expose Secret API Keys in Frontend**:
-   - Only publishable public keys (e.g., `data-youpi-key`) may appear in HTML/JS.
+   - Only publishable public keys (e.g., `data-akapay-key`) may appear in HTML/JS.
    - `webhookSecret`, database credentials, and observer tokens must remain strictly on the backend.
 3. **Idempotency & Deduplication**:
    - Webhook deliveries include unique `X-Gateway-Delivery-Id` and `orderId`. Merchants must ensure their webhook processing is idempotent.
@@ -276,8 +281,19 @@ app.post(
 | :------------------------- | :----- | :--------------------------------------------------- |
 | **Coin Wallet Demo Store** | `5000` | Reference merchant implementation & store            |
 | **Payment Core REST API**  | `6100` | Core gateway engine, state machine, queue            |
-| **Checkout Portal**        | `7000` | Serves `youpi.js`, iframe `/checkout/:id`, API proxy |
+| **Checkout Portal**        | `7000` | Serves `akapay.js`, iframe `/checkout/:id`, API proxy |
 | **Merchant Admin**         | `6001` | Dashboard for slots, receiving VPAs, observers       |
 | **SMS Observer**           | `6002` | Android SMS banking webhook ingester                 |
 | **Gmail Observer**         | `6003` | Push notification / Gmail observation ingester       |
 | **Process Control Center** | `8090` | Local process supervisor daemon                      |
+
+---
+
+### 7. Project Ownership & Open Source Governance
+
+- **Author & Project Owner:** [techabbayi](https://github.com/techabbayi) (Lokeswara Muthumula)
+- **Repository:** [https://github.com/techabbayi/aka-pay-opensource](https://github.com/techabbayi/aka-pay-opensource)
+- **LinkedIn:** [https://in.linkedin.com/in/lokeswaramuthumula](https://in.linkedin.com/in/lokeswaramuthumula)
+- **Email:** [srssltd@gmail.com](mailto:srssltd@gmail.com)
+- **License:** Apache License 2.0
+

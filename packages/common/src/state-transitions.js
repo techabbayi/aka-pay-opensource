@@ -3,9 +3,9 @@ import { PaymentStatus } from './enums.js';
 /**
  * Allowed payment session state transitions.
  *
- * This lives in `@youpi/common` rather than `@youpi/core` because the database layer
- * (`@youpi/db`) must enforce it too, and `@youpi/db` cannot depend on `@youpi/core`
- * (which already depends on it). `@youpi/core` re-exports these helpers unchanged.
+ * This lives in `@akapay/common` rather than `@akapay/core` because the database layer
+ * (`@akapay/db`) must enforce it too, and `@akapay/db` cannot depend on `@akapay/core`
+ * (which already depends on it). `@akapay/core` re-exports these helpers unchanged.
  */
 export const VALID_TRANSITIONS = Object.freeze({
   // EXPIRED is reachable from every non-terminal state: it is the universal "gave up"

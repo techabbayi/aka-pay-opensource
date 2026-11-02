@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import { PaymentStatus, PaymentMethod, isValidTransition, TERMINAL_STATES, IMMUTABLE_STATES } from '@youpi/common';
+import { PaymentStatus, PaymentMethod, isValidTransition, TERMINAL_STATES, IMMUTABLE_STATES } from '@akapay/common';
 
 export class PaymentSessionRepository {
   /**

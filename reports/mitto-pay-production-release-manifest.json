@@ -11,12 +11,12 @@
   },
   "host": {
     "vmIp": "130.210.28.51",
-    "serviceName": "youpi-staging.service",
+    "serviceName": "AKA PAY-staging.service",
     "nodeVersion": "22.23.3",
     "activeDeployedCommit": "9e4763c66c82c8ba246f00b6fa3347428be7be38",
     "backups": [
-      "/opt/youpi-pg-backup-pre-gate4",
-      "/opt/youpi-pg-backup-pre-mitto-canary"
+      "/opt/aka-pay-backup-pre-gate4",
+      "/opt/aka-pay-backup-pre-mitto-canary"
     ]
   },
   "pilotBoundaries": {
@@ -24,7 +24,7 @@
     "authorizedAgencyId": "cmrnlpf9z0001ju04htfqb9my",
     "canaryMode": "FAIL_CLOSED",
     "verificationPolicy": "REQUIRE_DUAL_CHANNEL",
-    "vvisaEnableYoupiUpi": false,
+    "vvisaEnableAKA PAYUpi": false,
     "vvisaDefaultGateway": "ZOHO"
   },
   "testEvidence": {

@@ -1,8 +1,8 @@
 import { test, describe, beforeEach, afterEach } from 'node:test';
 import assert from 'node:assert/strict';
-import { Database, runMigrations, PaymentSessionRepository, ObservationRepository, SupportTicketRepository, AuditLogRepository } from '@youpi/db';
-import { PaymentStatus, ObserverSource } from '@youpi/common';
-import { AttributionEngine, ObservationNormalizer, StatementReconciliation, parseStatementCsv, rupeesToPaise } from '@youpi/core';
+import { Database, runMigrations, PaymentSessionRepository, ObservationRepository, SupportTicketRepository, AuditLogRepository } from '@akapay/db';
+import { PaymentStatus, ObserverSource } from '@akapay/common';
+import { AttributionEngine, ObservationNormalizer, StatementReconciliation, parseStatementCsv, rupeesToPaise } from '@akapay/core';
 
 const ACCOUNT_ID = '00000000-0000-0000-0000-000000000002';
 

@@ -67,7 +67,9 @@
     }
 
     body {
-      background-color: #0b0f19;
+      background-color: #07090E;
+      background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 245, 155, 0.08), transparent 70%), radial-gradient(ellipse 60% 40% at 90% 80%, rgba(0, 212, 255, 0.05), transparent 60%);
+      background-attachment: fixed;
       color: var(--ypg-text-dark);
       min-height: 100vh;
       min-height: 100dvh;
@@ -91,7 +93,7 @@
       overflow: hidden;
     }
 
-    /* --- YOUPI PG CARD / DRAWER CONTAINER --- */
+    /* --- AKA PAY CARD / DRAWER CONTAINER --- */
     .ypg-wrapper {
       width: 100%;
       max-width: 440px;
@@ -99,7 +101,8 @@
       background: #ffffff;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 25px 65px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 25px 65px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 245, 155, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       position: relative;
       overflow: hidden;
     }
@@ -147,7 +150,7 @@
       }
     }
 
-    /* --- 1. INITIAL LOADING SPLASH SCREEN (YOUPI PG EMBLEM) --- */
+    /* --- 1. INITIAL LOADING SPLASH SCREEN (AKA PAY EMBLEM) --- */
     .ypg-splash-screen {
       position: absolute;
       top: 0;
@@ -240,7 +243,7 @@
       color: var(--ypg-text-muted);
     }
 
-    /* --- 2. AUTHENTIC YOUPI PG HEADER --- */
+    /* --- 2. AUTHENTIC AKA PAY HEADER --- */
     .ypg-header {
       background: var(--ypg-header-gradient);
       color: #ffffff;
@@ -328,7 +331,7 @@
       line-height: 1.25;
     }
 
-    /* YouPI PG Verified Business Badge */
+    /* AKA PAY Verified Business Badge */
     .ypg-trusted-badge {
       display: flex;
       align-items: center;

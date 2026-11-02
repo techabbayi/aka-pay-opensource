@@ -1,4 +1,4 @@
-import { PaymentStatus, ObservationAttributionStatus, TicketStatus, SenderType, isTerminalStatus, calculateObservationFingerprint } from '@youpi/common';
+import { PaymentStatus, ObservationAttributionStatus, TicketStatus, SenderType, isTerminalStatus, calculateObservationFingerprint } from '@akapay/common';
 
 export function getChannelFamily(source) {
   const normalized = String(source || '').trim().toUpperCase();
@@ -12,10 +12,10 @@ export function getChannelFamily(source) {
 export class AttributionEngine {
   /**
    * @param {{
-   *   sessionRepo: import('@youpi/db').PaymentSessionRepository,
-   *   obsRepo: import('@youpi/db').ObservationRepository,
-   *   ticketRepo?: import('@youpi/db').SupportTicketRepository,
-   *   auditRepo?: import('@youpi/db').AuditLogRepository,
+   *   sessionRepo: import('@akapay/db').PaymentSessionRepository,
+   *   obsRepo: import('@akapay/db').ObservationRepository,
+   *   ticketRepo?: import('@akapay/db').SupportTicketRepository,
+   *   auditRepo?: import('@akapay/db').AuditLogRepository,
    *   eventEmitter?: { emit: (event: string, payload: any) => void }
    * }} options
    */

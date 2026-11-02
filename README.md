@@ -47,13 +47,13 @@
 
 <p align="center">
   <a href="#-live-product-demos">Live Demos</a> •
-  <a href="#-the-problem-vs-the-youpi-solution">Why YOUPI?</a> •
+  <a href="#-overview">Overview</a> •
   <a href="#-architecture-at-a-glance">Architecture</a> •
-  <a href="#-key-features--superpowers">Superpowers</a> •
+  <a href="#-key-features">Key Features</a> •
   <a href="#-quickstart-in-60-seconds">Quickstart</a> •
   <a href="#-universal-merchant-integration">Merchant Integration</a> •
   <a href="#-tri-channel-observation-mesh">Banking Observers</a> •
-  <a href="#-port-topology">Port Topology</a> •
+  <a href="#-port-topology--microservices-map">Port Topology</a> •
   <a href="#-documentation-hub">Docs</a>
 </p>
 
@@ -70,7 +70,7 @@ See **AKA PAY** live in action across Desktop and Mobile checkout flows:
 |                                                                                                                                              Desktop Modal Flow                                                                                                                                               |                                                                                                                  Mobile Drawer & App Switcher                                                                                                                   |
 | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 |                                                        <img src="assets/desktop-demo.gif" width="100%" alt="Desktop Checkout Demo" /><br/><sub>_Full end-to-end checkout: One-script modal, WhatsApp OTP, dynamic vector QR & bank observation._</sub>                                                        |                                    <img src="assets/mobile-demo.gif" width="60%" alt="Mobile Checkout Demo" /><br/><sub>_Ultra-responsive bottom drawer with 1-tap deep-link intent for GPay, PhonePe, Paytm & CRED._</sub>                                     |
-| • **Zero-JS One-Script Trigger**: Auto-binds to `[data-akapay-pay]` (and `[data-youpi-pay]`)<br/>• **WhatsApp Pre-Checkout OTP**: Real-time 6-digit phone verification<br/>• **Dynamic Vector SVG QR**: Pure vector QR code with dual timers<br/>• **Experimental observer-based payment detection**: Instant credit via bank SMS/Gmail | • **Responsive Bottom Drawer**: Native app-feel mobile UI<br/>• **Direct UPI App Deep-Linking**: GPay, PhonePe, Paytm, CRED<br/>• **Real-Time Payment Polling**: Instant status reflection<br/>• **Counter Desk Modalities**: Configurable Cash & Card fallback |
+| • **Zero-JS One-Script Trigger**: Auto-binds to `[data-akapay-pay]`<br/>• **WhatsApp Pre-Checkout OTP**: Real-time 6-digit phone verification<br/>• **Dynamic Vector SVG QR**: Pure vector QR code with dual timers<br/>• **Experimental observer-based payment detection**: Instant credit via bank SMS/Gmail | • **Responsive Bottom Drawer**: Native app-feel mobile UI<br/>• **Direct UPI App Deep-Linking**: GPay, PhonePe, Paytm, CRED<br/>• **Real-Time Payment Polling**: Instant status reflection<br/>• **Counter Desk Modalities**: Configurable Cash & Card fallback |
 
 <br/>
 
@@ -84,7 +84,7 @@ See **AKA PAY** live in action across Desktop and Mobile checkout flows:
 
 Traditional payment gateways (Razorpay, Cashfree, PayU, Stripe) lock your revenue into high fees, multi-day settlement delays, and sudden compliance freezes:
 
-| Comparison Metric               | Traditional Aggregators (Razorpay / Cashfree)      | YOUPI PG (Self-Hosted Sovereign)                                                                                |
+| Comparison Metric               | Traditional Aggregators (Razorpay / Cashfree)      | AKA PAY (Self-Hosted Sovereign)                                                                                |
 | :------------------------------ | :------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------- |
 | **Transaction Fee**             | **2.0% – 3.0% + 18% GST** per transaction          | **0.0% (Zero Fees Forever)**                                                                                    |
 | **Settlement Speed**            | **T+2 to T+3 Business Days** (Holdbacks)           | **Direct transfer; timing and availability depend on the bank and UPI rails**                                   |
@@ -102,7 +102,7 @@ Traditional payment gateways (Razorpay, Cashfree, PayU, Stripe) lock your revenu
 
 ## Architecture at a Glance
 
-YOUPI PG is designed to use standard Indian personal or business UPI receiving accounts for payment collection by coupling **pure vector SVG QR codes** with an **automated multi-channel banking observation mesh**.
+AKA PAY is designed to use standard Indian personal or business UPI receiving accounts for payment collection by coupling **pure vector SVG QR codes** with an **automated multi-channel banking observation mesh**.
 
 ```mermaid
 flowchart LR
@@ -111,7 +111,7 @@ flowchart LR
         Cart[Checkout Button]
     end
 
-    subgraph Gateway["YOUPI Gateway Instance"]
+    subgraph Gateway["AKA PAY Gateway Instance"]
         AuthGate[WhatsApp Berry Auth<br/>6-Digit OTP]
         Queue[Single-Slot FIFO Queue<br/>Deterministic Arbiter]
         VectorQR[ISO Vector QR Engine<br/>UPI URI]
@@ -129,7 +129,7 @@ flowchart LR
     end
 
     Buyer -->|Clicks Checkout| Cart
-    Cart -->|youpi.js Embed| AuthGate
+    Cart -->|akapay.js Embed| AuthGate
     AuthGate -->|Verified| Queue
     Queue -->|Active Slot| VectorQR
     VectorQR -->|Displays Dynamic QR| Buyer
@@ -161,13 +161,13 @@ No more fake orders, bot spam, or fraudulent phone numbers. Before a customer ca
 
 ### 3. Deterministic Single-Slot FIFO Queue Engine
 
-Because standard UPI alerts do not carry arbitrary merchant metadata, multiple concurrent transactions with identical amounts could create attribution confusion. YOUPI PG solves this with a mathematical invariant:
+Because standard UPI alerts do not carry arbitrary merchant metadata, multiple concurrent transactions with identical amounts could create attribution confusion. AKA PAY solves this with a mathematical invariant:
 
 - **Only ONE customer can pay on a VPA at a time.**
 - Other buyers wait in a database-backed FIFO queue with live position streaming.
 - This queue design is intended to reduce ambiguity when matching incoming payments.
 
-### 4. Native Android Observer APK (`com.youpi.observer`)
+### 4. Native Android Observer APK (`com.akapay.observer`)
 
 A lightweight, battery-optimized Android foreground service that captures:
 
@@ -261,8 +261,8 @@ This section is a practical project warning, not a certification, compliance che
 Standard `npm install` works out-of-the-box across all packages and apps without any protocol issues:
 
 ```bash
-git clone https://github.com/youpi-pg/YouPI-PG.git youpi-pg
-cd youpi-pg
+git clone https://github.com/techabbayi/aka-pay-opensource.git aka-pay
+cd aka-pay
 npm install
 ```
 
@@ -276,7 +276,7 @@ _(The default `.env` is pre-configured for localhost out of the box)._
 
 ### 3. Start the Services
 
-On first launch, YOUPI PG automatically provisions `data/youpi_pg.sqlite`, creates the directory if missing, and executes idempotent migrations and baseline seeds. No manual database setup is required:
+On first launch, AKA PAY automatically provisions `data/akapay.sqlite`, creates the directory if missing, and executes idempotent migrations and baseline seeds. No manual database setup is required:
 
 ```bash
 npm run dev
@@ -288,7 +288,7 @@ The services can then be accessed at the following local addresses:
 
 - **Control Center Supervisor:** [`http://localhost:8090`](http://localhost:8090)
 - **Merchant Admin Panel:** [`http://localhost:6001`](http://localhost:6001)
-- **YOUPI Showcase Demo Store:** [`http://localhost:5000`](http://localhost:5000)
+- **AKA PAY Showcase Demo Store:** [`http://localhost:5000`](http://localhost:5000)
 - **Payment REST API:** [`http://localhost:6100`](http://localhost:6100)
 - **Customer Checkout Portal:** [`http://localhost:7000`](http://localhost:7000)
 
@@ -302,7 +302,7 @@ npm test
 
 ```text
 ============================================================
- YOUPI PG V2 — FULL REGRESSION TEST RUNNER
+ AKA PAY — FULL REGRESSION TEST RUNNER
 Running 31 curated test suites...
 ============================================================
 [1/31] Testing packages/common/src/__tests__/common.test.js...  PASS (0.22s)
@@ -319,31 +319,31 @@ Running 31 curated test suites...
 
 ## Universal Merchant Integration
 
-YOUPI PG can be integrated into a website, web application, or e-commerce store using the following steps.
+AKA PAY can be integrated into a website, web application, or e-commerce store using the following steps.
 
 ### Step 1: Add the Universal Script to your `<head>`
 
 ```html
-<!-- Official YOUPI PG Universal Integration Script -->
+<!-- Official AKA PAY Universal Integration Script -->
 <script
-  src="https://pay.yourdomain.com/youpi.js"
-  data-youpi-key="YOUR_MERCHANT_PUBLIC_KEY"
+  src="https://pay.yourdomain.com/akapay.js"
+  data-akapay-key="YOUR_MERCHANT_PUBLIC_KEY"
   data-currency="INR"
 ></script>
 ```
 
 ### Step 2: Declarative Button (Zero JavaScript Required!)
 
-Add `data-youpi-pay` attributes to any existing HTML button:
+Add `data-akapay-pay` attributes to any existing HTML button:
 
 ```html
 <button
-  data-youpi-pay
+  data-akapay-pay
   data-order-id="ORDER-1001"
   data-amount="499.00"
   data-currency="INR"
 >
-  Buy Now with YOUPI PG
+  Buy Now with AKA PAY
 </button>
 ```
 
@@ -352,7 +352,7 @@ _The script automatically intercepts the click, opens a centered desktop modal (
 ### Step 3: Programmatic API (For React, Vue, Next.js, Nuxt)
 
 ```javascript
-window.Youpi.pay({
+window.AkaPay.pay({
   order_id: "ORDER-1001",
   amount: 499.0,
   currency: "INR",
@@ -422,11 +422,11 @@ See [Merchant Integration](docs/MERCHANT_INTEGRATION.md) for the full lifecycle.
 import crypto from "node:crypto";
 
 app.post(
-  "/api/youpi-webhook",
+  "/api/akapay-webhook",
   express.raw({ type: "application/json" }),
   (req, res) => {
     const signature = req.headers["x-gateway-signature"] || "";
-    const secret = process.env.YOUPI_WEBHOOK_SECRET;
+    const secret = process.env.AKAPAY_WEBHOOK_SECRET ;
     const expected =
       "sha256=" +
       crypto.createHmac("sha256", secret).update(req.body).digest("hex");
@@ -455,11 +455,11 @@ from fastapi import FastAPI, Request, HTTPException
 
 app = FastAPI()
 
-@app.post("/api/youpi-webhook")
-async def youpi_webhook(request: Request):
+@app.post("/api/akapay-webhook")
+async def akapay_webhook(request: Request):
     raw_body = await request.body()
     signature = request.headers.get("X-Gateway-Signature", "")
-    secret = request.app.state.webhook_secret.encode("utf-8")
+    secret = (request.app.state.webhook_secret or os.getenv("AKAPAY_WEBHOOK_SECRET") or os.getenv("AKAPAY_WEBHOOK_SECRET")).encode("utf-8")
 
     expected = "sha256=" + hmac.new(secret, raw_body, hashlib.sha256).hexdigest()
     if not hmac.compare_digest(signature, expected):
@@ -479,7 +479,7 @@ async def youpi_webhook(request: Request):
 <?php
 $rawPayload = file_get_contents('php://input');
 $signature = $_SERVER['HTTP_X_GATEWAY_SIGNATURE'] ?? '';
-$secret = getenv('YOUPI_WEBHOOK_SECRET');
+$secret = getenv('AKAPAY_WEBHOOK_SECRET') ?: getenv('AKAPAY_WEBHOOK_SECRET');
 
 $expected = 'sha256=' . hash_hmac('sha256', $rawPayload, $secret);
 
@@ -514,7 +514,7 @@ import (
 	"os"
 )
 
-func youpiWebhookHandler(w http.ResponseWriter, r *http.Request) {
+func akapayWebhookHandler(w http.ResponseWriter, r *http.Request) {
 	rawBody, err := io.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, "Cannot read body", http.StatusBadRequest)
@@ -523,7 +523,11 @@ func youpiWebhookHandler(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	signature := r.Header.Get("X-Gateway-Signature")
-	secret := []byte(os.Getenv("YOUPI_WEBHOOK_SECRET"))
+	webhookSecret := os.Getenv("AKAPAY_WEBHOOK_SECRET")
+	if webhookSecret == "" {
+		webhookSecret = os.Getenv("AKAPAY_WEBHOOK_SECRET")
+	}
+	secret := []byte(webhookSecret)
 
 	mac := hmac.New(sha256.New, secret)
 	mac.Write(rawBody)
@@ -558,7 +562,7 @@ func youpiWebhookHandler(w http.ResponseWriter, r *http.Request) {
 
 ## Tri-Channel Observation Mesh
 
-YOUPI PG confirms payments without expensive commercial banking APIs using a triple-layer observation pipeline:
+AKA PAY confirms payments without expensive commercial banking APIs using a triple-layer observation pipeline:
 
 ```text
               CUSTOMER SCANS & PAYS VIA UPI
@@ -576,7 +580,7 @@ YOUPI PG confirms payments without expensive commercial banking APIs using a tri
         ▼                  ▼                  │
 ┌──────────────────────────────────┐          │
 │    NATIVE ANDROID OBSERVER APK   │          │
-│  com.youpi.observer (Foreground) │          │
+│  com.akapay.observer (Foreground)│          │
 │     HMAC-SHA256 Signed Payload   │          │
 └─────────────────┬────────────────┘          │
                   │                           ▼
@@ -594,7 +598,7 @@ YOUPI PG confirms payments without expensive commercial banking APIs using a tri
                        SUCCESS CONFIRMED
 ```
 
-1. **Android Observer App:** Install [`apps/android-observer-app/youpi-sms-gateway.apk`](apps/android-observer-app/youpi-sms-gateway.apk) (Certified SHA-256: `959218223e75da4784744c16afaf7bc121cff377dff04f041875237042f51601`) on any secondary Android smartphone with the receiving bank SIM. Scan the pairing QR code in Merchant Admin to establish an encrypted HMAC link.
+1. **Android Observer App:** Install [`apps/android-observer-app/akapay-observer.apk`](apps/android-observer-app/akapay-observer.apk) (also mirrored as `akapay-observer.apk`, Certified SHA-256: `959218223e75da4784744c16afaf7bc121cff377dff04f041875237042f51601`) on any secondary Android smartphone with the receiving bank SIM. Scan the pairing QR code in Merchant Admin to establish an encrypted HMAC link.
 2. **Gmail Observer:** Connect your bank-registered Google account using standard OAuth2 credentials.
    <details>
    <summary><b>🔍 View Verified Indian Bank Domains & RBI <code>.bank.in</code> Registry</b></summary>
@@ -661,18 +665,30 @@ Deep-dive engineering manuals and operational runbooks are available in the [`/d
 
 ---
 
+## Author & Maintainer
+
+AKA PAY is developed and maintained as an open-source initiative:
+
+* **Author & Lead Maintainer:** **techabbayi** (Lokeswara Muthumula)
+* **GitHub Profile:** [@techabbayi](https://github.com/techabbayi)
+* **Open Source Repository:** [techabbayi/aka-pay-opensource](https://github.com/techabbayi/aka-pay-opensource)
+* **LinkedIn Profile:** [Lokeswara Muthumula](https://in.linkedin.com/in/lokeswaramuthumula)
+* **Direct Email Contact:** [srssltd@gmail.com](mailto:srssltd@gmail.com)
+
+---
+
 ## License
 
-See [`LICENSE`](LICENSE) for the actual license terms. A license to use the code does not imply regulatory approval, bank approval, security certification, or permission to operate a regulated payment service.
+See [`LICENSE`](LICENSE) for the Apache-2.0 license terms. A license to use the code does not imply regulatory approval, bank approval, security certification, or permission to operate a regulated payment service.
 
 <br/>
 
 <div align="center">
 
-### YOUPI PG
+### AKA PAY
 
-**Self-hosted payment infrastructure with direct UPI settlement.**
+**UPI & Payment Infrastructure, Also Known As. Always Connected.**
 
-⭐ **Contributions and feedback are welcome.**
+⭐ **Contributions, stars, and feedback are welcome.**
 
 </div>

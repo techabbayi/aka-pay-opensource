@@ -1,2 +1,3 @@
 export * from './client.js';
-export * from './youpi-checkout.js';
+export * from './akapay.js';
+export * from './akapay.js';

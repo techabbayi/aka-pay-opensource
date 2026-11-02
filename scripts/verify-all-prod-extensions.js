@@ -12,7 +12,7 @@ import {
 } from '../packages/common/src/index.js';
 
 async function verifyProductionExtensions() {
-  const dbPath = path.resolve(process.cwd(), 'data/youpi_pg.sqlite');
+  const dbPath = path.resolve(process.cwd(), (fs.existsSync('data/akapay.sqlite') ? 'data/akapay.sqlite' : 'data/akapay.sqlite'));
   console.log('============================================================');
   console.log(`🔍 VERIFYING PRODUCTION EXTENSIONS (${dbPath})`);
   console.log('============================================================');

@@ -26,7 +26,7 @@ import {
   resolveDefaultBranding
 } from '../index.js';
 
-describe('@youpi/common Unit Tests', () => {
+describe('@akapay/common Unit Tests', () => {
   describe('Money and Currency Utilities', () => {
     test('converts valid rupee strings and numbers to integer paise', () => {
       assert.equal(toPaise('200.00'), 20000n);
@@ -343,13 +343,13 @@ describe('resolveDefaultBranding', () => {
     delete process.env.DEFAULT_FOOTER_GUARANTEE;
 
     const b = resolveDefaultBranding();
-    assert.equal(b.appName, 'YOUPI PG');
+    assert.equal(b.appName, 'AKA PAY');
     assert.equal(b.primaryColor, '#2563eb');
-    assert.equal(b.supportEmail, 'support@youpi.local');
+    assert.equal(b.supportEmail, 'srssltd@gmail.com');
     assert.equal(b.supportPhone, '9876543210');
     assert.equal(b.logoUrl, null);
-    assert.equal(b.trustBadgeText, 'YOUPI PG Verified Business');
-    assert.equal(b.footerGuarantee, '100% Payment Protection by YOUPI PG');
+    assert.equal(b.trustBadgeText, 'AKA PAY Verified Business');
+    assert.equal(b.footerGuarantee, '100% Payment Protection by AKA PAY');
   });
 
   test('honors environment variable overrides', () => {

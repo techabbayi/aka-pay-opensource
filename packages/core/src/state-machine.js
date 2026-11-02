@@ -1,9 +1,9 @@
-import { isValidTransition, isTerminalStatus, VALID_TRANSITIONS, IMMUTABLE_STATES } from '@youpi/common';
+import { isValidTransition, isTerminalStatus, VALID_TRANSITIONS, IMMUTABLE_STATES } from '@akapay/common';
 
 /**
- * The transition graph and helpers live in `@youpi/common` so the database layer can enforce
- * them too (`@youpi/db` cannot import `@youpi/core`). They are re-exported here to keep
- * `@youpi/core` the canonical import site for engine consumers.
+ * The transition graph and helpers live in `@akapay/common` so the database layer can enforce
+ * them too (`@akapay/db` cannot import `@akapay/core`). They are re-exported here to keep
+ * `@akapay/core` the canonical import site for engine consumers.
  */
 export { VALID_TRANSITIONS, isValidTransition, isTerminalStatus, IMMUTABLE_STATES };
 

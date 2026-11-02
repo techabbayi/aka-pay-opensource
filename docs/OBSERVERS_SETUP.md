@@ -1,6 +1,6 @@
 # Payment Observers Setup & Configuration Guide
 
-YOUPI PG employs a **Tri-Channel Observation Engine** where all three methods operate simultaneously to capture payment credit alerts across channels without creating duplicate payments.
+AKA PAY employs a **Tri-Channel Observation Engine** where all three methods operate simultaneously to capture payment credit alerts across channels without creating duplicate payments.
 
 ---
 
@@ -32,7 +32,7 @@ YOUPI PG employs a **Tri-Channel Observation Engine** where all three methods op
 
 <br/>
 
-Under Reserve Bank of India (RBI) and IDRBT regulatory standards, scheduled commercial banks in India are migrating their customer alert handles to the sovereign `.bank.in` domain (and NBFCs to `.fin.in`). YOUPI PG validates both live `.bank.in` / `.fin.in` addresses and verified legacy commercial notification handles.
+Under Reserve Bank of India (RBI) and IDRBT regulatory standards, scheduled commercial banks in India are migrating their customer alert handles to the sovereign `.bank.in` domain (and NBFCs to `.fin.in`). AKA PAY validates both live `.bank.in` / `.fin.in` addresses and verified legacy commercial notification handles.
 
 #### 1. Official RBI `.bank.in` Migration Domain Registry (Live DNS / MX Verified)
 
@@ -93,21 +93,21 @@ The engine supports root domains and alert subdomains (e.g. `alerts.hdfcbank.net
 ### Pairing Procedure
 1. Open Merchant Admin (`http://localhost:6001`).
 2. Go to **Observers & Pairing** tab -> Click **+ Pair Android Device**.
-3. Open the YOUPI Observer app on your Android device.
+3. Open the AKA PAY Observer app on your Android device.
 4. Enter or scan the Gateway URL and Enrollment Token.
 5. Tap **Pair with Merchant Gateway**. The device will receive its permanent `deviceId` and `signingKey` stored in `EncryptedSharedPreferences`.
 6. Grant Notification Listener Access in Android System Settings.
 
 ### Binary Verification & Checksum
-Operators can verify the cryptographic integrity and authenticity of `youpi-sms-gateway.apk` before sideloading onto merchant Android devices:
+Operators can verify the cryptographic integrity and authenticity of `akapay-observer.apk` (mirrored as `AKA PAY-sms-gateway.apk` for compatibility) before sideloading onto merchant Android devices:
 
-- **Target Binary**: `apps/android-observer-app/youpi-sms-gateway.apk` (also mirrored at `/youpi-sms-gateway.apk` on Admin and Payment API)
+- **Target Binary**: `apps/android-observer-app/akapay-observer.apk` (also mirrored at `/akapay-observer.apk` on Admin and Payment API)
 - **SHA-256 Checksum**: `959218223e75da4784744c16afaf7bc121cff377dff04f041875237042f51601`
 - **Verification Command**:
   ```bash
-  shasum -a 256 apps/android-observer-app/youpi-sms-gateway.apk
+  shasum -a 256 apps/android-observer-app/akapay-observer.apk
   # Or check against the companion checksum file:
-  shasum -a 256 -c apps/android-observer-app/youpi-sms-gateway.apk.sha256
+  shasum -a 256 -c apps/android-observer-app/akapay-observer.apk.sha256
   ```
 
 ---

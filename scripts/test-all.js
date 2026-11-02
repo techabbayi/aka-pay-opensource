@@ -21,7 +21,8 @@ const testFiles = [
   'packages/core/src/__tests__/webhook-outbox-durability.test.js',
   'packages/core/src/__tests__/statement-reconciliation.test.js',
   'packages/merchant-sdk/src/__tests__/merchant-sdk.test.js',
-  'packages/merchant-sdk/src/__tests__/youpi-universal-integration.test.js',
+  'packages/merchant-sdk/src/__tests__/akapay-universal-integration.test.js',
+  'packages/merchant-sdk/src/__tests__/akapay-universal-integration.test.js',
   'packages/core/src/__tests__/cancel-timer-failure.test.js',
   'packages/merchant-sdk/src/__tests__/checkout-close-lifecycle.test.js',
   'packages/merchant-sdk/src/__tests__/checkout-success-lifecycle.test.js',
@@ -63,7 +64,7 @@ const testFiles = [
 ];
 
 console.log('============================================================');
-console.log('🧪 YOUPI PG V2 — FULL REGRESSION TEST RUNNER');
+console.log('🧪 AKA PAY — FULL REGRESSION TEST RUNNER');
 console.log(`Running ${testFiles.length} curated test suites...`);
 console.log(`Per-suite timeout: ${PER_SUITE_TIMEOUT_MS / 1000}s`);
 console.log('============================================================\n');
@@ -79,10 +80,12 @@ for (let i = 0; i < testFiles.length; i++) {
     stdio: 'pipe',
     env: {
       ...process.env,
-      YOUPI_MODE: 'localhost',
+      AKAPAY_MODE: 'localhost',
+      AKAPAY_MODE: 'localhost',
       NODE_ENV: 'test',
       SKIP_FLAKY_TEST_4_1: process.env.SKIP_FLAKY_TEST_4_1 || '',
-      YOUPI_ALLOW_PRIVATE_WEBHOOKS: 'true'
+      AKAPAY_ALLOW_PRIVATE_WEBHOOKS: 'true',
+      AKAPAY_ALLOW_PRIVATE_WEBHOOKS: 'true'
     },
     encoding: 'utf8',
     timeout: PER_SUITE_TIMEOUT_MS,

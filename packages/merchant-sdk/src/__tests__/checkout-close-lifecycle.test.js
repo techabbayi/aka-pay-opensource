@@ -3,7 +3,14 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 
-const files = ['packages/merchant-sdk/src/youpi-checkout.js', 'packages/merchant-sdk/src/youpi.js', 'apps/checkout-portal/src/sdk/youpi-checkout.js', 'apps/checkout-portal/src/sdk/youpi.js'];
+const files = [
+  'packages/merchant-sdk/src/akapay.js',
+  'packages/merchant-sdk/src/akapay-checkout.js',
+  'packages/merchant-sdk/src/akapay.js',
+  'apps/checkout-portal/src/sdk/akapay.js',
+  'apps/checkout-portal/src/sdk/akapay-checkout.js',
+  'apps/checkout-portal/src/sdk/akapay.js'
+];
 for (const file of files) {
   function setup() {
     const timers = [];
@@ -11,7 +18,8 @@ for (const file of files) {
     const document = {currentScript: null, querySelector: () => null, addEventListener() {}};
     const source = readFileSync(file, 'utf8').replace(/^export .*$/gm, '');
     vm.runInNewContext(source, {window, document, URL, console, setTimeout: cb => timers.push(cb)});
-    const c = new window.YoupiCheckout();
+    const CheckoutClass = window.AkaPayCheckout || window.AkaPayCheckout;
+    const c = new CheckoutClass();
     c.constructor._ensureStyles = () => {};
     const nodes = [];
     c._injectModal = () => {

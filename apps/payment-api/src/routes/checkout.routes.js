@@ -1,6 +1,6 @@
 import { HttpServer } from '../server.js';
-import { toRupeesString, buildUpiUri, PaymentStatus, PaymentMethod, UPI_PROVIDERS, isInternalServiceRequest, isValidTransition, getObserverToken } from '@youpi/common';
-import { validateSessionDeviceAccess, verifyRegisteredDeviceCredentials } from '@youpi/core';
+import { toRupeesString, buildUpiUri, PaymentStatus, PaymentMethod, UPI_PROVIDERS, isInternalServiceRequest, isValidTransition, getObserverToken } from '@akapay/common';
+import { validateSessionDeviceAccess, verifyRegisteredDeviceCredentials } from '@akapay/core';
 import { isAdminRequest, isPaymentOwner } from '../auth-guard.js';
 
 const CLOSED_CHECKOUT_STATES = [
@@ -122,7 +122,7 @@ function checkSessionDeviceAccess(session, req, body = null, ctx = null) {
 function sanitizePublicBranding(raw = {}) {
   const envAppName = (process.env.DEFAULT_APP_NAME || '').trim();
   const envPrimaryColor = (process.env.DEFAULT_PRIMARY_COLOR || '').trim();
-  const defaultAppName = envAppName || 'YOUPI PG';
+  const defaultAppName = envAppName || 'AKA PAY';
   const defaultPrimaryColor = envPrimaryColor || '#2563eb';
 
   // Strict explicit allowlist to prevent arbitrary internal metadata leaks (CWE-200 / OWASP A01)
@@ -156,21 +156,21 @@ function sanitizePublicBranding(raw = {}) {
  * Registers customer checkout portal routes.
  * @param {HttpServer} server
  * @param {{
- *   merchantRepo: import('@youpi/db').MerchantRepository,
- *   accountRepo: import('@youpi/db').ReceivingAccountRepository,
- *   sessionRepo: import('@youpi/db').PaymentSessionRepository,
- *   queueEngine: import('@youpi/core').QueueEngine,
- *   timingEngine: import('@youpi/core').TimingEngine
+ *   merchantRepo: import('@akapay/db').MerchantRepository,
+ *   accountRepo: import('@akapay/db').ReceivingAccountRepository,
+ *   sessionRepo: import('@akapay/db').PaymentSessionRepository,
+ *   queueEngine: import('@akapay/core').QueueEngine,
+ *   timingEngine: import('@akapay/core').TimingEngine
  * }} ctx
  */
 /**
  * New UPI sessions require a live SMS observer (Android heartbeat within 5 minutes,
  * or Google Messages connected). Gmail alone is supporting evidence and is not enough.
- * The gate is always on outside tests. Tests opt in with YOUPI_ENFORCE_OBSERVER_HEALTH=true.
+ * The gate is always on outside tests. Tests opt in with AKAPAY_ENFORCE_OBSERVER_HEALTH=true.
  * Recovery: the next create succeeds once a heartbeat is fresh. In-flight sessions are not cancelled.
  */
 export function observerHealthEnforced() {
-  if (process.env.YOUPI_ENFORCE_OBSERVER_HEALTH === 'true') return true;
+  if (process.env.AKAPAY_ENFORCE_OBSERVER_HEALTH === 'true') return true;
   if (process.env.NODE_ENV === 'test') return false;
   return true;
 }
@@ -185,7 +185,7 @@ export function upiObserversAcceptingPayments(health) {
  */
 export async function checkUpiServerHealth(ctx, enabledMethods = [], sellingMode = 'OFFLINE', merchantId = '00000000-0000-0000-0000-000000000001') {
   // 0. Check False Narrative Dev Switch (Active for 10 minutes from enabling time)
-  const productionLock = process.env.NODE_ENV === 'production' || process.env.YOUPI_MODE === 'production';
+  const productionLock = process.env.NODE_ENV === 'production' || process.env.AKAPAY_MODE === 'production';
   try {
     const merchant = ctx.merchantRepo?.findById ? ctx.merchantRepo.findById(merchantId) : null;
     const falseNarrativeUntil = merchant?.branding?.falseNarrativeUntil;

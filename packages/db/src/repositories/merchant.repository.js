@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
-import { encryptAtRest, decryptAtRest, safeEqual } from '@youpi/common';
+import { encryptAtRest, decryptAtRest, safeEqual } from '@akapay/common';
 
-const API_KEY_SALT = 'youpi_merchant_api_key_salt_v1';
+const API_KEY_SALT = 'akapay_merchant_api_key_salt_v1';
 
 /** Computes a deterministic scrypt hex digest for storing and verifying merchant API keys. */
 export function hashApiKey(rawKey) {
@@ -13,7 +13,7 @@ const GMAIL_SECRET_FIELDS = ['clientSecret', 'refreshToken', 'apiKey'];
 
 /** Serializes branding, encrypting any nested Gmail OAuth secrets and merchantApiKey. */
 function serializeBranding(branding) {
-  if (!branding || typeof branding !== 'object') return branding || '{"primaryColor":"#2563eb","appName":"YOUPI PG","logoUrl":null}';
+  if (!branding || typeof branding !== 'object') return branding || '{"primaryColor":"#2563eb","appName":"AKA PAY","logoUrl":null}';
   const copy = { ...branding };
   if (copy.merchantApiKey && typeof copy.merchantApiKey === 'string') {
     copy.merchantApiKey = encryptAtRest(copy.merchantApiKey);
@@ -61,7 +61,7 @@ export class MerchantRepository {
     const id = data.id || crypto.randomUUID();
     const branding = typeof data.branding === 'object'
       ? serializeBranding(data.branding)
-      : (data.branding || '{"primaryColor":"#2563eb","appName":"YOUPI PG","logoUrl":null}');
+      : (data.branding || '{"primaryColor":"#2563eb","appName":"AKA PAY","logoUrl":null}');
     const now = new Date().toISOString();
     const rawWebhookSecret = data.webhookSecret || crypto.randomBytes(32).toString('hex');
     const apiKeyHash = data.apiKeyHash || (data.apiKey ? hashApiKey(data.apiKey) : hashApiKey(rawWebhookSecret));

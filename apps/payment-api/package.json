@@ -1,17 +1,28 @@
 {
   "name": "payment-api",
   "version": "1.0.0",
-  "description": "Central Payment REST API and SSE Engine for YOUPI PG",
+  "description": "Central Payment REST API and SSE Engine for AKA PAY",
   "type": "module",
   "main": "./src/index.js",
   "scripts": {
     "start": "node src/index.js",
     "test": "node --test src/__tests__/**/*.test.js"
   },
+  "author": {
+    "name": "techabbayi",
+    "email": "srssltd@gmail.com",
+    "url": "https://github.com/techabbayi"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/techabbayi/aka-pay-opensource.git",
+    "directory": "apps/payment-api"
+  },
   "dependencies": {
-    "@youpi/common": "*",
-    "@youpi/core": "*",
-    "@youpi/db": "*",
+    "@akapay/common": "*",
+    "@akapay/core": "*",
+    "@akapay/db": "*",
     "berryprotocol": "^0.1.10",
     "qrcode": "^1.5.4"
   }

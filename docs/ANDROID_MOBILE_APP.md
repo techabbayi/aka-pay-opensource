@@ -2,7 +2,7 @@
 
 ## 1. Overview & Architectural Role
 
-The **YOUPI Android Payment Observer** is a native Android Kotlin application designed to run on a dedicated merchant phone receiving UPI incoming payments via banking and UPI applications (PhonePe, Google Pay, Paytm, BHIM, HDFC, ICICI, SBI, Axis, etc.).
+The **AKA PAY Android Payment Observer** is a native Android Kotlin application designed to run on a dedicated merchant phone receiving UPI incoming payments via banking and UPI applications (PhonePe, Google Pay, Paytm, BHIM, HDFC, ICICI, SBI, Axis, etc.).
 
 ### Critical Architectural Boundaries
 1. **The Mobile App Is An Observer, NOT a Decision-Maker:**
@@ -35,7 +35,7 @@ apps/android-observer-app/
 │           ├── res/
 │           │   └── xml/
 │           │       └── network_security_config.xml
-│           └── java/com/youpi/observer/
+│           └── java/com/akapay/observer/
 │               ├── MainActivity.kt                      # Setup, pairing UI & permission prompt
 │               ├── PaymentNotificationListenerService.kt # Core NotificationListenerService
 │               ├── NotificationParser.kt                # Regex parser for PhonePe, GPay, Paytm, Bank SMS
@@ -80,14 +80,14 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 *(Or transfer `app-debug.apk` directly to your phone via USB/WhatsApp/Drive and install).*
 
 ### Step 2: Grant Notification Listener Permission
-1. Open the app **YOUPI Observer**.
+1. Open the app **AKA PAY Observer**.
 2. Tap **Grant Notification Listener Access**.
-3. Android System Settings will open. Toggle **YOUPI Observer** to **Allowed**.
+3. Android System Settings will open. Toggle **AKA PAY Observer** to **Allowed**.
 4. Confirm the system warning dialog.
 
 ### Step 3: Exempt from Battery Optimization (Crucial for 24/7 Uptime)
 To ensure Android OEMs (Xiaomi MIUI, Samsung OneUI, OnePlus OxygenOS, Realme/Oppo ColorOS) do not put the observer to sleep:
-1. Open phone **Settings** > **Apps** > **YOUPI Observer**.
+1. Open phone **Settings** > **Apps** > **AKA PAY Observer**.
 2. Tap **Battery** > Select **Unrestricted** (or "Don't optimize").
 3. Enable **Autostart** / **Allow background activity**.
 

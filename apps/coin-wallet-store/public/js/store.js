@@ -101,7 +101,7 @@ function updateAmountUI() {
   if (btnDisp) btnDisp.textContent = formatted;
 }
 
-// --- PURCHASE INITIATION (Using Official Universal YouPI Integration) ---
+// --- PURCHASE INITIATION (Using Official Universal AKA PAY Integration) ---
 async function startGatewayPurchase() {
   const btn = document.getElementById('btnInitiateCheckout');
   const oldHtml = btn.innerHTML;
@@ -113,13 +113,13 @@ async function startGatewayPurchase() {
     btn.setAttribute('data-amount', currentAmount.toFixed(2));
     btn.setAttribute('data-order-id', orderId);
 
-    // 1. Create order on store backend via YoupiPaymentClient
+    // 1. Create order on store backend via AkaPayClient / AkaPayClient
     const res = await fetch('/api/checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         price: currentAmount,
-        productName: 'YOUPI PG Enterprise Gateway Suite',
+        productName: 'AKA PAY Enterprise Gateway Suite',
         coins: Math.round(currentAmount)
       })
     });
@@ -132,14 +132,15 @@ async function startGatewayPurchase() {
       return;
     }
 
-    // 2. Launch checkout modal using official Youpi.pay() SDK
-    window.Youpi.pay({
+    // 2. Launch checkout modal using official AkaPay.pay() SDK (with fallback)
+    const payClient = window.AkaPay || window.AkaPay;
+    payClient.pay({
       checkoutUrl: data.checkoutUrl,
       order_id: data.orderId,
       amount: currentAmount,
       currency: 'INR',
-      name: 'YOUPI Store',
-      description: 'YOUPI PG Enterprise Suite Top-Up',
+      name: 'AKA PAY Store',
+      description: 'AKA PAY Enterprise Suite Top-Up',
       successUrl: `/order-success?order_id=${encodeURIComponent(data.orderId)}&amount=${encodeURIComponent(currentAmount)}`,
       failedUrl: `/order-failed?order_id=${encodeURIComponent(data.orderId)}`,
       suspiciousUrl: `/order-suspicious?order_id=${encodeURIComponent(data.orderId)}`,
@@ -156,15 +157,15 @@ async function startGatewayPurchase() {
       }
     });
   } catch (err) {
-    alert('Error launching YOUPI Gateway: ' + err.message);
+    alert('Error launching AKA PAY Gateway: ' + err.message);
     btn.disabled = false;
     btn.innerHTML = oldHtml;
   }
 }
 
 // --- OFFICIAL BROWSER PAYMENT EVENT LISTENERS ---
-window.addEventListener('youpi:payment:success', function(e) {
-  console.log('[YOUPI PG Event] youpi:payment:success', e.detail);
+function handlePaymentSuccessEvent(e) {
+  console.log('[AKA PAY Event] payment:success', e.detail);
   const res = e.detail;
   fetch('/api/verify-payment', {
     method: 'POST',
@@ -181,22 +182,37 @@ window.addEventListener('youpi:payment:success', function(e) {
       if (el) el.textContent = d.coins;
     }
   }).catch(() => {});
+}
+
+window.addEventListener('akapay:payment:success', handlePaymentSuccessEvent);
+window.addEventListener('akapay:payment:success', handlePaymentSuccessEvent);
+
+window.addEventListener('akapay:payment:failed', function(e) {
+  console.warn('[AKA PAY Event] payment:failed', e.detail);
+});
+window.addEventListener('akapay:payment:failed', function(e) {
+  console.warn('[AKA PAY Legacy Event] akapay:payment:failed', e.detail);
 });
 
-window.addEventListener('youpi:payment:failed', function(e) {
-  console.warn('[YOUPI PG Event] youpi:payment:failed', e.detail);
+window.addEventListener('akapay:payment:suspicious', function(e) {
+  console.warn('[AKA PAY Event] payment:suspicious', e.detail);
+});
+window.addEventListener('akapay:payment:suspicious', function(e) {
+  console.warn('[AKA PAY Legacy Event] akapay:payment:suspicious', e.detail);
 });
 
-window.addEventListener('youpi:payment:suspicious', function(e) {
-  console.warn('[YOUPI PG Event] youpi:payment:suspicious', e.detail);
+window.addEventListener('akapay:payment:expired', function(e) {
+  console.warn('[AKA PAY Event] payment:expired', e.detail);
+});
+window.addEventListener('akapay:payment:expired', function(e) {
+  console.warn('[AKA PAY Legacy Event] akapay:payment:expired', e.detail);
 });
 
-window.addEventListener('youpi:payment:expired', function(e) {
-  console.warn('[YOUPI PG Event] youpi:payment:expired', e.detail);
+window.addEventListener('akapay:payment:cancelled', function(e) {
+  console.log('[AKA PAY Event] payment:cancelled', e.detail);
 });
-
-window.addEventListener('youpi:payment:cancelled', function(e) {
-  console.log('[YOUPI PG Event] youpi:payment:cancelled', e.detail);
+window.addEventListener('akapay:payment:cancelled', function(e) {
+  console.log('[AKA PAY Legacy Event] akapay:payment:cancelled', e.detail);
 });
 
 function showCelebrationModal(orderId, paymentId, amount) {
@@ -205,7 +221,7 @@ function showCelebrationModal(orderId, paymentId, amount) {
   const elPayment = document.getElementById('receiptPaymentId');
   const elAmount = document.getElementById('receiptAmountPaid');
 
-  if (elOrder) elOrder.textContent = orderId || 'YOUPI-ORD-LIVE';
+  if (elOrder) elOrder.textContent = orderId || 'AKA-ORD-LIVE';
   if (elPayment) elPayment.textContent = paymentId || 'pay_verified';
   if (elAmount) elAmount.textContent = '₹' + Number(amount).toFixed(2);
   if (modal) modal.classList.add('active');

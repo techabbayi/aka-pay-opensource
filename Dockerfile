@@ -57,9 +57,7 @@ RUN npm prune --omit=dev
 FROM base AS runner
 ENV NODE_ENV=production
 ENV AKAPAY_MODE=production
-ENV YOUPI_MODE=production
 ENV AKAPAY_BIND_HOST=0.0.0.0
-ENV YOUPI_BIND_HOST=0.0.0.0
 
 WORKDIR /app
 

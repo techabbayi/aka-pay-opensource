@@ -2,7 +2,7 @@ import { EventEmitter } from 'node:events';
 import path from 'node:path';
 import fs from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { generateQrSvg } from '@youpi/core';
+import { generateQrSvg } from '@akapay/core';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,9 +18,9 @@ async function loadDependencies() {
       pathToFileURL(path.resolve(rootDir, 'node_modules/berryprotocol/dist/index.js')).href,
       pathToFileURL(path.resolve(rootDir, 'apps/payment-api/node_modules/berryprotocol/dist/index.js')).href,
       'file:///D:/WA-USERAUTH DEV/node_modules/berryprotocol/dist/index.js',
-      'file:///D:/E-Commerce PKG/services/whatsapp-worker/node_modules/berryprotocol/dist/index.js',
-      'file:///D:/ECOM AND YOUPI PG INTEGRATION/E-Commerce PACKAGE/services/whatsapp-worker/node_modules/berryprotocol/dist/index.js',
-      'file:///D:/distribution/services/whatsapp-worker/node_modules/berryprotocol/dist/index.js'
+      'file:///./whatsapp-worker/node_modules/berryprotocol/dist/index.js',
+      'file:///./whatsapp-worker/node_modules/berryprotocol/dist/index.js',
+      'file:///./whatsapp-worker/node_modules/berryprotocol/dist/index.js'
     ];
     for (const p of candidates) {
       try {
@@ -39,9 +39,9 @@ async function loadDependencies() {
       pathToFileURL(path.resolve(rootDir, 'node_modules/qrcode/lib/index.js')).href,
       pathToFileURL(path.resolve(rootDir, 'apps/payment-api/node_modules/qrcode/lib/index.js')).href,
       'file:///D:/WA-USERAUTH DEV/node_modules/qrcode/lib/index.js',
-      'file:///D:/E-Commerce PKG/services/whatsapp-worker/node_modules/qrcode/lib/index.js',
-      'file:///D:/ECOM AND YOUPI PG INTEGRATION/E-Commerce PACKAGE/services/whatsapp-worker/node_modules/qrcode/lib/index.js',
-      'file:///D:/distribution/services/whatsapp-worker/node_modules/qrcode/lib/index.js'
+      'file:///./whatsapp-worker/node_modules/qrcode/lib/index.js',
+      'file:///./whatsapp-worker/node_modules/qrcode/lib/index.js',
+      'file:///./whatsapp-worker/node_modules/qrcode/lib/index.js'
     ];
     for (const p of qrCandidates) {
       try {
@@ -102,7 +102,7 @@ export async function formatQrDataUrl(rawText, qrcodeModule = null) {
 export class WhatsAppBerryService extends EventEmitter {
   constructor(options = {}) {
     super();
-    this.sessionId = options.sessionId || 'youpi_berry_session';
+    this.sessionId = options.sessionId || 'akapay_berry_session';
     this.sessionPath = options.sessionPath || path.resolve(rootDir, 'data/berry_auth');
     this.databasePath = options.databasePath || path.resolve(rootDir, 'data/berry_store.db');
     this.metaFile = options.metaFile || path.resolve(rootDir, 'data/whatsapp_session.json');
@@ -229,7 +229,7 @@ export class WhatsAppBerryService extends EventEmitter {
     this.qrCode = null;
     this.pairingCode = null;
     this.pairingPhone = null;
-    this.sessionId = `youpi_berry_${Date.now()}`;
+    this.sessionId = `akapay_berry_${Date.now()}`;
     this.isSimulatedMode = false;
     this.isInitializing = false;
   }
@@ -571,7 +571,7 @@ export class WhatsAppBerryService extends EventEmitter {
     this.pairingPhone = clean;
 
     // Fresh session ID prevents device identity collisions on WhatsApp server
-    this.sessionId = `youpi_berry_${Date.now()}`;
+    this.sessionId = `akapay_berry_${Date.now()}`;
     try {
       fs.writeFileSync(this.metaFile, JSON.stringify({
         status: 'CONNECTING',
@@ -624,7 +624,7 @@ export class WhatsAppBerryService extends EventEmitter {
    * @param {string} [customerName]
    */
   async sendOtp(to, otpCode, customerName = '', options = {}) {
-    const senderName = options.appName || (process.env.WHATSAPP_SENDER_NAME || '').trim() || (process.env.DEFAULT_APP_NAME || '').trim() || 'YOUPI PG';
+    const senderName = options.appName || (process.env.WHATSAPP_SENDER_NAME || '').trim() || (process.env.DEFAULT_APP_NAME || '').trim() || 'AKA PAY';
     const greeting = customerName ? `Hello *${customerName}*!` : 'Hello!';
     const message =
       `🔐 *${senderName} Verification Code*\n\n` +

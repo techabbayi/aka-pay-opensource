@@ -1,8 +1,8 @@
 import { test, describe, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
-import { Database } from '@youpi/db';
-import { getAdminToken } from '@youpi/common';
+import { Database } from '@akapay/db';
+import { getAdminToken } from '@akapay/common';
 import { startAdminServer } from '../index.js';
 import { AdminServer } from '../server.js';
 

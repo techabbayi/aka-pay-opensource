@@ -1,4 +1,4 @@
-import { toPaise } from '@youpi/common';
+import { toPaise } from '@akapay/common';
 import { extractIntelligentAmount } from './bank-sms-parser.js';
 
 export { extractIntelligentAmount };

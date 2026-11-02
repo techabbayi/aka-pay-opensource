@@ -7,12 +7,12 @@ import {
   ReceivingAccountRepository,
   MerchantRepository,
   DeviceRepository
-} from '@youpi/db';
+} from '@akapay/db';
 import { startServer as startPaymentApi } from '../../../../apps/payment-api/src/index.js';
 import { TEST_ADMIN_TOKEN, TEST_OBSERVER_TOKEN } from '../../../../scripts/test-support.js';
 import { SmsObserverService } from '../../../../apps/sms-observer/src/sms-service.js';
 import { GmailPoller } from '../../../../apps/gmail-observer/src/gmail-poller.js';
-import { PaymentStatus } from '@youpi/common';
+import { PaymentStatus } from '@akapay/common';
 
 describe('Phase 9C: Observer Isolation & Concurrency Hardening Suite', () => {
   let db;
@@ -62,7 +62,7 @@ describe('Phase 9C: Observer Isolation & Concurrency Hardening Suite', () => {
       slug: 'vvisa-b2b',
       contactEmail: 'ops@vvisa.in',
       contactPhone: '9876543210',
-      webhookUrl: 'http://localhost:3000/api/payments/youpi/webhook',
+      webhookUrl: 'http://localhost:3000/api/payments/akapay/webhook',
       webhookSecret: 'secret_a_staging'
     });
 

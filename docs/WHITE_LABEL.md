@@ -1,6 +1,7 @@
 # White-Label Branding System Guide
+> **AKA PAY** — UPI & Payment Infrastructure, Also Known As. Always Connected.
 
-YOUPI PG is built from the ground up to be 100% white-label. No hardcoded brand names, logos, or client-specific colors exist in core payment components.
+AKA PAY is built from the ground up to be 100% white-label. No hardcoded brand names, logos, or client-specific colors exist in core payment components.
 
 ---
 
@@ -19,23 +20,23 @@ Merchant overrides (appName, primaryColor, logoUrl, customCss)
            │
            ▼
 [ Tier 3: Runtime Checkout Session Resolution ]
-Resolved branding = session.branding || merchant.branding || env.DEFAULT_* || 'YOUPI PG'
+Resolved branding = session.branding || merchant.branding || env.DEFAULT_* || 'AKA PAY'
 ```
 
 ### Environment Variables Reference
 
 | Variable                   | Default Value         | Description                                                             |
 | :------------------------- | :-------------------- | :---------------------------------------------------------------------- |
-| `DEFAULT_APP_NAME`         | `YOUPI PG`            | Gateway application name displayed across checkout, admin, and receipts |
+| `DEFAULT_APP_NAME`         | `AKA PAY`             | Gateway application name displayed across checkout, admin, and receipts |
 | `DEFAULT_PRIMARY_COLOR`    | `#2563eb`             | Default primary brand color (hex)                                       |
-| `DEFAULT_SUPPORT_EMAIL`    | `support@youpi.local` | Default support contact email                                           |
+| `DEFAULT_SUPPORT_EMAIL`    | `support@akapay.local`| Default support contact email                                           |
 | `DEFAULT_SUPPORT_PHONE`    | `9876543210`          | Default support helpline phone number                                   |
 | `DEFAULT_LOGO_URL`         | `null`                | Default brand logo image URL (uses dynamic SVG monogram if unset)       |
 | `DEFAULT_TRUST_BADGE_TEXT` | unset                 | Custom trust badge label (e.g. `${DEFAULT_APP_NAME} Verified Business`) |
 | `DEFAULT_FOOTER_GUARANTEE` | unset                 | Custom customer protection guarantee text in checkout footer            |
 | `DEFAULT_HIDE_POWERED_BY`  | `false`               | When `true`, completely hides gateway branding from checkout page       |
 | `WHATSAPP_SENDER_NAME`     | unset                 | Custom sender label prepended to WhatsApp login OTP messages            |
-| `DEFAULT_MERCHANT_NAME`    | `YOUPI Demo Store`    | Initial merchant business name seeded on database migration             |
+| `DEFAULT_MERCHANT_NAME`    | `AKA PAY Demo Store`  | Initial merchant business name seeded on database migration             |
 | `DEFAULT_MERCHANT_SLUG`    | `demo-store`          | Initial merchant slug seeded on first database migration                |
 
 ---
@@ -85,7 +86,7 @@ The Checkout Portal and Help Portal dynamically map merchant branding to native 
 
 ## 4. Custom Domain Routing (Nginx / Caddy Reverse Proxy)
 
-To run YOUPI PG on production domains:
+To run AKA PAY on production domains:
 
 ```nginx
 # Checkout Portal

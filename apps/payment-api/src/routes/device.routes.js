@@ -5,7 +5,7 @@ import {
   verifyDeviceSignature,
   createDeviceChallenge,
   consumeDeviceChallenge
-} from '@youpi/core';
+} from '@akapay/core';
 
 /**
  * Resolves a verified customer ID strictly from a valid customer session token.
@@ -28,10 +28,10 @@ function resolveAuthenticatedCustomerId(req, body, ctx) {
  * Registers device identity and cryptographic binding routes.
  * @param {HttpServer} server
  * @param {{
- *   deviceRepo: import('@youpi/db').DeviceRepository,
- *   customerRepo: import('@youpi/db').CustomerRepository,
- *   customerSessionRepo?: import('@youpi/db').CustomerSessionRepository,
- *   auditRepo?: import('@youpi/db').AuditLogRepository
+ *   deviceRepo: import('@akapay/db').DeviceRepository,
+ *   customerRepo: import('@akapay/db').CustomerRepository,
+ *   customerSessionRepo?: import('@akapay/db').CustomerSessionRepository,
+ *   auditRepo?: import('@akapay/db').AuditLogRepository
  * }} ctx
  */
 export function registerDeviceRoutes(server, ctx) {

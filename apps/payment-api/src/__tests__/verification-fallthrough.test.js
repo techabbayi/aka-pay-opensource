@@ -3,10 +3,10 @@ import { test, describe, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
 import crypto from 'node:crypto';
-import { Database, PaymentSessionRepository, ObservationRepository, SupportTicketRepository, AuditLogRepository, ReceivingAccountRepository, CustomerRepository } from '@youpi/db';
-import { ObservationNormalizer, PaymentVerificationPipeline, AttributionEngine, RecoveryEngine, QueueEngine, TimingEngine } from '@youpi/core';
+import { Database, PaymentSessionRepository, ObservationRepository, SupportTicketRepository, AuditLogRepository, ReceivingAccountRepository, CustomerRepository } from '@akapay/db';
+import { ObservationNormalizer, PaymentVerificationPipeline, AttributionEngine, RecoveryEngine, QueueEngine, TimingEngine } from '@akapay/core';
 import { startServer as startPaymentApi } from '../index.js';
-import { PaymentStatus } from '@youpi/common';
+import { PaymentStatus } from '@akapay/common';
 import { authHeadersFor } from '../../../../scripts/test-support.js';
 
 describe('Verification Pipeline & Fall-Through Protection (#22)', () => {
