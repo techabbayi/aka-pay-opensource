@@ -1,7 +1,7 @@
 
 services:
   - type: web
-    name: youpi-pg-demo
+    name: aka-pay-demo
     runtime: node
     plan: free
     buildCommand: npm ci
@@ -15,6 +15,9 @@ services:
       - key: NODE_ENV
         value: production
 
+      - key: AKAPAY_BIND_HOST
+        value: 0.0.0.0
+
       - key: YOUPI_BIND_HOST
         value: 0.0.0.0
 
@@ -27,7 +30,13 @@ services:
       - key: JWT_SECRET
         generateValue: true
 
+      - key: AKAPAY_ALLOW_DEV_TOOLS
+        value: "false"
+
       - key: YOUPI_ALLOW_DEV_TOOLS
+        value: "false"
+
+      - key: AKAPAY_EXPOSE_DEV_OTP
         value: "false"
 
       - key: YOUPI_EXPOSE_DEV_OTP

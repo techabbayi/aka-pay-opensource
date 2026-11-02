@@ -40,7 +40,7 @@
     if (!isBrowser) return {};
 
     const script = document.currentScript ||
-      document.querySelector('script[src*="youpi.js"], script[src*="youpi-checkout.js"]');
+      document.querySelector('script[src*="akapay.js"], script[src*="akapay-checkout.js"], script[src*="youpi.js"], script[src*="youpi-checkout.js"]');
 
     if (!script) return {};
 
@@ -552,6 +552,12 @@ _isSafeRedirect(url) {
         const ev = new CustomEvent(name, { detail, bubbles: true, cancelable: true });
         window.dispatchEvent(ev);
         document.dispatchEvent(ev);
+        if (name.startsWith('youpi:')) {
+          const akaName = name.replace(/^youpi:/, 'akapay:');
+          const akaEv = new CustomEvent(akaName, { detail, bubbles: true, cancelable: true });
+          window.dispatchEvent(akaEv);
+          document.dispatchEvent(akaEv);
+        }
       } catch (e) { }
     }
 
@@ -771,10 +777,10 @@ _isSafeRedirect(url) {
     }
   }
 
-  // Auto-bind click listener for all [data-youpi-pay] buttons on page
+  // Auto-bind click listener for all [data-akapay-pay] and [data-youpi-pay] buttons on page
   if (isBrowser) {
     document.addEventListener('click', function (e) {
-      const btn = e.target && e.target.closest && e.target.closest('[data-youpi-pay]');
+      const btn = e.target && e.target.closest && (e.target.closest('[data-akapay-pay]') || e.target.closest('[data-youpi-pay]'));
       if (btn) {
         e.preventDefault();
         YoupiCheckout.handleButtonClick(btn);
@@ -782,11 +788,15 @@ _isSafeRedirect(url) {
     });
   }
 
-  // Export globals
+  // Export globals for both AKA PAY and backwards-compatible Youpi
+  globalScope.AkaPayCheckout = YoupiCheckout;
+  globalScope.AkaPay = YoupiCheckout;
   globalScope.YoupiCheckout = YoupiCheckout;
   globalScope.Youpi = YoupiCheckout;
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = YoupiCheckout;
+    module.exports.AkaPayCheckout = YoupiCheckout;
+    module.exports.AkaPay = YoupiCheckout;
     module.exports.YoupiCheckout = YoupiCheckout;
     module.exports.Youpi = YoupiCheckout;
   }

@@ -221,7 +221,7 @@ export class CheckoutServer {
   renderHtml(paymentId, state) {
     let html = this.loadTemplateWithPartials();
 
-    const appName = state?.branding?.appName || (process.env.DEFAULT_APP_NAME || '').trim() || 'YouPI PG';
+    const appName = state?.branding?.appName || (process.env.DEFAULT_APP_NAME || '').trim() || 'AKA PAY';
     const primaryColor = state?.branding?.primaryColor || (process.env.DEFAULT_PRIMARY_COLOR || '').trim() || '#0b63e5';
     const merchantName = state?.merchantName || 'Merchant Checkout';
     const orderId = state?.orderId || '';
@@ -342,12 +342,15 @@ export class CheckoutServer {
         return;
       }
 
-      // Official SDK script: GET /youpi.js or /sdk/youpi-checkout.js
-      if (pathname === '/youpi.js' || pathname === '/sdk/youpi.js' || pathname === '/sdk/youpi-checkout.js') {
+      // Official SDK script: GET /akapay.js, /youpi.js or /sdk/akapay-checkout.js
+      if (pathname === '/akapay.js' || pathname === '/sdk/akapay.js' || pathname === '/sdk/akapay-checkout.js' ||
+          pathname === '/youpi.js' || pathname === '/sdk/youpi.js' || pathname === '/sdk/youpi-checkout.js') {
         try {
-          const resolvedSdkPath = fs.existsSync(path.join(__dirname, 'sdk', 'youpi.js'))
-            ? path.join(__dirname, 'sdk', 'youpi.js')
-            : this.sdkScriptPath;
+          const resolvedSdkPath = fs.existsSync(path.join(__dirname, 'sdk', 'akapay.js'))
+            ? path.join(__dirname, 'sdk', 'akapay.js')
+            : (fs.existsSync(path.join(__dirname, 'sdk', 'youpi.js'))
+              ? path.join(__dirname, 'sdk', 'youpi.js')
+              : this.sdkScriptPath);
           const sdkContent = fs.readFileSync(resolvedSdkPath, 'utf8');
           res.writeHead(200, {
             'Content-Type': 'application/javascript; charset=utf-8',

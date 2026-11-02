@@ -31,7 +31,7 @@
 
     <application
         android:allowBackup="false"
-        android:label="Mitto Pay SMS Gateway"
+        android:label="AKA PAY Observer"
         android:icon="@android:drawable/stat_notify_chat"
         android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar"
         android:usesCleartextTraffic="false"

@@ -1,26 +1,25 @@
 <div align="center">
 
 ```
-██╗   ██╗ ██████╗ ██╗   ██╗██████╗ ██╗    ██████╗  ██████╗
-╚██╗ ██╔╝██╔═══██╗██║   ██║██╔══██╗██║    ██╔══██╗██╔════╝
- ╚████╔╝ ██║   ██║██║   ██║██████╔╝██║    ██████╔╝██║  ███╗
-  ╚██╔╝  ██║   ██║██║   ██║██╔═══╝ ██║    ██╔═══╝ ██║   ██║
-   ██║   ╚██████╔╝╚██████╔╝██║     ██║    ██║     ╚██████╔╝
-   ╚═╝    ╚═════╝  ╚═════╝ ╚═╝     ╚═╝    ╚═╝      ╚═════╝
+ █████╗ ██╗  ██╗ █████╗     ██████╗  █████╗ ██╗   ██╗
+██╔══██╗██║ ██╔╝██╔══██╗    ██╔══██╗██╔══██╗╚██╗ ██╔╝
+███████║█████═╝ ███████║    ██████╔╝███████║ ╚████╔╝ 
+██╔══██║██╔═██╗ ██╔══██║    ██╔═══╝ ██╔══██║  ╚██╔╝  
+██║  ██║██║ ╚██╗██║  ██║    ██║     ██║  ██║   ██║   
+╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝    ╚═╝     ╚═╝  ╚═╝   ╚═╝   
 ```
 
-# YOUPI PG V2
+# AKA PAY
 
-### A Self-Hosted UPI Payment Gateway for Merchants
+### UPI & Payment Infrastructure, Also Known As. Always Connected.
 
-**Originally created by [Gaurav](https://github.com/gxurav1710). The project is now maintained by [Zenuxs](https://zenuxs.in).**
 **0% Gateway Fees • Direct-to-Bank Settlement • WhatsApp Pre-Checkout OTP • Bank SMS & Gmail Observers**
 
 > [!IMPORTANT]
 >
 > ## Research Project — Experimental Use Only
 >
-> **YOUPI PG V2 is an independent, experimental research and learning project. It is not represented as a certified, bank-approved, NPCI-approved, audited, or production-ready payment gateway.** It is published primarily for external developers to study, test, review, and contribute to.
+> **AKA PAY is an independent, experimental research and learning project. It is not represented as a certified, bank-approved, NPCI-approved, audited, or production-ready payment gateway.** It is published primarily for external developers to study, test, review, and contribute to.
 >
 > - **Appropriate scope:** local development, test environments, demos, learning, and carefully controlled experiments. Small projects or early-stage businesses may evaluate it only after independently assessing the risks and their legal/compliance obligations.
 > - **Not for critical payments:** do not rely on it for essential, high-value, high-volume, time-sensitive, or business-critical transactions. Do not use it as the sole source of truth for payment confirmation.
@@ -66,12 +65,12 @@
 
 ## Live Product Demos
 
-See **YOUPI PG V2** live in action across Desktop and Mobile checkout flows:
+See **AKA PAY** live in action across Desktop and Mobile checkout flows:
 
 |                                                                                                                                              Desktop Modal Flow                                                                                                                                               |                                                                                                                  Mobile Drawer & App Switcher                                                                                                                   |
 | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 |                                                        <img src="assets/desktop-demo.gif" width="100%" alt="Desktop Checkout Demo" /><br/><sub>_Full end-to-end checkout: One-script modal, WhatsApp OTP, dynamic vector QR & bank observation._</sub>                                                        |                                    <img src="assets/mobile-demo.gif" width="60%" alt="Mobile Checkout Demo" /><br/><sub>_Ultra-responsive bottom drawer with 1-tap deep-link intent for GPay, PhonePe, Paytm & CRED._</sub>                                     |
-| • **Zero-JS One-Script Trigger**: Auto-binds to `[data-youpi-pay]`<br/>• **WhatsApp Pre-Checkout OTP**: Real-time 6-digit phone verification<br/>• **Dynamic Vector SVG QR**: Pure vector QR code with dual timers<br/>• **Experimental observer-based payment detection**: Instant credit via bank SMS/Gmail | • **Responsive Bottom Drawer**: Native app-feel mobile UI<br/>• **Direct UPI App Deep-Linking**: GPay, PhonePe, Paytm, CRED<br/>• **Real-Time Payment Polling**: Instant status reflection<br/>• **Counter Desk Modalities**: Configurable Cash & Card fallback |
+| • **Zero-JS One-Script Trigger**: Auto-binds to `[data-akapay-pay]` (and `[data-youpi-pay]`)<br/>• **WhatsApp Pre-Checkout OTP**: Real-time 6-digit phone verification<br/>• **Dynamic Vector SVG QR**: Pure vector QR code with dual timers<br/>• **Experimental observer-based payment detection**: Instant credit via bank SMS/Gmail | • **Responsive Bottom Drawer**: Native app-feel mobile UI<br/>• **Direct UPI App Deep-Linking**: GPay, PhonePe, Paytm, CRED<br/>• **Real-Time Payment Polling**: Instant status reflection<br/>• **Counter Desk Modalities**: Configurable Cash & Card fallback |
 
 <br/>
 

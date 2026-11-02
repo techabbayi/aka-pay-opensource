@@ -1,5 +1,6 @@
 # =============================================================================
-# YOUPI PG V2 — Docker Compose Configuration
+# AKA PAY — Docker Compose Configuration
+# UPI & Payment Infrastructure, Also Known As. Always Connected.
 #
 # Usage:
 #   docker compose up -d       # Start all services in background
@@ -14,25 +15,28 @@ services:
       context: .
       dockerfile: Dockerfile
       target: runner
-    image: youpi-pg:latest
-    container_name: youpi-pg
+    image: aka-pay:latest
+    container_name: aka-pay
     restart: unless-stopped
     env_file:
       - path: .env
         required: false
     environment:
       NODE_ENV: ${NODE_ENV:-production}
+      AKAPAY_MODE: ${AKAPAY_MODE:-localhost}
       YOUPI_MODE: ${YOUPI_MODE:-localhost}
       # The container ships without a Cloudflare domain, so localhost mode is requested
       # explicitly rather than being an implicit fallback. scripts/start.js still refuses to
       # run in production mode without a domain.
+      AKAPAY_ALLOW_LOCALHOST_MODE: ${AKAPAY_ALLOW_LOCALHOST_MODE:-true}
       YOUPI_ALLOW_LOCALHOST_MODE: ${YOUPI_ALLOW_LOCALHOST_MODE:-true}
+      AKAPAY_BIND_HOST: "0.0.0.0"
       YOUPI_BIND_HOST: "0.0.0.0"
       BASE_PAYMENT_API_URL: http://localhost:6100
       BASE_CHECKOUT_URL: http://localhost:7000
       BASE_ADMIN_URL: http://localhost:6001
       USE_SQLITE_FALLBACK: "true"
-      SQLITE_DB_PATH: /app/data/youpi_pg.sqlite
+      SQLITE_DB_PATH: /app/data/aka_pay.sqlite
       PAYMENT_API_PORT: 6100
       CHECKOUT_PORTAL_PORT: 7000
       MERCHANT_ADMIN_PORT: 6001
@@ -54,7 +58,7 @@ services:
       - "127.0.0.1:6003:6003"   # Gmail Observer
       - "127.0.0.1:8090:8090"   # Process Supervisor Daemon
     volumes:
-      - youpi-data:/app/data
+      - akapay-data:/app/data
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://127.0.0.1:6100/health"]
       interval: 30s
@@ -63,5 +67,5 @@ services:
       start_period: 20s
 
 volumes:
-  youpi-data:
+  akapay-data:
     driver: local

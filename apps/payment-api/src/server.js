@@ -9,7 +9,8 @@ const BASE_SECURITY_HEADERS = Object.freeze({
 });
 
 function configuredOrigins() {
-  return new Set(String(process.env.YOUPI_ALLOWED_ORIGINS || '').split(/[\s,]+/).map(value => {
+  const raw = process.env.AKAPAY_ALLOWED_ORIGINS || process.env.YOUPI_ALLOWED_ORIGINS || '';
+  return new Set(String(raw).split(/[\s,]+/).map(value => {
     try { return new URL(value).origin; } catch { return ''; }
   }).filter(Boolean));
 }

@@ -1,5 +1,6 @@
 # =============================================================================
-# YOUPI PG V2 — Multi-Stage Production Dockerfile
+# AKA PAY — Multi-Stage Production Dockerfile
+# UPI & Payment Infrastructure, Also Known As. Always Connected.
 # Native NPM Workspaces on Node.js 24 Alpine
 # =============================================================================
 
@@ -55,7 +56,9 @@ RUN npm prune --omit=dev
 # ── Stage 3: Runner ─────────────────────────────────────────────────────────
 FROM base AS runner
 ENV NODE_ENV=production
+ENV AKAPAY_MODE=production
 ENV YOUPI_MODE=production
+ENV AKAPAY_BIND_HOST=0.0.0.0
 ENV YOUPI_BIND_HOST=0.0.0.0
 
 WORKDIR /app
@@ -69,20 +72,20 @@ RUN rm -rf /usr/local/lib/node_modules/npm \
            /opt/yarn*
 
 # Create unprivileged application user
-RUN addgroup -S -g 1001 youpi && \
-    adduser -S -u 1001 -G youpi youpi
+RUN addgroup -S -g 1001 akapay && \
+    adduser -S -u 1001 -G akapay akapay
 
 # Copy built application and workspace modules
-COPY --from=builder --chown=youpi:youpi /app ./
+COPY --from=builder --chown=akapay:akapay /app ./
 
 # Setup data persistence directory for native SQLite
-RUN mkdir -p /app/data && chown -R youpi:youpi /app/data
+RUN mkdir -p /app/data && chown -R akapay:akapay /app/data
 VOLUME ["/app/data"]
 
 # Expose all 7 services
 EXPOSE 5000 6001 6002 6003 6100 7000 8090
 
-USER youpi
+USER akapay
 
 # Native healthcheck pinging core payment api
 HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \

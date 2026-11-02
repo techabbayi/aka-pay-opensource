@@ -299,9 +299,11 @@ export class CoinWalletStoreServer {
         return;
       }
 
-      // GET /youpi.js or /sdk/youpi-checkout.js (Universal Frontend Integration Script)
-      if (pathname === '/youpi.js' || pathname === '/sdk/youpi-checkout.js' || pathname === '/sdk/youpi.js') {
-        const sdkPath = path.resolve(__dirname, '../../checkout-portal/src/sdk/youpi.js');
+      // GET /akapay.js or /youpi.js (Universal Frontend Integration Script)
+      if (pathname === '/akapay.js' || pathname === '/sdk/akapay.js' || pathname === '/youpi.js' || pathname === '/sdk/youpi-checkout.js' || pathname === '/sdk/youpi.js') {
+        const sdkPath = fs.existsSync(path.resolve(__dirname, '../../checkout-portal/src/sdk/akapay.js'))
+          ? path.resolve(__dirname, '../../checkout-portal/src/sdk/akapay.js')
+          : path.resolve(__dirname, '../../checkout-portal/src/sdk/youpi.js');
         if (fs.existsSync(sdkPath)) {
           res.writeHead(200, {
             'Content-Type': 'application/javascript; charset=utf-8',

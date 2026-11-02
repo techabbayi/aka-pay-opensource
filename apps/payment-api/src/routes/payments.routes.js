@@ -136,7 +136,7 @@ export function registerPaymentRoutes(server, ctx) {
         HttpServer.json(res, 400, { error: 'returnUrl must use the http or https scheme.' });
         return;
       }
-      const allowedReturnOrigins = String(process.env.YOUPI_ALLOWED_RETURN_ORIGINS || '')
+      const allowedReturnOrigins = String(process.env.AKAPAY_ALLOWED_RETURN_ORIGINS || process.env.YOUPI_ALLOWED_RETURN_ORIGINS || '')
         .split(/[\s,]+/).map(value => value.trim()).filter(Boolean);
       if (!allowedReturnOrigins.includes(parsedReturnUrl.origin)) {
         HttpServer.json(res, 400, { error: 'returnUrl origin is not allowlisted for this gateway.' });
