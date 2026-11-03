@@ -9,10 +9,25 @@ const BASE_SECURITY_HEADERS = Object.freeze({
 });
 
 function configuredOrigins() {
-  const raw = process.env.AKAPAY_ALLOWED_ORIGINS || process.env.AKAPAY_ALLOWED_ORIGINS || '';
+  const raw = process.env.AKAPAY_ALLOWED_ORIGINS || '';
   return new Set(String(raw).split(/[\s,]+/).map(value => {
     try { return new URL(value).origin; } catch { return ''; }
   }).filter(Boolean));
+}
+
+function isOriginAllowed(origin, origins) {
+  if (!origin) return false;
+  if (origins.has(origin)) return true;
+  const isDev = process.env.NODE_ENV !== 'production' && process.env.AKAPAY_MODE !== 'production';
+  if (isDev) {
+    try {
+      const u = new URL(origin);
+      if (u.hostname === 'localhost' || u.hostname === '127.0.0.1' || u.hostname === '::1' || u.hostname === '[::1]') {
+        return true;
+      }
+    } catch {}
+  }
+  return false;
 }
 
 const requestWindows = new Map();
@@ -208,14 +223,14 @@ export class HttpServer {
     return http.createServer(async (req, res) => {
       const origin = req.headers.origin;
       const origins = configuredOrigins();
-      if (origin && !origins.has(origin)) {
+      if (origin && !isOriginAllowed(origin, origins)) {
         HttpServer.json(res, 403, { error: 'Origin is not allowed.' });
         return;
       }
       if (origin) res.corsOrigin = origin;
       // Handle CORS preflight
       if (req.method === 'OPTIONS') {
-        if (!origin || !res.corsOrigin) {
+        if (!origin || !isOriginAllowed(origin, origins)) {
           HttpServer.json(res, 403, { error: 'Origin is not allowed.' });
           return;
         }

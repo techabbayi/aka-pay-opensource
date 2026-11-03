@@ -24,8 +24,7 @@ function runDev(t, { envFile, shellEnv = {} } = {}) {
   fs.mkdirSync(path.join(root, 'node_modules', '@akapay'), { recursive: true });
   fs.symlinkSync(path.join(root, 'packages', 'common'), path.join(root, 'node_modules', '@akapay', 'common'),
     process.platform === 'win32' ? 'junction' : 'dir');
-  fs.mkdirSync(path.join(root, 'node_modules', '@akapay'), { recursive: true });
-  fs.symlinkSync(path.join(root, 'packages', 'common'), path.join(root, 'node_modules', '@akapay', 'common'),
+  fs.symlinkSync(path.join(root, 'packages', 'db'), path.join(root, 'node_modules', '@akapay', 'db'),
     process.platform === 'win32' ? 'junction' : 'dir');
   fs.mkdirSync(path.join(root, 'scripts'));
   fs.copyFileSync(path.join(repoRoot, 'scripts', 'dev.js'), path.join(root, 'scripts', 'dev.js'));

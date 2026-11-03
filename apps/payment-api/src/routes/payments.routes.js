@@ -136,9 +136,15 @@ export function registerPaymentRoutes(server, ctx) {
         HttpServer.json(res, 400, { error: 'returnUrl must use the http or https scheme.' });
         return;
       }
-      const allowedReturnOrigins = String(process.env.AKAPAY_ALLOWED_RETURN_ORIGINS || process.env.AKAPAY_ALLOWED_RETURN_ORIGINS || '')
+      const allowedReturnOrigins = String(process.env.AKAPAY_ALLOWED_RETURN_ORIGINS || '')
         .split(/[\s,]+/).map(value => value.trim()).filter(Boolean);
-      if (!allowedReturnOrigins.includes(parsedReturnUrl.origin)) {
+      const isDev = process.env.NODE_ENV !== 'production' && process.env.AKAPAY_MODE !== 'production';
+      const isLoopbackReturn = isDev && (
+        parsedReturnUrl.hostname === 'localhost' ||
+        parsedReturnUrl.hostname === '127.0.0.1' ||
+        parsedReturnUrl.hostname === '::1'
+      );
+      if (!allowedReturnOrigins.includes(parsedReturnUrl.origin) && !isLoopbackReturn) {
         HttpServer.json(res, 400, { error: 'returnUrl origin is not allowlisted for this gateway.' });
         return;
       }
