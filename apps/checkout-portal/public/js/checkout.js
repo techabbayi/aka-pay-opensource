@@ -2317,7 +2317,7 @@
       }
     }
 
-    // --- RAZORPAY AUTHENTIC "PROCESSING YOUR PAYMENT" MODAL SHEET ---
+    // --- AKA PAY SOVEREIGN TELEMETRY "VERIFYING YOUR PAYMENT" MODAL SHEET ---
     function openProcessingModal(title = 'Processing payment securely with Mitto Pay', subtitle = 'Bank verification in progress. Please do not close or refresh this window.') {
       const modal = document.getElementById('rzpProcessingModal');
       const tEl = document.getElementById('rzpProcessingTitle');
@@ -2338,7 +2338,7 @@
       }
     }
 
-    // --- RAZORPAY AUTHENTIC "CANCEL PAYMENT" CONFIRMATION MODAL SHEET ---
+    // --- AKA PAY SOVEREIGN EXIT CONFIRMATION MODAL SHEET ---
     function openCancelPaymentModal() {
       emitTriggerHook('CANCEL_CLICKED');
       document.body.style.overflow = 'hidden';
@@ -2385,7 +2385,7 @@
         });
       } catch (e) { }
 
-      // Smooth realistic delay matching Razorpay transition
+      // Smooth realistic delay for telemetry transition
       setTimeout(() => {
         document.body.style.overflow = '';
         const yBody = document.querySelector('.ypg-body');

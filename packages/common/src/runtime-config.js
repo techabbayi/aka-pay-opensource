@@ -207,11 +207,11 @@ export function validatePairingPayload(payload) {
   if (!payload || typeof payload !== 'object') {
     return { valid: false, error: 'INVALID PAIRING QR' };
   }
-  if (payload.type !== 'AKAPAY_SMS_GATEWAY_PAIR' && payload.type !== 'AKAPAY_SMS_GATEWAY_PAIR') {
+  if (payload.type !== 'AKAPAY_SMS_GATEWAY_PAIR') {
     return { valid: false, error: 'INVALID PAIRING QR' };
   }
   if (payload.version !== 'v1') {
-    return { valid: false, error: 'INVALID PAIRING QR VERSION' };
+    return { valid: false, error: 'INVALID AKAPAY PAIRING QR VERSION' };
   }
   if (!payload.serverUrl || !payload.token || !payload.sessionId) {
     return { valid: false, error: 'MALFORMED PAIRING QR: Missing required fields' };

@@ -1,4 +1,4 @@
-    <!-- PC LEFT SIDEBAR (Razorpay 2-Column Exact Layout for Desktop) -->
+    <!-- AKA PAY SOVEREIGN TELEMETRY & VAULT SIDEBAR -->
     <aside class="ypg-pc-sidebar">
       <div>
         <!-- Merchant Brand Header -->
@@ -11,8 +11,8 @@
             <div class="ypg-pc-merchant-name" id="pcMerchantName">{{MERCHANT_NAME}}</div>
             <div class="ypg-pc-trust-badge" id="pcTrustBadge">
               <svg class="ypg-pc-green-shield" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2L3 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6l-9-4z" fill="#10b981" />
-                <path d="M8.5 12l2.5 2.5 5-5" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"
+                <path d="M12 2L3 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6l-9-4z" fill="#00F59B" />
+                <path d="M8.5 12l2.5 2.5 5-5" stroke="#07090E" stroke-width="2.4" stroke-linecap="round"
                   stroke-linejoin="round" />
               </svg>
               <span id="pcTrustBadgeText">{{TRUST_BADGE_TEXT}}</span>
@@ -20,20 +20,22 @@
           </div>
         </div>
 
-        <!-- Social Proof Banner -->
+        <!-- Sovereign Telemetry Pill -->
         <div class="ypg-pc-social-proof" id="pcSocialProofWrap">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="9" cy="21" r="1" />
-            <circle cx="20" cy="21" r="1" />
-            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00F59B" stroke-width="2.2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
           </svg>
-          <span id="pcSocialProofText">500+ orders last month from {{MERCHANT_NAME}}</span>
+          <span id="pcSocialProofText">Direct Sovereign UPI Settlement · Zero Intermediary Fees</span>
         </div>
 
-        <!-- Price Summary Card (STRICTLY NO UPI ID VISIBLE) -->
+        <!-- Quantum Price Capsule Card -->
         <div class="ypg-pc-price-card">
-          <div class="ypg-pc-price-label">Price Summary</div>
+          <div class="ypg-pc-price-label-row">
+            <span class="ypg-pc-price-label">Payable Amount</span>
+            <span class="ypg-pc-currency-tag">INR · NPCI UPI</span>
+          </div>
           <div class="ypg-pc-price-val" id="pcPriceSummaryAmount">₹{{AMOUNT}}</div>
+          <div class="ypg-pc-price-sub">Zero Platform Surcharge &bull; Verified P2P Transfer</div>
         </div>
 
         <!-- User Identity Row -->
@@ -49,27 +51,30 @@
         </div>
       </div>
 
-      <!-- Bottom Isometric Shopping Bags Graphic -->
+      <!-- Holographic Cybernetic Encryption Shield & Telemetry Graphic -->
       <div style="margin-top:auto;">
         <div class="ypg-pc-bags-wrap">
-          <svg viewBox="0 0 260 160" width="220" height="135" fill="none">
-            <ellipse cx="130" cy="145" rx="100" ry="12" fill="rgba(0,0,0,0.18)" />
-            <!-- White / Cyan shopping bag with blue handles -->
-            <path d="M100 65 L135 60 L145 135 L90 140 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
-            <path d="M100 65 L135 60 L140 85 L95 90 Z" fill="#f1f5f9" />
-            <path d="M110 63 C110 48, 125 48, 125 61" stroke="#0284c7" stroke-width="3" fill="none"
-              stroke-linecap="round" />
-            <!-- Green shopping bag with % badge -->
-            <path d="M140 75 L180 70 L195 135 L135 140 Z" fill="#10b981" stroke="#059669" stroke-width="1.5" />
-            <path d="M150 73 C150 58, 168 58, 168 71" stroke="#047857" stroke-width="3" fill="none"
-              stroke-linecap="round" />
-            <circle cx="160" cy="98" r="14" fill="#34d399" />
-            <text x="160" y="103" font-size="12" font-weight="900" fill="#064e3b" text-anchor="middle">%</text>
-            <!-- Blue gift box with white ribbon -->
-            <path d="M55 100 L95 95 L105 140 L50 142 Z" fill="#0284c7" />
-            <path d="M50 100 L95 95 L95 105 L48 108 Z" fill="#38bdf8" />
-            <rect x="71" y="96" width="7" height="45" fill="#ffffff" />
-          </svg>
+          <div class="ypg-cyber-shield-box">
+            <svg viewBox="0 0 200 130" width="100%" height="110" fill="none">
+              <!-- Radial Grid Lines -->
+              <circle cx="100" cy="65" r="54" stroke="rgba(0, 245, 155, 0.12)" stroke-width="1.2" stroke-dasharray="3 3"/>
+              <circle cx="100" cy="65" r="40" stroke="rgba(0, 212, 255, 0.18)" stroke-width="1.4"/>
+              <circle cx="100" cy="65" r="26" stroke="rgba(0, 245, 155, 0.25)" stroke-width="1.2"/>
+              <!-- Central Sovereign Shield -->
+              <path d="M100 35 L124 45 C124 72 100 88 100 88 C100 88 76 72 76 45 Z" fill="rgba(14, 19, 31, 0.95)" stroke="#00F59B" stroke-width="2"/>
+              <!-- Lock Node Icon in Core -->
+              <rect x="94" y="58" width="12" height="10" rx="2" fill="#00F59B"/>
+              <path d="M96 58 V53 A4 4 0 0 1 104 53 V58" stroke="#00F59B" stroke-width="2" fill="none"/>
+              <!-- Pulse Orbit Nodes -->
+              <circle cx="100" cy="11" r="3" fill="#00D4FF"/>
+              <circle cx="154" cy="65" r="3" fill="#00F59B"/>
+              <circle cx="46" cy="65" r="3" fill="#00F59B"/>
+              <circle cx="100" cy="119" r="3" fill="#00D4FF"/>
+            </svg>
+            <div class="ypg-cyber-shield-caption">
+              <span>256-BIT FAIL-CLOSED SOVEREIGN LAYER</span>
+            </div>
+          </div>
         </div>
       </div>
     </aside>

@@ -692,7 +692,7 @@ _isSafeRedirect(url) {
           height: 100%;
           border: none;
           flex: 1;
-          background: #ffffff;
+          background: transparent;
           touch-action: auto !important;
         }
         .akapay-checkout-close-btn {
@@ -717,7 +717,7 @@ _isSafeRedirect(url) {
           background: rgba(255, 255, 255, 0.4);
         }
 
-        /* DESKTOP / PC MODAL STYLES (Razorpay 2-Column Exact Layout) */
+        /* DESKTOP / PC MODAL STYLES (AKA PAY Sovereign Dual-Workspace Vault) */
         @media (min-width: 768px) {
           .akapay-checkout-container {
             width: 900px;
