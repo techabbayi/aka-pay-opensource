@@ -259,81 +259,423 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Header: always an ink bar, in both themes, so the brand reads the same everywhere */
-    header {
-      background: var(--header-bg);
-      border-bottom: 1px solid var(--header-border);
-      padding: 0 1.75rem;
-      min-height: 60px;
+    /* ========================================================================= */
+    /* SOVEREIGN FINTECH SIDEBAR & APP SHELL LAYOUT                             */
+    /* ========================================================================= */
+    .aka-hub-layout {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+      background: var(--bg);
+      position: relative;
+    }
+
+    .aka-hub-sidebar {
+      width: 275px;
+      min-width: 275px;
+      max-width: 275px;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-nav);
+      border-right: 1px solid var(--border);
+      z-index: 1000;
+      overflow-y: auto;
+      overflow-x: hidden;
+      box-shadow: 2px 0 20px rgba(0, 0, 0, 0.25);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .aka-hub-sidebar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .aka-hub-sidebar::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+
+    /* Sidebar Brand Apex */
+    .sidebar-brand-box {
+      padding: 1.15rem 1.15rem 1rem 1.15rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
-      flex-wrap: wrap;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+      border-bottom: 1px solid var(--border-subtle);
+      background: rgba(0, 0, 0, 0.12);
     }
 
-    header .badge-info,
-    header .store-switch-badge:not(.is-online):not(.is-offline) {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: rgba(255, 255, 255, 0.14);
-      color: #d9e4df;
-    }
-
-    header>.header-quick-stats>div[onclick] {
-      background: rgba(255, 255, 255, 0.06) !important;
-      border-color: rgba(255, 255, 255, 0.14) !important;
-    }
-
-    header>.header-quick-stats>div[onclick]>span:first-child {
-      color: #9fb2ab !important;
-    }
-
-    .brand-group {
+    .sidebar-brand-main {
       display: flex;
       align-items: center;
-      gap: 0.9rem;
+      gap: 0.75rem;
     }
 
-    .brand-title {
-      font-size: 1.1rem;
+    .sidebar-brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: rgba(0, 245, 155, 0.1);
+      border: 1px solid rgba(0, 245, 155, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      box-shadow: 0 0 14px rgba(0, 245, 155, 0.12);
+      flex-shrink: 0;
+    }
+
+    .sidebar-brand-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .sidebar-brand-info .brand-title {
+      font-size: 1.02rem;
       font-weight: 800;
-      color: var(--header-title);
+      color: var(--text-heading);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      letter-spacing: 0.02em;
+      gap: 0.35rem;
     }
 
-    .brand-badge {
-      font-size: 0.7rem;
+    .sidebar-brand-info .brand-badge {
+      font-size: 0.62rem;
       font-weight: 600;
-      padding: 0.2rem 0.55rem;
-      border-radius: var(--r-tag);
-      background: transparent;
-      color: #9fb2ab;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      letter-spacing: 0.06em;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      border: 1px solid var(--border-subtle);
       text-transform: uppercase;
+      letter-spacing: 0.05em;
+      width: fit-content;
     }
 
-    .header-quick-stats {
+    .sidebar-close-btn {
+      display: none;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+    }
+    .sidebar-close-btn:hover {
+      color: var(--text-heading);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    /* Active Merchant Account Card */
+    .sidebar-merchant-card {
+      margin: 0.85rem 0.85rem 0.6rem 0.85rem;
+      padding: 0.75rem 0.85rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-ctl);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .sidebar-merchant-header {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-      padding: 0.5rem 0;
+      justify-content: space-between;
+      margin-bottom: 0.4rem;
     }
 
+    .sidebar-merchant-label {
+      font-size: 0.64rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+    }
 
+    .sidebar-merchant-add-btn {
+      font-size: 0.66rem;
+      font-weight: 700;
+      padding: 0.12rem 0.45rem;
+      border-radius: 4px;
+      background: rgba(0, 245, 155, 0.1);
+      color: var(--primary);
+      border: 1px solid rgba(0, 245, 155, 0.25);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      transition: all 0.15s ease;
+    }
+    .sidebar-merchant-add-btn:hover {
+      background: rgba(0, 245, 155, 0.2);
+    }
 
+    .sidebar-merchant-selector-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: var(--bg-surface);
+      padding: 0.35rem 0.55rem;
+      border-radius: 6px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .sidebar-merchant-icon {
+      font-size: 0.8rem;
+    }
+
+    .sidebar-merchant-select {
+      flex: 1;
+      font-size: 0.78rem;
+      font-weight: 700;
+      background: transparent;
+      border: none;
+      color: var(--text-heading);
+      cursor: pointer;
+      outline: none;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .sidebar-vpa-row {
+      margin-top: 0.45rem;
+    }
+
+    .sidebar-vpa-pill {
+      display: block;
+      width: 100%;
+      text-align: center;
+      font-size: 0.7rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 5px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      box-sizing: border-box;
+      transition: filter 0.15s ease;
+    }
+    .sidebar-vpa-pill:hover {
+      filter: brightness(1.15);
+    }
+
+    /* Sidebar Navigation Menu */
+    .sidebar-nav-container {
+      flex: 1;
+      padding: 0.5rem 0.75rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .sidebar-nav-heading {
+      font-size: 0.63rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      padding: 0.35rem 0.5rem 0.2rem 0.5rem;
+    }
+
+    .sidebar-section-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main-nav-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.6rem 0.75rem;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.83rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      position: relative;
+    }
+
+    .main-nav-btn:hover {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-heading);
+    }
+
+    .main-nav-btn.active {
+      background: rgba(0, 245, 155, 0.09);
+      border-color: rgba(0, 245, 155, 0.25);
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    [data-theme="light"] .main-nav-btn.active {
+      background: rgba(5, 150, 105, 0.08);
+      border-color: rgba(5, 150, 105, 0.2);
+      color: var(--primary);
+    }
+
+    .nav-icon-badge {
+      font-size: 1rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .nav-label {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nav-active-pill {
+      display: none;
+      width: 4px;
+      height: 14px;
+      border-radius: 2px;
+      background: var(--primary);
+      box-shadow: 0 0 8px var(--primary);
+    }
+
+    .main-nav-btn.active .nav-active-pill {
+      display: block;
+    }
+
+    .main-nav-btn:focus-visible,
+    .sub-nav-pill:focus-visible,
+    .btn:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+
+    /* Subnav Tree directly under active section */
+    .subnav-slot {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sub-nav-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      padding: 0.25rem 0 0.35rem 0.9rem;
+      margin: 0.15rem 0 0.35rem 0.95rem;
+      border-left: 2px solid rgba(0, 245, 155, 0.25);
+      background: transparent;
+      overflow: visible;
+    }
+
+    [data-theme="light"] .sub-nav-bar {
+      border-left: 2px solid rgba(5, 150, 105, 0.25);
+    }
+
+    .sub-nav-pill {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.38rem 0.65rem;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.77rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sub-nav-pill:hover {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-heading);
+    }
+
+    .sub-nav-pill.active {
+      background: rgba(0, 245, 155, 0.12) !important;
+      border-color: rgba(0, 245, 155, 0.32) !important;
+      color: #00F59B !important;
+      font-weight: 700;
+      box-shadow: 0 0 10px rgba(0, 245, 155, 0.1);
+    }
+
+    [data-theme="light"] .sub-nav-pill.active {
+      background: rgba(5, 150, 105, 0.1) !important;
+      border-color: rgba(5, 150, 105, 0.3) !important;
+      color: #065F46 !important;
+      box-shadow: none;
+    }
+
+    /* Sidebar Footer Telemetry & Controls */
+    .sidebar-footer {
+      padding: 0.85rem 0.85rem;
+      border-top: 1px solid var(--border);
+      background: var(--bg-surface);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .sidebar-footer-telemetry {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+    }
+
+    .sidebar-env-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      cursor: pointer;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .sidebar-env-tag {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+    }
+
+    .sidebar-theme-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+
+    .sidebar-theme-row .theme-switch {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+    .sidebar-theme-row .theme-switch button {
+      flex: 1;
+      justify-content: center;
+      padding: 0.25rem 0.4rem;
+    }
+
+    /* Store Switch Badge & Badges */
     .store-switch-badge {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.45rem;
-      padding: 0.3rem 0.65rem;
+      padding: 0.35rem 0.65rem;
       border-radius: var(--r-ctl);
       font-size: 0.75rem;
       font-weight: 600;
@@ -342,6 +684,9 @@
       background: var(--bg-card);
       color: var(--text);
       user-select: none;
+      width: 100%;
+      box-sizing: border-box;
+      transition: filter 0.15s ease, background 0.15s ease, border-color 0.15s ease;
     }
 
     .store-switch-badge:hover {
@@ -367,9 +712,9 @@
       background: rgba(0, 245, 155, 0.08);
       border: 1px solid rgba(0, 245, 155, 0.3);
       color: #00F59B;
-      padding: 0.3rem 0.65rem;
+      padding: 0.25rem 0.55rem;
       border-radius: var(--r-ctl);
-      font-size: 0.73rem;
+      font-size: 0.72rem;
       font-weight: 600;
     }
 
@@ -383,102 +728,118 @@
     }
 
     @keyframes pulseAnim {
-
-      0%,
-      100% {
-        opacity: 1;
-      }
-
-      50% {
-        opacity: 0.35;
-      }
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
     }
 
-    /* Primary navigation: flat tab strip, active tab marked by an accent bar */
-    .main-nav-bar {
-      background: var(--nav-bg);
-      border-bottom: 1px solid var(--nav-border);
+    /* ========================================================================= */
+    /* MAIN CANVAS & TOPBAR                                                      */
+    /* ========================================================================= */
+    .aka-hub-canvas {
+      flex: 1;
       display: flex;
-      gap: 0.25rem;
-      padding: 0 1.75rem;
-      overflow-x: auto;
-      position: sticky;
-      top: 60px;
-      z-index: 999;
+      flex-direction: column;
+      min-width: 0;
+      overflow-x: hidden;
+      min-height: 100vh;
     }
 
-    .main-nav-btn {
-      padding: 0.85rem 1.1rem;
-      cursor: pointer;
-      border: none;
+    .aka-hub-topbar {
+      min-height: 54px;
+      height: 54px;
+      padding: 0 1.5rem;
+      background: var(--bg-header);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 900;
+      backdrop-filter: blur(8px);
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      min-width: 0;
+    }
+
+    .mobile-menu-toggle {
+      display: none;
       background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 6px;
+      padding: 0.35rem 0.5rem;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .topbar-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.8rem;
       font-weight: 600;
       color: var(--text-muted);
-      border-bottom: 2px solid transparent;
-      margin-bottom: -1px;
       white-space: nowrap;
-      transition: color 0.15s ease, border-color 0.15s ease;
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      gap: 0.55rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .main-nav-btn:hover {
-      color: var(--text);
+    .breadcrumb-app {
+      color: var(--primary);
+      font-weight: 700;
+      letter-spacing: 0.02em;
     }
 
-    .main-nav-btn.active {
+    .breadcrumb-separator {
+      color: var(--text-dim);
+      font-size: 0.75rem;
+    }
+
+    .breadcrumb-section {
       color: var(--text-heading);
-      border-bottom-color: var(--primary);
-      background: transparent;
     }
 
-    .main-nav-btn:focus-visible,
-    .sub-nav-pill:focus-visible,
-    .btn:focus-visible {
-      outline: 2px solid var(--border-focus);
-      outline-offset: 2px;
+    .breadcrumb-subtab {
+      color: var(--text-muted);
     }
 
-    /* Secondary navigation: quiet segmented row */
-    .sub-nav-bar {
-      background: var(--subnav-bg);
-      border-bottom: 1px solid var(--subnav-border);
-      display: flex;
-      gap: 0.25rem;
-      padding: 0.5rem 1.75rem;
-      overflow-x: auto;
-    }
-
-    .sub-nav-pill {
-      padding: 0.38rem 0.8rem;
-      cursor: pointer;
-      border: 1px solid var(--pill-border);
-      background: var(--pill-bg);
-      border-radius: var(--r-ctl);
-      font-weight: 600;
-      color: var(--pill-text);
-      white-space: nowrap;
-      font-size: 0.8rem;
+    .topbar-actions {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.5rem;
+      flex-shrink: 0;
     }
 
-    .sub-nav-pill:hover {
-      color: var(--text);
-      background: var(--bg-elevated);
+    .topbar-btn {
+      padding: 0.3rem 0.7rem;
+      font-size: 0.76rem;
+      border-radius: var(--r-ctl);
+      white-space: nowrap;
     }
 
-    .sub-nav-pill.active {
-      color: #ffffff;
-      background: var(--primary);
-      border-color: var(--primary);
+    /* Mobile Backdrop */
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
+      z-index: 998;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
     }
 
-    [data-theme="dark"] .sub-nav-pill.active {
-      color: #04201c;
+    .sidebar-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
     }
 
 
@@ -1148,25 +1509,13 @@
 
     @media (max-width: 767px) {
 
-      header,
-      .main-nav-bar,
-      .sub-nav-bar {
-        padding-left: 1rem;
-        padding-right: 1rem;
-      }
-
-      header {
-        position: static;
-        padding-top: 0.6rem;
-        padding-bottom: 0.6rem;
-      }
-
-      .main-nav-bar {
-        top: 0;
+      .aka-hub-topbar {
+        padding-left: 0.85rem;
+        padding-right: 0.85rem;
       }
 
       main {
-        padding: 1rem;
+        padding: 0.85rem;
       }
 
       .kpi-box {
@@ -1211,84 +1560,169 @@
   <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z"/></symbol><symbol id="i-user" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></symbol><symbol id="i-viewfinder-circle" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 3.75H6A2.25 2.25 0 0 0 3.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0 1 20.25 6v1.5m0 9V18A2.25 2.25 0 0 1 18 20.25h-1.5m-9 0H6A2.25 2.25 0 0 1 3.75 18v-1.5M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></symbol><symbol id="i-wrench-screwdriver" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z"/></symbol><symbol id="i-x-circle" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></symbol><symbol id="i-x-mark" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></symbol></svg>
 
 
-  <!-- TOP HEADER -->
-  <header>
-    <div class="brand-group">
-      <div class="brand-title">
-        <span>🛡️ {{APP_NAME}}</span>
-      </div>
-      <span class="brand-badge">Merchant &amp; Supervisor Hub</span>
-    </div>
+  <div class="aka-hub-layout">
+    <!-- MOBILE BACKDROP -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleMobileSidebar(false)"></div>
 
-    <div class="header-quick-stats">
-      <!-- Theme: System (default) / Light / Dark -->
-      <div class="theme-switch" role="radiogroup" aria-label="Colour theme"><button type="button" role="radio" data-theme-pref="system" onclick="setThemePref('system')" title="Follow system setting"><svg class="i" aria-hidden="true"><use href="#i-computer-desktop"/></svg>System</button><button type="button" role="radio" data-theme-pref="light" onclick="setThemePref('light')" title="Light theme"><svg class="i" aria-hidden="true"><use href="#i-sun"/></svg>Light</button><button type="button" role="radio" data-theme-pref="dark" onclick="setThemePref('dark')" title="Dark theme"><svg class="i" aria-hidden="true"><use href="#i-moon"/></svg>Dark</button></div>
-
-      <!-- AKA PAY Store Port 5000 Switch Badge -->
-      <div class="store-switch-badge is-offline" id="headerStoreBadge" onclick="toggleAkaPayStore()"
-        title="Click to 1-Click Enable/Disable AKA PAY Showcase Store on Port 5000">
-        <span id="headerStoreDot">●</span>
-        <span id="headerStoreText">Store (5000): Checking...</span>
-      </div>
-
-      <!-- Merchant Account Switcher -->
-      <div style="display:flex; align-items:center; gap:0.35rem; background:var(--bg-card); padding:0.25rem 0.6rem; border-radius:9999px; border:1px solid var(--border);">
-        <span style="font-size:0.75rem;">🏪</span>
-        <select id="headerMerchantSelector" onchange="onMerchantSwitch(this.value)" style="font-size:0.75rem; font-weight:700; background:transparent; border:none; color:var(--text-main); cursor:pointer; outline:none; max-width:140px;">
-          <option value="00000000-0000-0000-0000-000000000001">Default Store</option>
-        </select>
-        <button type="button" class="btn btn-secondary" onclick="openNewMerchantModal()" style="padding:0.15rem 0.45rem; font-size:0.7rem; border-radius:9999px;" title="Create/Onboard New Merchant">+ New</button>
+    <!-- SOVEREIGN FINTECH SIDEBAR -->
+    <aside class="aka-hub-sidebar" id="hubSidebar">
+      <!-- SIDEBAR BRAND APEX -->
+      <div class="sidebar-brand-box">
+        <div class="sidebar-brand-main">
+          <div class="sidebar-brand-logo">🛡️</div>
+          <div class="sidebar-brand-info">
+            <div class="brand-title">
+              <span>🛡️ {{APP_NAME}}</span>
+            </div>
+            <span class="brand-badge">Merchant &amp; Supervisor Hub</span>
+          </div>
+        </div>
+        <button type="button" class="sidebar-close-btn" onclick="toggleMobileSidebar(false)" aria-label="Close navigation sidebar">✕</button>
       </div>
 
-      <!-- Active VPA Display -->
-      <span class="badge badge-info" id="accountVpaDisplay" style="cursor:pointer;"
-        onclick="switchSection('storeSettings', 'subTabVpa')">
-        VPA: Loading...
-      </span>
-
-      <!-- Environment Mode -->
-      <div
-        style="display:flex; align-items:center; gap:0.4rem; background:var(--bg-card); padding:0.3rem 0.75rem; border-radius:9999px; border:1px solid var(--border); cursor:pointer;"
-        onclick="switchSection('developerHub', 'subViewDevCloudflare')">
-        <span style="font-size:0.72rem; color:var(--text-muted); font-weight:700;">ENV:</span>
-        <span class="badge badge-info" id="headerEnvBadge" style="font-size:0.72rem; padding:0.15rem 0.5rem;">💻
-          LOCALHOST</span>
+      <!-- ACTIVE MERCHANT ACCOUNT CARD -->
+      <div class="sidebar-merchant-card">
+        <div class="sidebar-merchant-header">
+          <span class="sidebar-merchant-label">Active Store</span>
+          <button type="button" class="sidebar-merchant-add-btn" onclick="openNewMerchantModal()" title="Create/Onboard New Merchant">
+            <svg class="i" style="width:0.85em; height:0.85em;"><use href="#i-plus"/></svg>
+            <span>New</span>
+          </button>
+        </div>
+        <div class="sidebar-merchant-selector-wrap">
+          <span class="sidebar-merchant-icon">🏪</span>
+          <select id="headerMerchantSelector" onchange="onMerchantSwitch(this.value)" class="sidebar-merchant-select">
+            <option value="00000000-0000-0000-0000-000000000001">Default Store</option>
+          </select>
+        </div>
+        <div class="sidebar-vpa-row">
+          <span class="badge badge-info sidebar-vpa-pill" id="accountVpaDisplay" style="cursor:pointer;"
+            onclick="switchSection('storeSettings', 'subTabVpa')" title="Click to view & configure Receiving VPAs">
+            VPA: Loading...
+          </span>
+        </div>
       </div>
 
-      <!-- Live Polling Indicator -->
-      <div class="live-pulse-badge">
-        <div class="pulse-dot"></div>
-        <span>Live Syncing</span>
+      <!-- SIDEBAR NAVIGATION MENU -->
+      <div class="sidebar-nav-container">
+        <div class="sidebar-nav-heading">FINTECH HUBS</div>
+
+        <!-- Section 1: Daily Merchant Operations -->
+        <div class="sidebar-section-wrap" id="sectionWrap-operations">
+          <button class="main-nav-btn active" id="mainNavOperations" onclick="switchSection('operations')">
+            <span class="nav-icon-badge">🏪</span>
+            <span class="nav-label">Daily Operations</span>
+            <span class="nav-active-pill"></span>
+          </button>
+          <div class="subnav-slot" id="subnavSlot-operations"></div>
+        </div>
+
+        <!-- Section 2: Store Settings -->
+        <div class="sidebar-section-wrap" id="sectionWrap-storeSettings">
+          <button class="main-nav-btn" id="mainNavStoreSettings" onclick="switchSection('storeSettings')">
+            <span class="nav-icon-badge">⚙️</span>
+            <span class="nav-label">Store Settings</span>
+            <span class="nav-active-pill"></span>
+          </button>
+          <div class="subnav-slot" id="subnavSlot-storeSettings"></div>
+        </div>
+
+        <!-- Section 3: Developer & Infrastructure Hub -->
+        <div class="sidebar-section-wrap" id="sectionWrap-developerHub">
+          <button class="main-nav-btn" id="mainNavDeveloperHub" onclick="switchSection('developerHub')">
+            <span class="nav-icon-badge">🛠️</span>
+            <span class="nav-label">Developer Hub</span>
+            <span class="nav-active-pill"></span>
+          </button>
+          <div class="subnav-slot" id="subnavSlot-developerHub"></div>
+        </div>
+
+        <!-- Section 4: Security -->
+        <div class="sidebar-section-wrap" id="sectionWrap-security">
+          <button class="main-nav-btn" id="mainNavSecurity" onclick="switchSection('security')">
+            <span class="nav-icon-badge">🛡️</span>
+            <span class="nav-label">Security &amp; Audit</span>
+            <span class="nav-active-pill"></span>
+          </button>
+          <div class="subnav-slot" id="subnavSlot-security"></div>
+        </div>
+
+        <!-- DYNAMIC SUB-NAV BAR: Dynamically placed inside active subnav-slot -->
+        <nav class="sub-nav-bar" id="subNavBar">
+          <!-- Dynamically populated with .sub-nav-pill buttons -->
+        </nav>
       </div>
-    </div>
-  </header>
 
-  <!-- MAIN NAVIGATION BAR: 3 HIGH-LEVEL SECTIONS -->
-  <nav class="main-nav-bar">
-    <button class="main-nav-btn active" id="mainNavOperations" onclick="switchSection('operations')">
-      <span>🏪</span>
-      <span>Daily Merchant Operations</span>
-    </button>
-    <button class="main-nav-btn" id="mainNavStoreSettings" onclick="switchSection('storeSettings')">
-      <span>⚙️</span>
-      <span>Store Settings</span>
-    </button>
-    <button class="main-nav-btn" id="mainNavDeveloperHub" onclick="switchSection('developerHub')">
-      <span>🛠️</span>
-      <span>Developer &amp; Infrastructure Hub</span>
-    </button>
-    <button class="main-nav-btn" id="mainNavSecurity" onclick="switchSection('security')">
-      <span>🛡️</span>
-      <span>Security</span>
-    </button>
-  </nav>
+      <!-- SIDEBAR FOOTER TELEMETRY & CONTROLS -->
+      <div class="sidebar-footer">
+        <!-- Showcase Store 5000 Switch Badge -->
+        <div class="store-switch-badge is-offline" id="headerStoreBadge" onclick="toggleAkaPayStore()"
+          title="Click to 1-Click Enable/Disable AKA PAY Showcase Store on Port 5000">
+          <span id="headerStoreDot">●</span>
+          <span id="headerStoreText">Store (5000): Checking...</span>
+        </div>
 
-  <!-- SECONDARY SUB-NAVIGATION BAR (Dynamically adapts per section) -->
-  <nav class="sub-nav-bar" id="subNavBar">
-    <!-- Filled dynamically or toggled based on current section -->
-  </nav>
+        <!-- Environment Mode & Live Polling Status -->
+        <div class="sidebar-footer-telemetry">
+          <div class="sidebar-env-badge" onclick="switchSection('developerHub', 'subViewDevCloudflare')" title="Click to view Cloudflare & Domain settings">
+            <span class="sidebar-env-tag">ENV:</span>
+            <span class="badge badge-info" id="headerEnvBadge">💻 LOCALHOST</span>
+          </div>
 
-  <main>
+          <div class="live-pulse-badge">
+            <div class="pulse-dot"></div>
+            <span>Live Sync</span>
+          </div>
+        </div>
+
+        <!-- Theme Switch (System / Light / Dark) -->
+        <div class="sidebar-theme-row">
+          <div class="theme-switch" role="radiogroup" aria-label="Colour theme">
+            <button type="button" role="radio" data-theme-pref="system" onclick="setThemePref('system')" title="Follow system setting">
+              <svg class="i" aria-hidden="true"><use href="#i-computer-desktop"/></svg>System
+            </button>
+            <button type="button" role="radio" data-theme-pref="light" onclick="setThemePref('light')" title="Light theme">
+              <svg class="i" aria-hidden="true"><use href="#i-sun"/></svg>Light
+            </button>
+            <button type="button" role="radio" data-theme-pref="dark" onclick="setThemePref('dark')" title="Dark theme">
+              <svg class="i" aria-hidden="true"><use href="#i-moon"/></svg>Dark
+            </button>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT CANVAS -->
+    <div class="aka-hub-canvas">
+      <!-- TOPBAR (BREADCRUMB & CONTEXTUAL STATUS) -->
+      <header class="aka-hub-topbar">
+        <div class="topbar-left">
+          <button type="button" class="mobile-menu-toggle" onclick="toggleMobileSidebar(true)" aria-label="Open Navigation Menu">
+            <svg class="i" style="width:1.25em; height:1.25em;"><use href="#i-scale"/></svg>
+          </button>
+          <div class="topbar-breadcrumb">
+            <span class="breadcrumb-item breadcrumb-app">AKA PAY</span>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-item breadcrumb-section" id="topbarBreadcrumbSection">Daily Merchant Operations</span>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-item breadcrumb-subtab" id="topbarBreadcrumbSubtab">Live Monitor &amp; Slots</span>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button type="button" class="btn btn-secondary topbar-btn" onclick="switchSection('storeSettings', 'subViewStoreStand')" title="Instant Payment QR Stand Studio">
+            🪧 Stand Studio
+          </button>
+          <button type="button" class="btn btn-secondary topbar-btn" onclick="switchSection('operations', 'subViewOpsCounter')" title="Counter Desk (POS Cashier)">
+            🏪 Cashier POS
+          </button>
+          <button type="button" class="btn btn-secondary topbar-btn" onclick="switchSection('developerHub', 'subViewDevSupervisor')" title="System Supervisor">
+            🖥️ Supervisor
+          </button>
+        </div>
+      </header>
+
+      <main>
 
     <!-- ========================================================================= -->
     <!-- SECTION 1: DAILY MERCHANT OPERATIONS                                      -->
@@ -3544,6 +3978,8 @@
     </div>
 
   </main>
+    </div><!-- /.aka-hub-canvas -->
+  </div><!-- /.aka-hub-layout -->
 
   <!-- Gmail Setup Guide Modal (Exact 15-Step Instructions & Refresh Token Guide) -->
   <div id="gmailGuideModal" class="modal-overlay" hidden>
@@ -4085,7 +4521,17 @@
     themeMQ.addEventListener('change', () => { if (getThemePref() === 'system') applyTheme('system'); });
     applyTheme(getThemePref());
 
-    // --- NAVIGATION CONTROLLER: 3 HIGH-LEVEL SECTIONS ---
+    // --- MOBILE SIDEBAR DRAWER CONTROLLER ---
+    function toggleMobileSidebar(force) {
+      const sb = document.getElementById('hubSidebar');
+      const bd = document.getElementById('sidebarBackdrop');
+      if (!sb) return;
+      const isOpen = (typeof force === 'boolean') ? force : !sb.classList.contains('sidebar-open');
+      sb.classList.toggle('sidebar-open', isOpen);
+      if (bd) bd.classList.toggle('active', isOpen);
+    }
+
+    // --- NAVIGATION CONTROLLER: 4 HIGH-LEVEL FINTECH SECTIONS ---
     function switchSection(sectionId, targetSubTab = null) {
       activeSection = sectionId;
 
@@ -4105,13 +4551,23 @@
       if (sectionId === 'developerHub') document.getElementById('mainNavDeveloperHub').classList.add('active');
       if (sectionId === 'security') document.getElementById('mainNavSecurity').classList.add('active');
 
+      // Update topbar breadcrumb section name
+      const secNames = {
+        operations: 'Daily Merchant Operations',
+        storeSettings: 'Store Settings',
+        developerHub: 'Developer & Infrastructure Hub',
+        security: 'Security & Audit'
+      };
+      const breadcrumbSec = document.getElementById('topbarBreadcrumbSection');
+      if (breadcrumbSec) breadcrumbSec.textContent = secNames[sectionId] || sectionId;
+
       // Show/hide sections
       document.getElementById('sectionOperations').hidden = (sectionId !== 'operations');
       document.getElementById('sectionStoreSettings').hidden = (sectionId !== 'storeSettings');
       document.getElementById('sectionDeveloperHub').hidden = (sectionId !== 'developerHub');
       document.getElementById('sectionSecurity').hidden = (sectionId !== 'security');
 
-      // Render sub-navigation bar
+      // Render sub-navigation bar directly under active section
       renderSubNavBar(sectionId, targetSubTab);
 
       // Initial triggers
@@ -4130,6 +4586,14 @@
 
     function renderSubNavBar(sectionId, targetSubTab = null) {
       const subNav = document.getElementById('subNavBar');
+      if (!subNav) return;
+
+      // Mount sub-nav directly under active section wrap in sidebar
+      const targetSlot = document.getElementById('subnavSlot-' + sectionId);
+      if (targetSlot && subNav.parentElement !== targetSlot) {
+        targetSlot.appendChild(subNav);
+      }
+
       subNav.innerHTML = '';
 
       let items = [];
@@ -4164,7 +4628,18 @@
         ];
       }
 
-      let defaultSub = targetSubTab || items[0].id;
+      // Support legacy subTab aliases
+      const subAliases = {
+        subTabVpa: 'subViewStoreVpa',
+        subTabAndroid: 'subViewDevAndroid',
+        subTabGmail: 'subViewDevProtocols'
+      };
+      let resolvedSub = targetSubTab;
+      if (resolvedSub && subAliases[resolvedSub]) {
+        resolvedSub = subAliases[resolvedSub];
+      }
+
+      let defaultSub = resolvedSub || items[0].id;
       items.forEach(item => {
         const btn = document.createElement('button');
         btn.className = `sub-nav-pill ${item.id === defaultSub ? 'active' : ''}`;
@@ -4177,13 +4652,23 @@
     }
 
     function switchSubView(sectionId, subViewId) {
+      if (subViewId === 'subTabVpa') subViewId = 'subViewStoreVpa';
+      if (subViewId === 'subTabAndroid') subViewId = 'subViewDevAndroid';
+      if (subViewId === 'subTabGmail') subViewId = 'subViewDevProtocols';
       activeSubTab = subViewId;
 
       // Update pill styles
       document.querySelectorAll('.sub-nav-pill').forEach(p => {
         p.classList.remove('active');
-        if (p.onclick.toString().includes(subViewId)) p.classList.add('active');
+        if (p.onclick && p.onclick.toString().includes(subViewId)) p.classList.add('active');
       });
+
+      // Update topbar breadcrumb subtab name
+      const activePill = document.querySelector(`.sub-nav-pill.active`);
+      const breadcrumbSub = document.getElementById('topbarBreadcrumbSubtab');
+      if (breadcrumbSub && activePill) {
+        breadcrumbSub.textContent = activePill.textContent.trim();
+      }
 
       // Hide all sub-views in current section and show target
       const parent = document.getElementById(
@@ -4191,11 +4676,44 @@
           sectionId === 'storeSettings' ? 'sectionStoreSettings' :
             sectionId === 'developerHub' ? 'sectionDeveloperHub' : 'sectionSecurity'
       );
-      Array.from(parent.children).forEach(child => {
-        if (child.id && child.id.startsWith('subView')) {
-          child.hidden = (child.id !== subViewId);
-        }
-      });
+      if (parent) {
+        Array.from(parent.children).forEach(child => {
+          if (child.id && child.id.startsWith('subView')) {
+            child.hidden = (child.id !== subViewId);
+          }
+        });
+      }
+
+      // Close mobile drawer if open on smaller screen
+      if (window.innerWidth <= 1024) {
+        toggleMobileSidebar(false);
+      }
+
+      if (subViewId === 'subViewDevSimulator') {
+        initPaymentSimulator();
+      }
+      if (subViewId === 'subViewOpsCounter') {
+        if (currentSellingMode === 'ONLINE') fetchCodOrders();
+        else fetchCounterPayments();
+      }
+      if (subViewId === 'subViewOpsTransactions') fetchPaymentsLedger();
+      if (subViewId === 'subViewOpsObservers') fetchObserversStatus();
+      if (subViewId === 'subViewDevAndroid') {
+        fetchObserversStatus();
+        fetchSmsPairQr();
+      }
+      if (subViewId === 'subViewDevProtocols') {
+        fetchWhatsAppStatus();
+        fetchGmailCredentials();
+      }
+      if (subViewId === 'subViewDevSupervisor') {
+        loadServices();
+        fetchFalseNarrativeStatus();
+      }
+      if (subViewId === 'subViewSecBanned') fetchBannedUsers();
+      if (subViewId === 'subViewSecEvents') fetchSecurityEvents();
+      if (subViewId === 'subViewSecHistory') fetchSecurityHistory();
+    }
 
       if (subViewId === 'subViewDevSimulator') {
         initPaymentSimulator();
