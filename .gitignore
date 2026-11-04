@@ -35,6 +35,24 @@ local.properties
 .env.test.local
 .env.production
 .env.production.local
+credentials.json
+client_secret*.json
+token.json
+*.pem
+*.key
+*.pkcs12
+*.p12
+*.pfx
+*.crt
+
+# Local Scratch & Private Scripts
+scratch/
+**/scratch/
+scripts/scratch/
+scripts/local/
+*.local.*
+scripts/*.local.*
+*.scratch.*
 
 # Databases and Local State
 data/*.sqlite*
