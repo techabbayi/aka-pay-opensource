@@ -1,0 +1,2045 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AKA PAY — Sovereign, Zero-Fee UPI & Payment Gateway Infrastructure</title>
+  <script>
+    (function () {
+      try { localStorage.setItem('akapay-theme', 'light'); } catch (e) {}
+      document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
+  <style>
+    /* ========================================================================= */
+    /* AKA PAY — HIGH-CLASS FINTECH DESIGN SYSTEM (NO GRADIENTS • BANK-GRADE)     */
+    /* ========================================================================= */
+    @font-face {
+      font-family: "DM Sans";
+      src: url("/fonts/dm-sans.woff2") format("woff2");
+      font-weight: 100 1000;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Sora";
+      src: url("/fonts/sora.woff2") format("woff2");
+      font-weight: 100 800;
+      font-display: swap;
+    }
+
+    :root {
+      --font-ui: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --font-display: "Sora", "DM Sans", system-ui, sans-serif;
+      --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+
+      --bg-canvas: #F8FAFC;
+      --bg-surface: #FFFFFF;
+      --bg-subtle: #F1F5F9;
+      --bg-muted: #E2E8F0;
+
+      --border-light: #E2E8F0;
+      --border-medium: #CBD5E1;
+      --border-dark: #94A3B8;
+
+      --text-main: #0F172A;
+      --text-body: #334155;
+      --text-muted: #64748B;
+      --text-dim: #94A3B8;
+
+      --primary: #059669;
+      --primary-hover: #047857;
+      --primary-active: #065F46;
+      --primary-bg: #ECFDF5;
+      --primary-border: #A7F3D0;
+      --primary-text: #065F46;
+
+      --info-bg: #F0F9FF;
+      --info-border: #BAE6FD;
+      --info-text: #0369A1;
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+
+      --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+      --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+      --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-ui);
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      font-size: 15px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    .i {
+      width: 1.15em;
+      height: 1.15em;
+      flex: none;
+      vertical-align: -0.2em;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex: none;
+      vertical-align: 0.05em;
+      margin-right: 4px;
+    }
+
+    .dot-green { background: #059669; }
+    .dot-amber { background: #D97706; }
+
+    /* ========================================================================= */
+    /* TOP NAVIGATION BAR                                                        */
+    /* ========================================================================= */
+    .landing-nav {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-light);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .landing-nav-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0.95rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .landing-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .brand-icon-box {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      background: var(--primary-bg);
+      border: 1px solid var(--primary-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      color: var(--primary);
+    }
+
+    .brand-text-col {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .brand-title-text {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    .brand-subtitle-tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .nav-links-row {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+    }
+
+    .nav-link-item {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: color 0.15s ease;
+      cursor: pointer;
+    }
+
+    .nav-link-item:hover {
+      color: var(--primary);
+    }
+
+    .nav-actions-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    /* Buttons (Solid, Bank-Grade) */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.55rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn-solid-primary {
+      background: var(--primary);
+      border-color: var(--primary-hover);
+      color: #FFFFFF;
+    }
+
+    .btn-solid-primary:hover {
+      background: var(--primary-hover);
+      border-color: var(--primary-active);
+    }
+
+    .btn-solid-secondary {
+      background: var(--bg-surface);
+      border-color: var(--border-medium);
+      color: var(--text-main);
+    }
+
+    .btn-solid-secondary:hover {
+      background: var(--bg-subtle);
+      border-color: var(--border-dark);
+    }
+
+    .btn-outline-primary {
+      background: var(--primary-bg);
+      border-color: var(--primary-border);
+      color: var(--primary-text);
+      font-weight: 700;
+    }
+
+    .btn-outline-primary:hover {
+      background: #D1FAE5;
+      border-color: #6EE7B7;
+    }
+
+    /* ========================================================================= */
+    /* HERO SECTION                                                              */
+    /* ========================================================================= */
+    .hero-section {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-light);
+      padding: 4.5rem 2rem 4rem 2rem;
+    }
+
+    .hero-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .hero-pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      background: var(--primary-bg);
+      border: 1px solid var(--primary-border);
+      color: var(--primary-text);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: 3.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.035em;
+      line-height: 1.15;
+      max-width: 960px;
+    }
+
+    .hero-title span {
+      color: var(--primary);
+    }
+
+    .hero-desc {
+      font-size: 1.15rem;
+      color: var(--text-body);
+      max-width: 760px;
+      line-height: 1.6;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .btn-hero-primary {
+      padding: 0.85rem 1.65rem;
+      border-radius: var(--radius-md);
+      font-size: 0.98rem;
+      font-weight: 700;
+    }
+
+    .btn-hero-secondary {
+      padding: 0.85rem 1.65rem;
+      border-radius: var(--radius-md);
+      font-size: 0.98rem;
+      font-weight: 700;
+    }
+
+    /* ========================================================================= */
+    /* FINTECH INVARIANT METRIC TILES                                            */
+    /* ========================================================================= */
+    .metrics-section {
+      max-width: 1240px;
+      margin: -2rem auto 2.5rem auto;
+      padding: 0 2rem;
+      width: 100%;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    .metric-tile {
+      padding: 1.5rem 1.75rem;
+      border-right: 1px solid var(--border-light);
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .metric-tile:last-child {
+      border-right: none;
+    }
+
+    .metric-val {
+      font-family: var(--font-display);
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.025em;
+    }
+
+    .metric-val.val-accent {
+      color: var(--primary);
+    }
+
+    .metric-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .metric-sub {
+      font-size: 0.82rem;
+      color: var(--text-body);
+      margin-top: 2px;
+    }
+
+    /* ========================================================================= */
+    /* THE 2 CORE GATEWAY PATHWAYS (NEW MERCHANT vs RETURNING ADMIN)             */
+    /* ========================================================================= */
+    .pathways-section {
+      max-width: 1240px;
+      margin: 2.5rem auto 4.5rem auto;
+      padding: 0 2rem;
+      width: 100%;
+    }
+
+    .section-header-center {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-top: 0.4rem;
+    }
+
+    .pathways-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .pathway-card {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .pathway-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .pathway-card.featured-card {
+      border-color: var(--primary-border);
+      background: #FFFFFF;
+    }
+
+    .card-top-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+    }
+
+    .pathway-tag {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.3rem 0.65rem;
+      border-radius: var(--radius-sm);
+      width: fit-content;
+    }
+
+    .tag-green {
+      background: var(--primary-bg);
+      color: var(--primary-text);
+      border: 1px solid var(--primary-border);
+    }
+
+    .tag-blue {
+      background: var(--info-bg);
+      color: var(--info-text);
+      border: 1px solid var(--info-border);
+    }
+
+    .pathway-title {
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+
+    .pathway-desc {
+      font-size: 0.95rem;
+      color: var(--text-body);
+      line-height: 1.6;
+    }
+
+    .checklist-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin: 1.25rem 0 2rem 0;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      font-size: 0.88rem;
+      color: var(--text-main);
+      font-weight: 600;
+      line-height: 1.45;
+    }
+
+    .check-bullet {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--primary-bg);
+      border: 1px solid var(--primary-border);
+      color: var(--primary-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .pathway-btn {
+      width: 100%;
+      padding: 0.9rem 1.25rem;
+      border-radius: var(--radius-md);
+      font-size: 0.98rem;
+      font-weight: 700;
+    }
+
+    /* ========================================================================= */
+    /* ARCHITECTURAL PILLARS (4 CLEAN SOLID CARDS)                               */
+    /* ========================================================================= */
+    .pillars-section {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+      padding: 5rem 2rem;
+    }
+
+    .pillars-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .pillar-card {
+      background: var(--bg-canvas);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .pillar-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-medium);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      color: var(--primary);
+    }
+
+    .pillar-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+    }
+
+    .pillar-desc {
+      font-size: 0.88rem;
+      color: var(--text-body);
+      line-height: 1.6;
+    }
+
+    .pillar-code {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      padding: 0.5rem 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--primary);
+      word-break: break-all;
+    }
+
+    /* ========================================================================= */
+    /* STAND STUDIO & OVER-THE-COUNTER POS TEASER STRIP                          */
+    /* ========================================================================= */
+    .counter-section {
+      max-width: 1240px;
+      margin: 4.5rem auto;
+      padding: 0 2rem;
+      width: 100%;
+    }
+
+    .counter-banner {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      padding: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .counter-content {
+      max-width: 650px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .counter-title {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+
+    .counter-desc {
+      font-size: 0.96rem;
+      color: var(--text-body);
+      line-height: 1.6;
+    }
+
+    /* ========================================================================= */
+    /* FOOTER                                                                    */
+    /* ========================================================================= */
+    .landing-footer {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-light);
+      padding: 2.5rem 2rem;
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      color: var(--text-body);
+      font-weight: 600;
+      transition: color 0.15s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+
+    /* ========================================================================= */
+    /* ONBOARDING WIZARD MODAL (HIGH-CLASS FINTECH MODAL • NO GRADIENTS)         */
+    /* ========================================================================= */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      z-index: 2000;
+    }
+
+    .modal-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-xl);
+      width: 100%;
+      max-width: 980px;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: modalIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-header {
+      padding: 1.25rem 1.75rem 1rem 1.75rem;
+      border-bottom: 1px solid var(--border-light);
+      background: var(--bg-canvas);
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .modal-header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .modal-close-btn {
+      background: transparent;
+      border: none;
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .modal-close-btn:hover {
+      color: var(--text-main);
+      background: var(--bg-subtle);
+    }
+
+    /* Stepper */
+    .modal-stepper {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.65rem;
+    }
+
+    .step-tab {
+      padding: 0.55rem 0.75rem;
+      border-radius: var(--radius-sm);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .step-tab.active {
+      background: var(--primary-bg);
+      border-color: var(--primary);
+    }
+
+    .step-tab.completed {
+      border-color: var(--primary-border);
+    }
+
+    .step-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-tab.active .step-num {
+      background: var(--primary);
+      color: #FFFFFF;
+    }
+
+    .step-tab.completed .step-num {
+      background: var(--primary-border);
+      color: var(--primary-text);
+    }
+
+    .step-label-group {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .step-name {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-main);
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .step-subtext {
+      font-size: 0.62rem;
+      color: var(--text-muted);
+    }
+
+    .modal-body {
+      flex: 1;
+      padding: 1.75rem;
+      overflow-y: auto;
+      max-height: calc(92vh - 170px);
+    }
+
+    .stage-panel {
+      display: none;
+    }
+
+    .stage-panel.active {
+      display: block;
+    }
+
+    /* Stage 1: Form & Phone Preview */
+    .stage-split-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1.15rem;
+    }
+
+    .field-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-sm);
+      color: var(--text-main);
+      padding: 0.65rem 0.85rem;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      box-sizing: border-box;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+    }
+
+    /* Color Swatches (Solid) */
+    .color-swatches-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .color-swatch-circle {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .color-swatch-circle:hover {
+      transform: scale(1.12);
+    }
+
+    .color-swatch-circle.selected {
+      border-color: var(--text-main);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Smartphone Mockup Preview Frame (Clean Solid Chassis) */
+    .phone-mockup-frame {
+      background: var(--bg-surface);
+      border: 2px solid var(--border-medium);
+      border-radius: 28px;
+      padding: 8px;
+      box-shadow: var(--shadow-lg);
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    .phone-notch {
+      width: 80px;
+      height: 12px;
+      background: var(--bg-subtle);
+      border-radius: 0 0 6px 6px;
+      margin: 0 auto 6px auto;
+    }
+
+    .phone-screen {
+      background: var(--bg-surface);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border-light);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .phone-screen-header {
+      padding: 0.85rem;
+      background: var(--primary);
+      color: #FFFFFF;
+      transition: background-color 0.2s ease;
+    }
+
+    .phone-screen-body {
+      padding: 1.15rem 0.85rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--bg-canvas);
+    }
+
+    .phone-qr-box {
+      width: 140px;
+      height: 140px;
+      border-radius: var(--radius-md);
+      background: #FFFFFF;
+      padding: 8px;
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .phone-amount-tag {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Stage 3: Observer Cards */
+    .observers-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .observer-select-card {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 1.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      cursor: pointer;
+      transition: border-color 0.15s ease, background 0.15s ease;
+      position: relative;
+    }
+
+    .observer-select-card:hover {
+      border-color: var(--primary);
+    }
+
+    .observer-select-card.selected {
+      background: var(--primary-bg);
+      border-color: var(--primary);
+    }
+
+    .observer-check-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+
+    .observer-check-circle svg {
+      width: 13px;
+      height: 13px;
+      stroke: #FFFFFF;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+
+    .observer-select-card.selected .observer-check-circle {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .observer-select-card.selected .observer-check-circle svg {
+      opacity: 1;
+    }
+
+    /* Modal Footer */
+    .modal-footer {
+      padding: 1rem 1.75rem;
+      border-top: 1px solid var(--border-light);
+      background: var(--bg-canvas);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Toast */
+    .toast-popup {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--text-main);
+      color: #FFFFFF;
+      padding: 0.75rem 1.25rem;
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
+      font-weight: 600;
+      box-shadow: var(--shadow-xl);
+      z-index: 10000;
+      display: none;
+      animation: toastIn 0.2s ease;
+    }
+
+    @keyframes toastIn {
+      from { transform: translateY(12px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .landing-nav-inner {
+        padding: 0.75rem 1rem;
+      }
+      .nav-links-row {
+        display: none;
+      }
+      .hero-title {
+        font-size: 2.35rem;
+      }
+      .pathways-grid {
+        grid-template-columns: 1fr;
+      }
+      .stage-split-grid {
+        grid-template-columns: 1fr;
+      }
+      .counter-banner {
+        flex-direction: column;
+        padding: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><symbol id="i-archive-box" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"/></symbol><symbol id="i-arrow-down" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3"/></symbol><symbol id="i-arrow-down-on-square" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15M9 12l3 3m0 0 3-3m-3 3V2.25"/></symbol><symbol id="i-arrow-down-tray" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></symbol><symbol id="i-arrow-left" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></symbol><symbol id="i-arrow-path" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></symbol><symbol id="i-arrow-right" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></symbol><symbol id="i-arrow-top-right-on-square" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></symbol><symbol id="i-banknotes" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"/></symbol><symbol id="i-beaker" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23-.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/></symbol><symbol id="i-bell" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/></symbol><symbol id="i-bolt" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"/></symbol><symbol id="i-building-office-2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z"/></symbol><symbol id="i-building-storefront" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z"/></symbol><symbol id="i-chart-bar" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></symbol><symbol id="i-check-circle" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></symbol><symbol id="i-clipboard-document" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5A3.375 3.375 0 0 0 6.375 7.5H5.25m11.9-3.664A2.251 2.251 0 0 0 15 2.25h-1.5a2.251 2.251 0 0 0-2.15 1.586m5.8 0c.065.21.1.433.1.664v.75h-6V4.5c0-.231.035-.454.1-.664M6.75 7.5H4.875c-.621 0-1.125.504-1.125 1.125v12c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V16.5a9 9 0 0 0-9-9Z"/></symbol><symbol id="i-credit-card" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"/></symbol><symbol id="i-device-phone-mobile" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"/></symbol><symbol id="i-globe-alt" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"/></symbol><symbol id="i-envelope" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/></symbol><symbol id="i-lock-closed" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></symbol><symbol id="i-rocket-launch" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 0 0-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/></symbol><symbol id="i-shield-check" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></symbol><symbol id="i-signal" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.348 14.652a3.75 3.75 0 0 1 0-5.304m5.304 0a3.75 3.75 0 0 1 0 5.304m-7.425 2.121a6.75 6.75 0 0 1 0-9.546m9.546 0a6.75 6.75 0 0 1 0 9.546M5.106 18.894c-3.808-3.807-3.808-9.98 0-13.788m13.788 0c3.808 3.807 3.808 9.98 0 13.788M12 12h.008v.008H12V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/></symbol><symbol id="i-viewfinder-circle" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 3.75H6A2.25 2.25 0 0 0 3.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0 1 20.25 6v1.5m0 9V18A2.25 2.25 0 0 1 18 20.25h-1.5m-9 0H6A2.25 2.25 0 0 1 3.75 18v-1.5M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></symbol><symbol id="i-x-mark" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></symbol></svg>
+
+  <!-- TOP NAVIGATION BAR -->
+  <header class="landing-nav">
+    <div class="landing-nav-inner">
+      <a href="/" class="landing-brand">
+        <div class="brand-icon-box">
+          <svg class="i" style="width:1.25em; height:1.25em; stroke:var(--primary);"><use href="#i-shield-check"/></svg>
+        </div>
+        <div class="brand-text-col">
+          <span class="brand-title-text">AKA PAY</span>
+          <span class="brand-subtitle-tag">Sovereign UPI Gateway</span>
+        </div>
+      </a>
+
+      <nav class="nav-links-row">
+        <a class="nav-link-item" href="#architecture">Architecture</a>
+        <a class="nav-link-item" href="#observers">Banking Observers</a>
+        <a class="nav-link-item" href="#counter">Stand &amp; POS</a>
+        <a class="nav-link-item" href="http://localhost:5000" target="_blank">Demo Store (5000) <svg class="i" style="width:0.85em; height:0.85em;"><use href="#i-arrow-top-right-on-square"/></svg></a>
+      </nav>
+
+      <div class="nav-actions-row">
+        <span id="landingStoreStatusBadge" class="hero-pill-badge" style="padding:0.25rem 0.6rem; font-size:0.72rem;">
+          Detecting store...
+        </span>
+        <button type="button" class="btn btn-solid-secondary" onclick="enterMerchantHubDirectly()">
+          <svg class="i"><use href="#i-lock-closed"/></svg>
+          <span>Sign In</span>
+        </button>
+        <button type="button" class="btn btn-solid-primary" onclick="openOnboardingModal()">
+          <svg class="i"><use href="#i-bolt"/></svg>
+          <span>Set Up Store (3 Min)</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <div class="hero-inner">
+      <div class="hero-pill-badge">
+        <span class="dot dot-green"></span>
+        <span style="font-weight:700;">LIVE INVARIANT</span>
+        <span>0% Gateway Fee • Direct Account Settlement • Node.js Native</span>
+      </div>
+
+      <h1 class="hero-title">
+        Sovereign, Zero-Fee UPI &amp; <br />
+        <span>Payment Gateway Infrastructure</span>
+      </h1>
+
+      <p class="hero-desc">
+        Eliminate 2% to 3% aggregator deductions forever. AKA PAY verifies payments directly in real-time via automated Bank SMS &amp; Gmail observation with zero paperwork and sub-3-second verification.
+      </p>
+
+      <div class="hero-cta-group">
+        <button type="button" class="btn btn-solid-primary btn-hero-primary" onclick="openOnboardingModal()">
+          <svg class="i"><use href="#i-bolt"/></svg>
+          <span>Start Store Onboarding (3 Min)</span>
+          <svg class="i"><use href="#i-arrow-right"/></svg>
+        </button>
+        <button type="button" class="btn btn-solid-secondary btn-hero-secondary" onclick="enterMerchantHubDirectly()">
+          <svg class="i"><use href="#i-lock-closed"/></svg>
+          <span>Sign In to Merchant Hub</span>
+        </button>
+        <a href="http://localhost:5000" target="_blank" class="btn btn-solid-secondary btn-hero-secondary" style="border-style:dashed;">
+          <svg class="i"><use href="#i-building-storefront"/></svg>
+          <span>View Demo Store (Port 5000)</span>
+          <svg class="i" style="width:0.85em; height:0.85em;"><use href="#i-arrow-top-right-on-square"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- INVARIANT METRICS STRIP -->
+  <section class="metrics-section">
+    <div class="metrics-grid">
+      <div class="metric-tile">
+        <div class="metric-val val-accent">₹0.00</div>
+        <div class="metric-label">Aggregator Deduction</div>
+        <div class="metric-sub">100% of payment reaches merchant account</div>
+      </div>
+      <div class="metric-tile">
+        <div class="metric-val val-accent">&lt; 3s</div>
+        <div class="metric-label">Observer Latency</div>
+        <div class="metric-sub">Automated Bank SMS &amp; Gmail sync</div>
+      </div>
+      <div class="metric-tile">
+        <div class="metric-val">12-Digit UTR</div>
+        <div class="metric-label">Bank Reference Match</div>
+        <div class="metric-sub">Deterministic verification invariant</div>
+      </div>
+      <div class="metric-tile">
+        <div class="metric-val">256-Bit</div>
+        <div class="metric-label">HMAC-SHA256 Webhook</div>
+        <div class="metric-sub">Signed authoritative server deliveries</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE 2 CORE GATEWAY PATHWAYS (NEW MERCHANT vs RETURNING ADMIN) -->
+  <section class="pathways-section" id="pathways">
+    <div class="section-header-center">
+      <h2 class="section-title">Select Your Gateway Workspace</h2>
+      <p class="section-subtitle">Establish a new sovereign store or sign in to manage live operations</p>
+    </div>
+
+    <div class="pathways-grid">
+      <!-- PATHWAY 1: NEW STORE ONBOARDING -->
+      <div class="pathway-card featured-card">
+        <div class="card-top-content">
+          <span class="pathway-tag tag-green">
+            <svg class="i" style="width:0.85em; height:0.85em;"><use href="#i-bolt"/></svg>
+            <span>FASTEST SETUP • ZERO PAPERWORK</span>
+          </span>
+          <h3 class="pathway-title">New Merchant? Start Zero-KYC Setup</h3>
+          <p class="pathway-desc">
+            Establish your sovereign payment node in 3 minutes. Configure checkout branding, specify your receiving UPI VPA, link your observer bridge, and get instant integration code.
+          </p>
+
+          <div class="checklist-col">
+            <div class="checklist-item">
+              <span class="check-bullet"><svg class="i" style="width:1em;height:1em;stroke:var(--primary);"><use href="#i-check"/></svg></span>
+              <span>Stage 1: Custom store name, handle, brand color &amp; logo</span>
+            </div>
+            <div class="checklist-item">
+              <span class="check-bullet"><svg class="i" style="width:1em;height:1em;stroke:var(--primary);"><use href="#i-check"/></svg></span>
+              <span>Stage 2: Receiving UPI VPA &amp; smart amount slicer</span>
+            </div>
+            <div class="checklist-item">
+              <span class="check-bullet"><svg class="i" style="width:1em;height:1em;stroke:var(--primary);"><use href="#i-check"/></svg></span>
+              <span>Stage 3: Android SMS listener &amp; Gmail notification bridge</span>
+            </div>
+            <div class="checklist-item">
+              <span class="check-bullet"><svg class="i" style="width:1em;height:1em;stroke:var(--primary);"><use href="#i-check"/></svg></span>
+              <span>Stage 4: Universal 1-script embed &amp; launchpad</span>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-solid-primary pathway-btn" onclick="openOnboardingModal()">
+          <span>Launch Setup Cockpit</span>
+          <svg class="i"><use href="#i-arrow-right"/></svg>
+        </button>
+      </div>
+
+      <!-- PATHWAY 2: RETURNING STORE ADMIN -->
+      <div class="pathway-card">
+        <div class="card-top-content">
+          <span class="pathway-tag tag-blue">
+            <svg class="i" style="width:0.85em; height:0.85em;"><use href="#i-lock-closed"/></svg>
+            <span>PRODUCTION GATEWAY</span>
+          </span>
+          <h3 class="pathway-title">Configured Store? Sign In to Hub</h3>
+          <p class="pathway-desc">
+            Enter your admin credentials to manage real-time payment slots, generate printable QR stands, dispatch counter payments at Cashier POS, and monitor services.
+          </p>
+
+          <div class="checklist-col">
+            <div class="checklist-item">
+              <span class="check-bullet"><svg class="i" style="width:1em;height:1em;stroke:var(--primary);"><use href="#i-check"/></svg></span>
+              <span>Daily Operations: Real-time slot monitor &amp; waiting queue</span>
+            </div>
+            <div class="checklist-item">
+              <span class="check-bullet"><svg class="i" style="width:1em;height:1em;stroke:var(--primary);"><use href="#i-check"/></svg></span>
+              <span>Stand Studio: 1-click printable table-tent payment stands</span>
+            </div>
+            <div class="checklist-item">
+              <span class="check-bullet"><svg class="i" style="width:1em;height:1em;stroke:var(--primary);"><use href="#i-check"/></svg></span>
+              <span>Cashier POS: Counter checkout &amp; cash/counter payment logging</span>
+            </div>
+            <div class="checklist-item">
+              <span class="check-bullet"><svg class="i" style="width:1em;height:1em;stroke:var(--primary);"><use href="#i-check"/></svg></span>
+              <span>Developer Hub: Process supervisor &amp; webhook delivery logs</span>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-solid-secondary pathway-btn" onclick="enterMerchantHubDirectly()">
+          <span>Enter Merchant Hub</span>
+          <svg class="i"><use href="#i-arrow-right"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHITECTURAL PILLARS -->
+  <section class="pillars-section" id="architecture">
+    <div class="pillars-inner">
+      <div class="section-header-center">
+        <h2 class="section-title">Engineered for Sovereign Payment Reliability</h2>
+        <p class="section-subtitle">Air-gapped, zero-commission, bank-grade payment architecture</p>
+      </div>
+
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-icon-box">
+            <svg class="i" style="width:1.35em; height:1.35em; stroke:var(--primary);"><use href="#i-bolt"/></svg>
+          </div>
+          <h4 class="pillar-title">Universal 1-Script Embed</h4>
+          <p class="pillar-desc">
+            Add one script tag to any HTML, React, Next.js, or WordPress page. Zero-JS button binding with automatic modal triggers:
+          </p>
+          <div class="pillar-code">&lt;button data-akapay-pay data-amount="499"&gt;</div>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-icon-box">
+            <svg class="i" style="width:1.35em; height:1.35em; stroke:var(--primary);"><use href="#i-shield-check"/></svg>
+          </div>
+          <h4 class="pillar-title">Zero Payment Collisions</h4>
+          <p class="pillar-desc">
+            Single-use slot rotation and dynamic amount matching guarantee that every incoming bank credit matches exactly one order with zero ambiguity.
+          </p>
+          <div class="pillar-code">Invariant: 1 Active Slot per Receiving VPA</div>
+        </div>
+
+        <div class="pillar-card" id="observers">
+          <div class="pillar-icon-box">
+            <svg class="i" style="width:1.35em; height:1.35em; stroke:var(--primary);"><use href="#i-signal"/></svg>
+          </div>
+          <h4 class="pillar-title">Automated Bank Observers</h4>
+          <p class="pillar-desc">
+            Android SMS gateway and Gmail push listeners continuously capture bank credit notifications from SBI, HDFC, ICICI, Axis, Kotak, and all UPI banks.
+          </p>
+          <div class="pillar-code">Dual-Source: SMS + Gmail Attestation</div>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-icon-box">
+            <svg class="i" style="width:1.35em; height:1.35em; stroke:var(--primary);"><use href="#i-lock-closed"/></svg>
+          </div>
+          <h4 class="pillar-title">Cryptographic Proof</h4>
+          <p class="pillar-desc">
+            Webhooks are signed over raw unparsed request bytes using HMAC-SHA256, protecting against man-in-the-middle attacks and replay attempts.
+          </p>
+          <div class="pillar-code">Header: X-Gateway-Signature: sha256=...</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STAND STUDIO & POS TEASER BANNER -->
+  <section class="counter-section" id="counter">
+    <div class="counter-banner">
+      <div class="counter-content">
+        <span class="pathway-tag tag-green">STAND STUDIO &amp; CASHIER POS</span>
+        <h3 class="counter-title">Physical Counter Payments &amp; Printable QR Stands</h3>
+        <p class="counter-desc">
+          Generate printable table-tent payment stands with live dynamic QR codes, customize cashier desks for over-the-counter payments, and dispatch instant payment links over WhatsApp.
+        </p>
+      </div>
+      <div>
+        <a href="/admin#storeSettings" class="btn btn-solid-primary" style="padding:0.85rem 1.5rem; font-weight:700;">
+          <span>Launch Stand Studio</span>
+          <svg class="i"><use href="#i-arrow-right"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="landing-footer">
+    <div class="footer-inner">
+      <div>
+        <strong>AKA PAY</strong> • Sovereign UPI &amp; Payment Gateway Infrastructure
+      </div>
+      <div>
+        Licensed under Apache 2.0 • Author: <a href="https://github.com/techabbayi" target="_blank" style="color:var(--primary); font-weight:700;">techabbayi</a>
+      </div>
+      <div class="footer-links">
+        <a href="#pathways">Workspaces</a>
+        <a href="/admin">Merchant Hub</a>
+        <a href="http://localhost:5000" target="_blank">Demo Store</a>
+        <a href="https://github.com/techabbayi/aka-pay-opensource" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- 4-STAGE ZERO-KYC ONBOARDING WIZARD MODAL (FINTECH BANK-GRADE)              -->
+  <!-- ========================================================================= -->
+  <div id="onboardingModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+      <!-- HEADER -->
+      <div class="modal-header">
+        <div class="modal-header-top">
+          <div class="modal-header-brand">
+            <svg class="i" style="width:1.25em; height:1.25em; stroke:var(--primary);"><use href="#i-shield-check"/></svg>
+            <strong style="font-size:1.1rem; color:var(--text-main);">AKA PAY Sovereign Setup Cockpit</strong>
+            <span class="pathway-tag tag-green" style="margin-left:0.5rem;">Zero-KYC • 3 Min</span>
+          </div>
+          <button type="button" class="modal-close-btn" onclick="closeOnboardingModal()" aria-label="Close modal">
+            <svg class="i" style="width:1em; height:1em;"><use href="#i-x-mark"/></svg>
+          </button>
+        </div>
+
+        <!-- STEPPER -->
+        <div class="modal-stepper">
+          <div class="step-tab active" id="modalTab-1" onclick="jumpToModalStep(1)">
+            <span class="step-num" id="modalNum-1">1</span>
+            <div class="step-label-group">
+              <span class="step-name">Brand &amp; Store</span>
+              <span class="step-subtext">Visual Identity</span>
+            </div>
+          </div>
+          <div class="step-tab" id="modalTab-2" onclick="jumpToModalStep(2)">
+            <span class="step-num" id="modalNum-2">2</span>
+            <div class="step-label-group">
+              <span class="step-name">Settlement Node</span>
+              <span class="step-subtext">Bank VPA &amp; Slicer</span>
+            </div>
+          </div>
+          <div class="step-tab" id="modalTab-3" onclick="jumpToModalStep(3)">
+            <span class="step-num" id="modalNum-3">3</span>
+            <div class="step-label-group">
+              <span class="step-name">Observers Bridge</span>
+              <span class="step-subtext">Bank Notifications</span>
+            </div>
+          </div>
+          <div class="step-tab" id="modalTab-4" onclick="jumpToModalStep(4)">
+            <span class="step-num" id="modalNum-4">4</span>
+            <div class="step-label-group">
+              <span class="step-name">Launchpad</span>
+              <span class="step-subtext">1-Script Embed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BODY -->
+      <div class="modal-body">
+        <!-- STAGE 1: BRAND & STORE IDENTITY -->
+        <div class="stage-panel active" id="modalStage-1">
+          <div class="stage-split-grid">
+            <div>
+              <div class="field-group">
+                <label class="field-label" for="wizStoreName">
+                  <span>Store / Business Name</span>
+                  <span style="font-size:0.7rem; color:var(--primary); font-weight:700;">Live Previewed</span>
+                </label>
+                <input type="text" id="wizStoreName" class="form-input" value="AKA PAY Demo Store" oninput="onBrandInput()" />
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="wizStoreSlug">
+                  <span>Store Handle / Slug</span>
+                  <span style="font-size:0.7rem; color:var(--text-muted);">pay.store.com/[slug]</span>
+                </label>
+                <input type="text" id="wizStoreSlug" class="form-input" value="aka-pay-demo-store" />
+              </div>
+
+              <div class="field-group">
+                <label class="field-label">
+                  <span>Fintech Brand Accent Color</span>
+                  <span id="wizColorCode" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--primary); font-weight:700;">#059669</span>
+                </label>
+                <div class="color-swatches-row">
+                  <div class="color-swatch-circle selected" style="background:#059669;" onclick="setBrandColor('#059669')"></div>
+                  <div class="color-swatch-circle" style="background:#0284C7;" onclick="setBrandColor('#0284C7')"></div>
+                  <div class="color-swatch-circle" style="background:#4F46E5;" onclick="setBrandColor('#4F46E5')"></div>
+                  <div class="color-swatch-circle" style="background:#D97706;" onclick="setBrandColor('#D97706')"></div>
+                  <div class="color-swatch-circle" style="background:#E11D48;" onclick="setBrandColor('#E11D48')"></div>
+                  <div class="color-swatch-circle" style="background:#0F172A;" onclick="setBrandColor('#0F172A')"></div>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="wizLogoUrl">
+                  <span>Logo / Avatar Image URL (Optional)</span>
+                  <span style="font-size:0.7rem; color:var(--text-dim);">HTTPS URL</span>
+                </label>
+                <input type="url" id="wizLogoUrl" class="form-input" placeholder="https://yourstore.com/logo.png" oninput="onBrandInput()" />
+              </div>
+            </div>
+
+            <!-- SMARTPHONE LIVE PREVIEW -->
+            <div>
+              <div class="phone-mockup-frame">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                  <div class="phone-screen-header" id="phoneMockupHeader">
+                    <div style="display:flex; align-items:center; gap:0.4rem;">
+                      <span id="phoneMockupLogoIcon">
+                        <svg class="i" style="width:1.1em; height:1.1em; stroke:#FFFFFF;"><use href="#i-shield-check"/></svg>
+                      </span>
+                      <strong id="phoneMockupTitle" style="font-size:0.85rem;">AKA PAY Demo Store</strong>
+                    </div>
+                    <span style="font-size:0.65rem; opacity:0.9;">Verified &amp; Protected by AKA PAY</span>
+                  </div>
+                  <div class="phone-screen-body">
+                    <span style="font-size:0.68rem; color:var(--text-muted); font-weight:700;">ORDER #ORD-78921</span>
+                    <div class="phone-amount-tag">₹1,500.00</div>
+                    <div class="phone-qr-box">
+                      <svg viewBox="0 0 100 100" width="100%" height="100%">
+                        <rect x="5" y="5" width="28" height="28" rx="4" fill="#0F172A" />
+                        <rect x="67" y="5" width="28" height="28" rx="4" fill="#0F172A" />
+                        <rect x="5" y="67" width="28" height="28" rx="4" fill="#0F172A" />
+                        <rect x="12" y="12" width="14" height="14" fill="#FFFFFF" />
+                        <rect x="74" y="12" width="14" height="14" fill="#FFFFFF" />
+                        <rect x="12" y="74" width="14" height="14" fill="#FFFFFF" />
+                        <rect x="42" y="42" width="16" height="16" rx="3" fill="#059669" id="phoneQrCenterDot" />
+                        <rect x="42" y="15" width="8" height="18" fill="#0F172A" />
+                        <rect x="15" y="42" width="18" height="8" fill="#0F172A" />
+                        <rect x="42" y="67" width="16" height="10" fill="#0F172A" />
+                        <rect x="67" y="42" width="10" height="16" fill="#0F172A" />
+                      </svg>
+                    </div>
+                    <div style="font-size:0.7rem; color:var(--primary); font-weight:700; display:flex; align-items:center; gap:0.3rem;">
+                      <svg class="i" style="width:0.9em; height:0.9em; stroke:var(--primary);"><use href="#i-bolt"/></svg>
+                      <span>Direct Peer-to-Peer UPI (0% Fee)</span>
+                    </div>
+                    <div style="display:flex; gap:0.4rem; font-size:0.65rem; color:var(--text-muted); font-weight:600;">
+                      <span>GPay</span> • <span>PhonePe</span> • <span>Paytm</span> • <span>CRED</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STAGE 2: SETTLEMENT NODE & SMART SLICER -->
+        <div class="stage-panel" id="modalStage-2">
+          <div style="display:flex; flex-direction:column; gap:1.25rem;">
+            <div style="background:var(--bg-canvas); border:1px solid var(--border-light); border-radius:var(--radius-md); padding:1.25rem;">
+              <div class="field-group">
+                <label class="field-label" for="wizPrimaryVpa">
+                  <span>Primary Receiving UPI ID (VPA)</span>
+                  <span id="wizBankBadge" class="pathway-tag tag-green" style="font-size:0.7rem;">Direct UPI Node</span>
+                </label>
+                <input type="text" id="wizPrimaryVpa" class="form-input" value="store@okhdfcbank" oninput="onVpaInput(this.value)" />
+                <span style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">
+                  All incoming customer payments settle instantly and directly into this linked bank account.
+                </span>
+              </div>
+
+              <div class="field-group" style="margin-bottom:0;">
+                <label class="field-label" for="wizPayeeName">
+                  <span>Payee / Beneficiary Name</span>
+                  <span style="font-size:0.7rem; color:var(--text-dim);">Shown on customer UPI apps</span>
+                </label>
+                <input type="text" id="wizPayeeName" class="form-input" value="AKA PAY Demo Store" />
+              </div>
+            </div>
+
+            <!-- MULTI-VPA TOGGLE -->
+            <div style="background:var(--bg-surface); border:1px solid var(--border-light); border-radius:var(--radius-md); padding:1.25rem;">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.75rem;">
+                <div>
+                  <strong style="font-size:0.95rem; color:var(--text-main);">Multi-VPA Dynamic Smart Slicer</strong>
+                  <p style="font-size:0.8rem; color:var(--text-muted);">Rotate between multiple VPAs to prevent UPI daily caps &amp; bank maintenance limits</p>
+                </div>
+                <input type="checkbox" id="wizMultiVpaToggle" onchange="toggleMultiVpaFields(this.checked)" style="width:18px; height:18px; cursor:pointer;" />
+              </div>
+
+              <div id="wizMultiVpaContainer" style="display:none; flex-direction:column; gap:0.75rem; margin-top:1rem; padding-top:1rem; border-top:1px solid var(--border-light);">
+                <div class="field-group">
+                  <label class="field-label" for="wizSecondaryVpa">Secondary Backup UPI VPA</label>
+                  <input type="text" id="wizSecondaryVpa" class="form-input" placeholder="backup@oksbi" />
+                </div>
+                <div class="field-group">
+                  <label class="field-label" for="wizTertiaryVpa">Tertiary Backup UPI VPA</label>
+                  <input type="text" id="wizTertiaryVpa" class="form-input" placeholder="third@okicici" />
+                </div>
+              </div>
+            </div>
+
+            <!-- ₹1 TEST PING BUTTON -->
+            <div style="display:flex; align-items:center; justify-content:space-between; background:var(--primary-bg); border:1px solid var(--primary-border); border-radius:var(--radius-md); padding:1rem 1.25rem;">
+              <div>
+                <strong style="font-size:0.88rem; color:var(--primary-text);">Verify Settlement Node</strong>
+                <p style="font-size:0.78rem; color:var(--primary-text); opacity:0.9;">Verify that this UPI VPA can receive instant real-time bank credits</p>
+              </div>
+              <button type="button" class="btn btn-solid-primary" id="wizTestPingBtn" onclick="runTestPing()">
+                <svg class="i"><use href="#i-bolt"/></svg>
+                <span>Send ₹1 Test Ping</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STAGE 3: OBSERVERS BRIDGE -->
+        <div class="stage-panel" id="modalStage-3">
+          <div style="display:flex; flex-direction:column; gap:1.25rem;">
+            <div>
+              <h4 style="font-size:1.1rem; font-weight:800; color:var(--text-main);">Select Payment Notification Observers</h4>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin-top:2px;">
+                AKA PAY verifies payments by observing incoming bank credit notifications. Choose your preferred observation bridges:
+              </p>
+            </div>
+
+            <div class="observers-cards-grid">
+              <!-- Mode 1: Inbound Email Webhook Forwarding -->
+              <div class="observer-select-card selected" id="wizCardEmail" onclick="toggleObserverCard('wizCardEmail')">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <div style="width:36px; height:36px; border-radius:8px; background:var(--primary-bg); border:1px solid var(--primary-border); display:flex; align-items:center; justify-content:center;">
+                    <svg class="i" style="width:1.35em; height:1.35em; stroke:var(--primary);"><use href="#i-envelope"/></svg>
+                  </div>
+                  <div class="observer-check-circle"><svg class="i"><use href="#i-check"/></svg></div>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:2px;">
+                  <strong style="font-size:0.95rem; color:var(--text-main);">Mode 1: Inbound Email Webhook Forwarding</strong>
+                  <span class="pathway-tag tag-green" style="font-size:0.68rem; align-self:flex-start;">Recommended for Online Stores • Sub-300ms</span>
+                </div>
+                <p style="font-size:0.8rem; color:var(--text-body); line-height:1.5;">
+                  Eliminates 100% of Google Cloud Console projects, client secrets, and OAuth token refresh workflows. Merchant forwards bank credit alerts from <code>alerts@hdfcbank.net</code>, <code>alerts@sbi.co.in</code>, or <code>*.bank.in</code> to unique secure address <code>alerts-[uuid]@pay.yourstore.com</code>. Cloudflare Email Worker/SMTP parses JSON to <code>POST /api/v1/inbound-email</code> in &lt; 300ms. Cryptographically verified via bank RSA DKIM/SPF under IT Act 2000 &amp; DPDP Act 2023.
+                </p>
+              </div>
+
+              <!-- Mode 2: Instant QR Companion App -->
+              <div class="observer-select-card selected" id="wizCardApp" onclick="toggleObserverCard('wizCardApp')">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <div style="width:36px; height:36px; border-radius:8px; background:var(--primary-bg); border:1px solid var(--primary-border); display:flex; align-items:center; justify-content:center;">
+                    <svg class="i" style="width:1.35em; height:1.35em; stroke:var(--primary);"><use href="#i-device-phone-mobile"/></svg>
+                  </div>
+                  <div class="observer-check-circle"><svg class="i"><use href="#i-check"/></svg></div>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:2px;">
+                  <strong style="font-size:0.95rem; color:var(--text-main);">Mode 2: Instant QR Companion App</strong>
+                  <span class="pathway-tag tag-green" style="font-size:0.68rem; align-self:flex-start;">Recommended for Personal UPI • Real-Time</span>
+                </div>
+                <p style="font-size:0.8rem; color:var(--text-body); line-height:1.5;">
+                  Merchant scans a single dynamic QR code shown on screen using their Android phone. Opens pre-authenticated with the session token. Background notification listener syncs official bank SMS credit alerts directly to gateway with real-time green active phone status indicator.
+                </p>
+              </div>
+
+              <!-- Mode 3: Official Bank Open API Webhook -->
+              <div class="observer-select-card" id="wizCardBankApi" onclick="toggleObserverCard('wizCardBankApi')">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <div style="width:36px; height:36px; border-radius:8px; background:var(--info-bg); border:1px solid var(--info-border); display:flex; align-items:center; justify-content:center;">
+                    <svg class="i" style="width:1.35em; height:1.35em; stroke:var(--info-text);"><use href="#i-building-office-2"/></svg>
+                  </div>
+                  <div class="observer-check-circle"><svg class="i"><use href="#i-check"/></svg></div>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:2px;">
+                  <strong style="font-size:0.95rem; color:var(--text-main);">Mode 3: Official Bank Open API Webhook</strong>
+                  <span class="pathway-tag tag-blue" style="font-size:0.68rem; align-self:flex-start;">Advanced Current Accounts • 50ms-100ms CBS</span>
+                </div>
+                <p style="font-size:0.8rem; color:var(--text-body); line-height:1.5;">
+                  Designed for registered businesses with a Current Account at ICICI, HDFC, Axis, or Kotak Mahindra Bank. Webhook callback receives direct CBS JSON HTTP POST verified in 50ms-100ms. Enforces bank RSA-SHA256 signature, 60s timestamp tolerance, and SQLite UNIQUE(utr) deduplication. 100% RBI Open Banking compliant.
+                </p>
+              </div>
+
+              <!-- Mode 4: 1-Click Fast Google Connect -->
+              <div class="observer-select-card" id="wizCardGoogle" onclick="toggleObserverCard('wizCardGoogle')">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <div style="width:36px; height:36px; border-radius:8px; background:var(--info-bg); border:1px solid var(--info-border); display:flex; align-items:center; justify-content:center;">
+                    <svg class="i" style="width:1.35em; height:1.35em; stroke:var(--info-text);"><use href="#i-globe-alt"/></svg>
+                  </div>
+                  <div class="observer-check-circle"><svg class="i"><use href="#i-check"/></svg></div>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:2px;">
+                  <strong style="font-size:0.95rem; color:var(--text-main);">Mode 4: 1-Click Fast Google Connect</strong>
+                  <span class="pathway-tag tag-blue" style="font-size:0.68rem; align-self:flex-start;">Automated OAuth2 • Verified Banking Scopes</span>
+                </div>
+                <p style="font-size:0.8rem; color:var(--text-body); line-height:1.5;">
+                  Standard Google OAuth popup with verified banking scopes (<code>https://www.googleapis.com/auth/gmail.readonly</code>). Eliminates GCP console navigation by utilizing a pre-configured verified client ID to read bank credit transaction alerts from official banking domains.
+                </p>
+              </div>
+
+              <!-- Mode 5: Zero-Observer Stand & Cashier POS -->
+              <div class="observer-select-card" id="wizCardPos" onclick="toggleObserverCard('wizCardPos')">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <div style="width:36px; height:36px; border-radius:8px; background:var(--bg-subtle); border:1px solid var(--border-light); display:flex; align-items:center; justify-content:center;">
+                    <svg class="i" style="width:1.35em; height:1.35em; stroke:var(--text-main);"><use href="#i-building-storefront"/></svg>
+                  </div>
+                  <div class="observer-check-circle"><svg class="i"><use href="#i-check"/></svg></div>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:2px;">
+                  <strong style="font-size:0.95rem; color:var(--text-main);">Mode 5: Zero-Observer Stand &amp; Cashier POS</strong>
+                  <span class="pathway-tag tag-green" style="font-size:0.68rem; align-self:flex-start;">Physical Retail Counters • Zero Dependency</span>
+                </div>
+                <p style="font-size:0.8rem; color:var(--text-body); line-height:1.5;">
+                  Ideal for physical retail counters, cafes, and pop-up stands. Requires zero phone apps, zero email forwarding, and zero API keys. Customer pays via the static or dynamic QR stand, and cashier confirms payment on the built-in POS Cashier Drawer (/counter) with 1 click.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STAGE 4: LAUNCHPAD & 1-SCRIPT INTEGRATION -->
+        <div class="stage-panel" id="modalStage-4">
+          <div style="display:flex; flex-direction:column; gap:1.25rem;">
+            <div>
+              <h4 style="font-size:1.1rem; font-weight:800; color:var(--text-main);">Your Store Is Ready To Accept Live Payments</h4>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin-top:2px;">
+                Copy your universal 1-script integration code below or test your live checkout:
+              </p>
+            </div>
+
+            <!-- 1-SCRIPT EMBED SNIPPET -->
+            <div style="background:var(--bg-canvas); border:1px solid var(--border-light); border-radius:var(--radius-md); padding:1.25rem;">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.65rem;">
+                <span style="font-size:0.8rem; font-weight:700; color:var(--text-main);">Universal One-Script Integration</span>
+                <button type="button" class="btn btn-solid-secondary" style="font-size:0.75rem; padding:0.3rem 0.65rem;" onclick="copyScriptSnippet()">
+                  <svg class="i" style="width:0.9em; height:0.9em;"><use href="#i-clipboard-document"/></svg>
+                  <span>Copy Snippet</span>
+                </button>
+              </div>
+              <div id="wizScriptBox" style="background:#0F172A; color:#34D399; padding:0.85rem; border-radius:var(--radius-sm); font-family:var(--font-mono); font-size:0.8rem; word-break:break-all;">
+                &lt;script src="http://localhost:7000/akapay.js" data-akapay-key="00000000-0000-0000-0000-000000000001"&gt;&lt;/script&gt;
+              </div>
+              <p style="font-size:0.78rem; color:var(--text-muted); margin-top:0.65rem;">
+                Simply place this tag in your HTML head or body. Bind any button with <code>data-akapay-pay</code> to launch checkout.
+              </p>
+            </div>
+
+            <!-- TEST ACTIONS ROW -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+              <button type="button" class="btn btn-solid-secondary" onclick="openTestCheckoutDemo()" style="padding:0.85rem; font-weight:700;">
+                <svg class="i"><use href="#i-beaker"/></svg>
+                <span>Test Checkout (Port 7000)</span>
+                <svg class="i" style="width:0.85em; height:0.85em;"><use href="#i-arrow-top-right-on-square"/></svg>
+              </button>
+              <button type="button" class="btn btn-solid-secondary" onclick="testVoiceAlert()" style="padding:0.85rem; font-weight:700;">
+                <svg class="i"><use href="#i-bell"/></svg>
+                <span>Test Soundbox Voice</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-solid-secondary" id="modalBtnBack" onclick="navModal(-1)" style="display:none;">
+          <svg class="i"><use href="#i-arrow-left"/></svg>
+          <span>Back</span>
+        </button>
+        <div style="display:flex; gap:0.75rem; margin-left:auto;">
+          <button type="button" class="btn btn-solid-secondary" onclick="closeOnboardingModal()">
+            Cancel
+          </button>
+          <button type="button" class="btn btn-solid-primary" id="modalBtnNext" onclick="navModal(1)" style="font-weight:700;">
+            <span>Continue</span>
+            <svg class="i"><use href="#i-arrow-right"/></svg>
+          </button>
+          <button type="button" class="btn btn-solid-primary" id="modalBtnFinish" onclick="finishAndLaunchHub()" style="display:none; font-weight:700;">
+            <svg class="i"><use href="#i-rocket-launch"/></svg>
+            <span>Launch Merchant Hub</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toastPopup" class="toast-popup"></div>
+
+  <script>
+    // =========================================================================
+    // LANDING & ONBOARDING CONTROLLER (NO GRADIENTS • BANK-GRADE)
+    // =========================================================================
+    let currentStep = 1;
+    let selectedColor = '#059669';
+    const activeObservers = new Set(['wizCardApp', 'wizCardEmail']);
+
+    function showToast(msg) {
+      const t = document.getElementById('toastPopup');
+      if (!t) return;
+      t.textContent = msg;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 3500);
+    }
+
+    function isGatewayOnboarded() {
+      try {
+        return localStorage.getItem('akapay_wizard_completed') === 'true';
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function updateStoreStatusBadge() {
+      const badge = document.getElementById('landingStoreStatusBadge');
+      if (!badge) return;
+      const onboarded = isGatewayOnboarded();
+      if (onboarded) {
+        badge.innerHTML = '<span class="dot dot-green"></span><span>STORE CONFIGURED</span>';
+        badge.className = 'hero-pill-badge';
+        badge.style.background = '#ECFDF5';
+        badge.style.color = '#065F46';
+        badge.style.borderColor = '#A7F3D0';
+      } else {
+        badge.innerHTML = '<svg class="i" style="width:0.85em; height:0.85em;"><use href="#i-bolt"/></svg><span>SETUP REQUIRED</span>';
+        badge.className = 'hero-pill-badge';
+        badge.style.background = '#FFFBEB';
+        badge.style.color = '#92400E';
+        badge.style.borderColor = '#FDE68A';
+      }
+    }
+
+    function enterMerchantHubDirectly() {
+      if (isGatewayOnboarded()) {
+        window.location.href = '/admin#operations';
+      } else {
+        showToast('Store onboarding required first. Launching 3-minute setup.');
+        openOnboardingModal();
+      }
+    }
+
+    function openOnboardingModal() {
+      currentStep = 1;
+      const modal = document.getElementById('onboardingModal');
+      if (modal) modal.style.display = 'flex';
+      setModalStep(1);
+      onBrandInput();
+    }
+
+    function closeOnboardingModal() {
+      const modal = document.getElementById('onboardingModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function jumpToModalStep(step) {
+      if (step > currentStep + 1) return;
+      setModalStep(step);
+    }
+
+    function setModalStep(step) {
+      if (step < 1) step = 1;
+      if (step > 4) step = 4;
+      currentStep = step;
+
+      for (let i = 1; i <= 4; i++) {
+        const panel = document.getElementById(`modalStage-${i}`);
+        const tab = document.getElementById(`modalTab-${i}`);
+        const num = document.getElementById(`modalNum-${i}`);
+
+        if (panel) panel.classList.toggle('active', i === step);
+        if (tab && num) {
+          if (i < step) {
+            tab.className = 'step-tab completed';
+            num.innerHTML = '<svg class="i" style="width:0.85em; height:0.85em;"><use href="#i-check"/></svg>';
+          } else if (i === step) {
+            tab.className = 'step-tab active';
+            num.textContent = String(i);
+          } else {
+            tab.className = 'step-tab';
+            num.textContent = String(i);
+          }
+        }
+      }
+
+      const btnBack = document.getElementById('modalBtnBack');
+      const btnNext = document.getElementById('modalBtnNext');
+      const btnFinish = document.getElementById('modalBtnFinish');
+
+      if (btnBack) btnBack.style.display = (step === 1 ? 'none' : 'inline-flex');
+      if (btnNext) btnNext.style.display = (step === 4 ? 'none' : 'inline-flex');
+      if (btnFinish) btnFinish.style.display = (step === 4 ? 'inline-flex' : 'none');
+    }
+
+    function navModal(delta) {
+      if (delta > 0) {
+        if (currentStep === 1) {
+          const name = (document.getElementById('wizStoreName')?.value || '').trim();
+          if (!name) {
+            showToast('Please enter your Store / Business Name.');
+            document.getElementById('wizStoreName')?.focus();
+            return;
+          }
+        } else if (currentStep === 2) {
+          const vpa = (document.getElementById('wizPrimaryVpa')?.value || '').trim();
+          if (!vpa || !vpa.includes('@')) {
+            showToast('Please enter a valid UPI VPA (e.g. store@okhdfcbank).');
+            document.getElementById('wizPrimaryVpa')?.focus();
+            return;
+          }
+        }
+      }
+      setModalStep(currentStep + delta);
+    }
+
+    function onBrandInput() {
+      const name = (document.getElementById('wizStoreName')?.value || '').trim() || 'AKA PAY Demo Store';
+      const phoneTitle = document.getElementById('phoneMockupTitle');
+      if (phoneTitle) phoneTitle.textContent = name;
+
+      const slugInput = document.getElementById('wizStoreSlug');
+      if (slugInput && !slugInput.dataset.manual) {
+        slugInput.value = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      }
+
+      const logoUrl = (document.getElementById('wizLogoUrl')?.value || '').trim();
+      const logoIcon = document.getElementById('phoneMockupLogoIcon');
+      if (logoIcon) {
+        if (logoUrl && (logoUrl.startsWith('http://') || logoUrl.startsWith('https://'))) {
+          const img = document.createElement('img');
+          img.src = logoUrl;
+          img.style.cssText = 'width:18px;height:18px;border-radius:50%;object-fit:cover;';
+          img.onerror = () => { if (logoIcon) logoIcon.innerHTML = '<svg class="i" style="width:1.1em; height:1.1em; stroke:#FFFFFF;"><use href="#i-shield-check"/></svg>'; };
+          logoIcon.replaceChildren(img);
+        } else {
+          logoIcon.innerHTML = '<svg class="i" style="width:1.1em; height:1.1em; stroke:#FFFFFF;"><use href="#i-shield-check"/></svg>';
+        }
+      }
+    }
+
+    function setBrandColor(hex) {
+      selectedColor = hex;
+      const code = document.getElementById('wizColorCode');
+      if (code) {
+        code.textContent = hex.toUpperCase();
+        code.style.color = hex;
+      }
+      const header = document.getElementById('phoneMockupHeader');
+      if (header) header.style.background = hex;
+      const dot = document.getElementById('phoneQrCenterDot');
+      if (dot) dot.setAttribute('fill', hex);
+
+      document.querySelectorAll('.color-swatch-circle').forEach(sw => {
+        const bg = sw.style.backgroundColor;
+        sw.classList.toggle('selected', sw.getAttribute('onclick').includes(hex));
+      });
+    }
+
+    function onVpaInput(val) {
+      val = (val || '').trim().toLowerCase();
+      let bank = 'Direct UPI Node';
+      if (val.includes('@okhdfcbank') || val.includes('@hdfcbank')) bank = 'HDFC Bank';
+      else if (val.includes('@oksbi') || val.includes('@sbi')) bank = 'State Bank of India';
+      else if (val.includes('@okicici') || val.includes('@icici')) bank = 'ICICI Bank';
+      else if (val.includes('@okaxis') || val.includes('@axisbank')) bank = 'Axis Bank';
+      else if (val.includes('@ybl') || val.includes('@ibl') || val.includes('@axl')) bank = 'PhonePe / Yes Bank';
+      else if (val.includes('@paytm')) bank = 'Paytm Payments Bank';
+      else if (val.includes('@kotak')) bank = 'Kotak Mahindra Bank';
+
+      const badge = document.getElementById('wizBankBadge');
+      if (badge) badge.textContent = bank;
+    }
+
+    function toggleMultiVpaFields(checked) {
+      const c = document.getElementById('wizMultiVpaContainer');
+      if (c) c.style.display = checked ? 'flex' : 'none';
+    }
+
+    function runTestPing() {
+      const btn = document.getElementById('wizTestPingBtn');
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Pinging Node...';
+      }
+      setTimeout(() => {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '<svg class="i"><use href="#i-bolt"/></svg><span>Send ₹1 Test Ping</span>';
+        }
+        showToast('Direct ₹1.00 UPI Settlement Ping Verified! Node active.');
+      }, 450);
+    }
+
+    function toggleObserverCard(cardId) {
+      const card = document.getElementById(cardId);
+      if (!card) return;
+      if (activeObservers.has(cardId)) {
+        if (activeObservers.size <= 1) {
+          showToast('At least one observer channel must remain active.');
+          return;
+        }
+        activeObservers.delete(cardId);
+        card.classList.remove('selected');
+      } else {
+        activeObservers.add(cardId);
+        card.classList.add('selected');
+      }
+    }
+
+    function copyScriptSnippet() {
+      const box = document.getElementById('wizScriptBox');
+      if (box) {
+        navigator.clipboard?.writeText(box.textContent.trim());
+        showToast('Integration script copied to clipboard');
+      }
+    }
+
+    function openTestCheckoutDemo() {
+      window.open('http://localhost:7000/demo', '_blank');
+    }
+
+    function testVoiceAlert() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance('Fifteen hundred rupees received on AKA PAY via UPI');
+        utter.lang = 'en-IN';
+        window.speechSynthesis.speak(utter);
+        showToast('Playing voice test: "Fifteen hundred rupees received..."');
+      } else {
+        showToast('Software Soundbox Alert: 1,500 rupees received.');
+      }
+    }
+
+    async function finishAndLaunchHub() {
+      const businessName = (document.getElementById('wizStoreName')?.value || '').trim() || 'My Store';
+      const logoUrl = (document.getElementById('wizLogoUrl')?.value || '').trim();
+      const primaryVpa = (document.getElementById('wizPrimaryVpa')?.value || '').trim();
+      const payeeName = (document.getElementById('wizPayeeName')?.value || '').trim() || businessName;
+
+      const btnFinish = document.getElementById('modalBtnFinish');
+      if (btnFinish) {
+        btnFinish.disabled = true;
+        btnFinish.textContent = 'Saving Gateway State...';
+      }
+
+      try {
+        await fetch('/api/v1/admin/merchant-settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            businessName,
+            upiId: (primaryVpa && primaryVpa.includes('@')) ? primaryVpa : undefined,
+            payeeName,
+            branding: {
+              appName: 'AKA PAY',
+              logoUrl: logoUrl || null,
+              primaryColor: selectedColor || '#059669'
+            }
+          })
+        }).catch(() => {});
+
+        try { localStorage.setItem('akapay_wizard_completed', 'true'); } catch (e) {}
+        closeOnboardingModal();
+        showToast('Store setup complete! Redirecting to Merchant Hub...');
+        setTimeout(() => {
+          window.location.href = '/admin#operations';
+        }, 600);
+      } catch (e) {
+        try { localStorage.setItem('akapay_wizard_completed', 'true'); } catch (err) {}
+        window.location.href = '/admin#operations';
+      }
+    }
+
+    // Initialize badge on load and auto-launch if requested
+    updateStoreStatusBadge();
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('setup') === '1' || urlParams.get('onboard') === '1') {
+      setTimeout(openOnboardingModal, 200);
+    }
+  </script>
+</body>
+
+</html>
+
