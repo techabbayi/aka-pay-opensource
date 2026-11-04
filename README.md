@@ -40,7 +40,7 @@
 [![WhatsApp Berry Auth](https://img.shields.io/badge/Auth-WhatsApp%20OTP-25d366?style=for-the-badge&logo=whatsapp&logoColor=white)](#)
 [![SQLite WAL](https://img.shields.io/badge/Database-SQLite%20Native%20WAL-003b57?style=for-the-badge&logo=sqlite&logoColor=white)](#)
 [![Native Android Observer](https://img.shields.io/badge/Android-Kotlin%20Observer%20APK-3ddc84?style=for-the-badge&logo=android&logoColor=white)](#)
-[![Regression Tests](https://img.shields.io/badge/Tests-33%20Curated%20Suites-success?style=for-the-badge&logo=vitest&logoColor=white)](#)
+[![Regression Tests](https://img.shields.io/badge/Tests-59%20Curated%20Suites%20Passing-10b981?style=for-the-badge&logo=vitest&logoColor=white)](#)
 [![White Label Ready](https://img.shields.io/badge/Branding-100%25%20White--Label-f59e0b?style=for-the-badge&logo=target&logoColor=white)](#)
 
 <br/>
@@ -49,11 +49,12 @@
   <a href="#-live-product-demos">Live Demos</a> •
   <a href="#-overview">Overview</a> •
   <a href="#-architecture-at-a-glance">Architecture</a> •
-  <a href="#-key-features">Key Features</a> •
+  <a href="#-universal-5-mode-observation-ingest-mesh">5 Observation Modes</a> •
   <a href="#-quickstart-in-60-seconds">Quickstart</a> •
   <a href="#-universal-merchant-integration">Merchant Integration</a> •
-  <a href="#-tri-channel-observation-mesh">Banking Observers</a> •
   <a href="#-port-topology--microservices-map">Port Topology</a> •
+  <a href="./CONTRIBUTING.md">Contributing</a> •
+  <a href="./CODE_OF_CONDUCT.md">Code of Conduct</a> •
   <a href="#-documentation-hub">Docs</a>
 </p>
 
@@ -302,14 +303,14 @@ npm test
 
 ```text
 ============================================================
- AKA PAY — FULL REGRESSION TEST RUNNER
-Running 31 curated test suites...
+🧪 AKA PAY — FULL REGRESSION TEST RUNNER
+Running 59 curated test suites...
 ============================================================
-[1/31] Testing packages/common/src/__tests__/common.test.js...  PASS (0.22s)
+[1/59] Testing packages/common/src/__tests__/common.test.js... ✅ PASS (1.27s)
 ...
-[31/31] Testing scripts/production-infrastructure.test.js...  PASS (0.17s)
+[59/59] Testing scripts/dev-env.test.js... ✅ PASS (6.87s)
 ============================================================
- ALL 31 TEST SUITES PASSED CLEANLY (Total: 17.68s)
+🎉 ALL 59 TEST SUITES PASSED CLEANLY (Total: 138.24s)
 ============================================================
 ```
 
@@ -560,54 +561,24 @@ func akapayWebhookHandler(w http.ResponseWriter, r *http.Request) {
 
 ---
 
-## Tri-Channel Observation Mesh
+## Universal 5-Mode Observation Ingest Mesh
 
-AKA PAY confirms payments without expensive commercial banking APIs using a triple-layer observation pipeline:
+AKA PAY confirms payments without expensive commercial banking aggregators through five independent, battle-tested observation channels tailored for online stores, personal UPI, corporate current accounts, and physical retail checkouts:
 
-```text
-              CUSTOMER SCANS & PAYS VIA UPI
-                           │
-                           ▼
-                 RECEIVING BANK ACCOUNT
-                           │
-        ┌──────────────────┼──────────────────┐
-        ▼                  ▼                  ▼
-┌───────────────┐  ┌───────────────┐  ┌───────────────┐
-│  CELLULAR SMS │  │   BANK PUSH   │  │  GMAIL CREDIT │
-│  ALERT ON SIM │  │ NOTIFICATION  │  │  ALERT EMAIL  │
-└───────┬───────┘  └───────┬───────┘  └───────┬───────┘
-        │                  │                  │
-        ▼                  ▼                  │
-┌──────────────────────────────────┐          │
-│    NATIVE ANDROID OBSERVER APK   │          │
-│  com.akapay.observer (Foreground)│          │
-│     HMAC-SHA256 Signed Payload   │          │
-└─────────────────┬────────────────┘          │
-                  │                           ▼
-                  │                 ┌───────────────────┐
-                  │                 │   GMAIL OBSERVER  │
-                  │                 │ Google Cloud API  │
-                  │                 └─────────┬─────────┘
-                  │                           │
-                  └─────────────┬─────────────┘
-                                ▼
-                   PAYMENT CORE REST ENGINE
-               Exact Amount & UTR Normalization
-                                │
-                                ▼
-                       SUCCESS CONFIRMED
-```
+| # | Ingest Mode | Primary Use Case | Speed & Invariants | Architecture & Tech Stack |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | **Inbound Email Webhook Forwarding** | Online E-Commerce & SaaS | Sub-300ms • RSA DKIM/SPF Verified | Merchants forward bank alerts (`alerts@hdfcbank.net`, `alerts@sbi.co.in`, `*.bank.in`) to a unique secure address `alerts-[uuid]@pay.yourstore.com`. Cloudflare Email Worker/SMTP parses JSON to `POST /api/v1/inbound-email`. Zero Google Cloud Console project or token refresh required. Validated under IT Act 2000 & DPDP Act 2023. |
+| **2** | **Instant QR Companion App** | Personal UPI & Micro-Merchants | Real-Time (1s–2s) • Android Listener | Merchant scans a single dynamic QR on their Android smartphone. The AKA PAY Companion App pairs via ephemeral HMAC token and observes incoming bank credit SMS in real time with an active green phone indicator on the dashboard. |
+| **3** | **Official Bank Open API Webhook** | Corporate Current Accounts | 50ms–100ms CBS • Sub-Second | Direct CBS webhook callback for registered businesses with accounts at ICICI, HDFC, Axis, or Kotak. Bank fires an asymmetric RSA-SHA256 signed JSON payload directly to `POST /api/bank/webhook`. 100% RBI Open Banking compliant with 120s drift tolerance and SQLite UTR deduplication. |
+| **4** | **1-Click Fast Google Connect** | Automated Cloud Mailbox Polling | 2s–5s • Verified Banking Scopes | Connects bank-registered Gmail via standard Google OAuth (`gmail.readonly`) with pre-configured consent. Incrementally polls mailbox history to detect incoming credit notifications from official `.bank.in` domains. |
+| **5** | **Zero-Observer Stand & Cashier POS** | In-Store Retail Counters & Cafes | Instant (1-Click) • Zero Dependency | Requires zero phone apps, zero email forwarding, and zero API keys. Customer scans counter QR stand (generated in Stand Studio), and cashier confirms payment on the built-in POS Cashier Drawer (`/counter`) with 1 click. |
 
-1. **Android Observer App:** Install [`apps/android-observer-app/akapay-observer.apk`](apps/android-observer-app/akapay-observer.apk) (also mirrored as `akapay-observer.apk`, Certified SHA-256: `959218223e75da4784744c16afaf7bc121cff377dff04f041875237042f51601`) on any secondary Android smartphone with the receiving bank SIM. Scan the pairing QR code in Merchant Admin to establish an encrypted HMAC link.
-2. **Gmail Observer:** Connect your bank-registered Google account using standard OAuth2 credentials.
-   <details>
-   <summary><b>🔍 View Verified Indian Bank Domains & RBI <code>.bank.in</code> Registry</b></summary>
+<details>
+<summary><b>🔍 View Verified Indian Bank Domains & RBI <code>.bank.in</code> Registry</b></summary>
 
-   > Supports both modern RBI-mandated sovereign `.bank.in` / `.fin.in` spaces (`sbi.bank.in`, `hdfcbank.bank.in`, `icici.bank.in`, `axis.bank.in`, `kotak.bank.in`, `pnb.bank.in`, `bankofbaroda.bank.in`, etc.) and verified legacy notification channels with full subdomain routing (`alerts.hdfcbank.net`, `custalert.icicibank.com`, `alerts.sbi.co.in`, `kotak.com`, `canarabank.com`, etc.). See [docs/OBSERVERS_SETUP.md](docs/OBSERVERS_SETUP.md) for full DNS / MX verified topology.
+> Supports both modern RBI-mandated sovereign `.bank.in` / `.fin.in` spaces (`sbi.bank.in`, `hdfcbank.bank.in`, `icici.bank.in`, `axis.bank.in`, `kotak.bank.in`, `pnb.bank.in`, `bankofbaroda.bank.in`, etc.) and verified legacy notification channels with full subdomain routing (`alerts.hdfcbank.net`, `custalert.icicibank.com`, `alerts.sbi.co.in`, `kotak.com`, `canarabank.com`, etc.). See [docs/OBSERVERS_SETUP.md](docs/OBSERVERS_SETUP.md) for full DNS / MX verified topology.
 
-   </details>
-
-3. **Google Messages Web Observer:** Pairs via headless Chrome DevTools Protocol to observe cellular SMS through Google Messages Web.
+</details>
 
 <br/>
 
@@ -649,6 +620,9 @@ Deep-dive engineering manuals and operational runbooks are available in the [`/d
 | Document                                                                   | Description                                                |
 | :------------------------------------------------------------------------- | :--------------------------------------------------------- |
 | [`ARCHITECTURE.md`](ARCHITECTURE.md)                                       | **Canonical System Architecture & Engineering Blueprint**  |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md)                                       | **Contributing Guide, Git Workflows & Parser Expansion**  |
+| [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md)                                 | **Community Code of Conduct (Contributor Covenant 2.1)**   |
+| [`SECURITY.md`](SECURITY.md)                                               | **Vulnerability Reporting & Security Invariant Policies**  |
 | [`docs/INSTALLATION.md`](docs/INSTALLATION.md)                             | Host installation, prerequisites & environment setup       |
 | [`docs/CONFIGURATION.md`](docs/CONFIGURATION.md)                           | Environment configuration variables & secret management    |
 | [`docs/ANDROID_MOBILE_APP.md`](docs/ANDROID_MOBILE_APP.md)                 | Native Android Kotlin Observer APK guide & permissions     |

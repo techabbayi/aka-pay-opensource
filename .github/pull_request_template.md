@@ -1,18 +1,17 @@
 ### Description
-
-Please provide a concise description of the changes introduced by this pull request, including the motivation and architectural rationale.
+<!-- Please provide a clear and concise summary of the changes, the architectural rationale, and what problem it solves. -->
 
 ---
 
 ### Related Issues
-<!-- Link open issues here using GitHub keywords, e.g. Closes #12, Fixes #34 -->
+<!-- Link open issues using keywords: Closes #12, Fixes #34 -->
 Closes #
 
 ---
 
 ### Type of Change
-- [ ] `feat`: A new feature or capability
-- [ ] `fix`: A bug fix or defect resolution
+- [ ] `feat`: A new feature or capability (Minor bump)
+- [ ] `fix`: A bug fix or defect resolution (Patch bump)
 - [ ] `perf`: Performance improvement
 - [ ] `refactor`: Code reorganization without behavioral changes
 - [ ] `docs`: Documentation updates or additions
@@ -22,17 +21,19 @@ Closes #
 
 ---
 
-### Security & Invariant Checklist
-<!-- Confirm compliance with AKA PAY architectural and security invariants (see AGENTS.md) -->
-- [ ] **No Force-Success Endpoint**: Payment verification remains strictly bound to verified banking observations (SMS/Gmail).
-- [ ] **Webhook Raw Payload Integrity**: HMAC signature is computed over raw unparsed payload bytes (`X-Gateway-Signature: sha256=...`).
-- [ ] **Secret Isolation**: No private keys, database credentials, or observer tokens exposed to client scripts.
-- [ ] **Device & Token Binding**: Device access and customer session checks fail closed on state-changing operations.
-- [ ] **Node.js Engine Target**: Code runs compatibly with Node.js >= 22.5.0 (`node:sqlite`).
+### Architecture & Security Invariants Checklist
+<!-- All checks must be verified before submitting -->
+- [ ] **No Force-Success Endpoint**: Payment verification remains strictly bound to verified banking observations (SMS/Email/CBS).
+- [ ] **Authoritative Raw-Body Webhooks**: Webhook signatures are computed over raw unparsed request bytes (`X-Gateway-Signature: sha256=...`).
+- [ ] **100% Bank-Grade Light Theme**: Clean fintech UI with zero dark theme flash or residual dark components.
+- [ ] **Zero Unicode Emojis**: 100% SVG stroke icons (`#i-...`) and status dot badges (`dot dot-green`, `dot dot-red`).
+- [ ] **Secret Isolation**: No private keys, database credentials, or observer tokens committed or exposed to frontend code.
+- [ ] **Target Node Engine**: Code is verified against Node.js >= 24.22.1 (Active LTS "Krypton" with native `node:sqlite`).
+- [ ] **Regulatory Verification Standard**: Banking formats, regexes, and domain spaces are grounded in RBI/IDRBT `.bank.in` specifications and authentic telemetry.
 
 ---
 
-### Verification Checklist
-- [ ] `npm run typecheck` passes cleanly with 0 TypeScript errors.
-- [ ] `npm test` passes 100% cleanly across all curated test suites.
-- [ ] Changes inspected via `git diff` with no debug logs, secrets, or temporary files.
+### Verification Results
+- [ ] `npm run typecheck` passes with **0 TypeScript errors**.
+- [ ] `npm test` passes **100% cleanly across all 59 curated test suites**.
+- [ ] `git status` and `git diff` inspected to confirm no unneeded files, debug dumps, or sensitive tokens are included.

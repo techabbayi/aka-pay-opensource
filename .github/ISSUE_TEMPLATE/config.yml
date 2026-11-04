@@ -1,0 +1,9 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security Vulnerability Disclosure
+    url: mailto:srssltd@gmail.com
+    about: Please report security vulnerabilities privately via email. Do NOT open public issues for security vulnerabilities.
+  - name: AKA PAY Architectural Standards & Invariants
+    url: https://github.com/techabbayi/aka-pay-opensource/blob/main/AGENTS.md
+    about: Read mandatory architectural invariants, payment state machine rules, and git workflows.
+
