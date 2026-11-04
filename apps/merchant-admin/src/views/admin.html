@@ -1246,16 +1246,24 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.75rem;
-      color: transparent;
       transition: all 0.15s ease;
+    }
+
+    .wizard-obs-check svg {
+      width: 13px;
+      height: 13px;
+      stroke: #FFFFFF;
+      opacity: 0;
+      transition: opacity 0.15s ease;
     }
 
     .wizard-obs-card.selected .wizard-obs-check {
       background: var(--primary);
       border-color: var(--primary);
-      color: #FFFFFF;
-      font-weight: 800;
+    }
+
+    .wizard-obs-card.selected .wizard-obs-check svg {
+      opacity: 1;
     }
 
     .wizard-obs-title {
@@ -4496,7 +4504,7 @@
       <div
         style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
         <h3 style="color:var(--text-heading); margin:0; font-size:1.15rem; display:flex; align-items:center; gap:0.4rem;"><svg class="i" style="width:1.1em;height:1.1em;color:var(--primary);"><use href="#i-book-open"/></svg><span>Official Gmail API &amp; Refresh Token Guide</span></h3>
-        <button class="btn btn-secondary" style="padding:0.25rem 0.5rem;" onclick="closeGmailGuideModal()">✕</button>
+        <button class="btn btn-secondary" style="padding:0.25rem 0.5rem;" onclick="closeGmailGuideModal()"><svg class="i" style="width:0.9em;height:0.9em;"><use href="#i-x-mark"/></svg></button>
       </div>
       <div style="font-size:0.82rem; color:var(--text); line-height:1.6;">
 
@@ -4591,7 +4599,7 @@
               attempt</div>
           </div>
         </div>
-        <button class="btn btn-secondary" style="padding:0.35rem 0.65rem;" onclick="closeBanDetailsModal()">✕</button>
+        <button class="btn btn-secondary" style="padding:0.35rem 0.65rem;" onclick="closeBanDetailsModal()"><svg class="i" style="width:0.9em;height:0.9em;"><use href="#i-x-mark"/></svg></button>
       </div>
 
       <div id="banDetailsModalBody">
@@ -4620,7 +4628,7 @@
         <h3 style="color:var(--success); margin:0; display:flex; align-items:center; gap:0.5rem; font-size:1.15rem;">
           <svg class="i" style="width:1em;height:1em;color:var(--success);"><use href="#i-lock-open"/></svg> Restore Customer Access (Unban)
         </h3>
-        <button class="btn btn-secondary" style="padding:0.25rem 0.5rem;" onclick="closeUnbanModal()">✕</button>
+        <button class="btn btn-secondary" style="padding:0.25rem 0.5rem;" onclick="closeUnbanModal()"><svg class="i" style="width:0.9em;height:0.9em;"><use href="#i-x-mark"/></svg></button>
       </div>
 
       <p style="font-size:0.88rem; color:var(--text); line-height:1.6; margin-bottom:1.25rem;">
@@ -4667,7 +4675,7 @@
         <h3 style="color:var(--danger); margin:0; display:flex; align-items:center; gap:0.5rem; font-size:1.15rem;">
           <svg class="i" style="width:1em;height:1em;color:var(--danger);"><use href="#i-no-symbol"/></svg> Manually Ban Abusive Customer
         </h3>
-        <button class="btn btn-secondary" style="padding:0.25rem 0.5rem;" onclick="closeManualBanModal()">✕</button>
+        <button class="btn btn-secondary" style="padding:0.25rem 0.5rem;" onclick="closeManualBanModal()"><svg class="i" style="width:0.9em;height:0.9em;"><use href="#i-x-mark"/></svg></button>
       </div>
 
       <div style="margin-bottom:1rem;">
@@ -4720,7 +4728,7 @@
     <div class="modal-box" style="max-width:540px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
         <h3 style="color:var(--text-heading); margin:0; font-size:1.15rem; display:flex; align-items:center; gap:0.4rem;"><svg class="i" style="width:1.1em;height:1.1em;color:var(--primary);"><use href="#i-building-storefront"/></svg><span>Onboard New Merchant / Store</span></h3>
-        <button class="btn btn-secondary" style="padding:0.25rem 0.5rem;" onclick="closeNewMerchantModal()">✕</button>
+        <button class="btn btn-secondary" style="padding:0.25rem 0.5rem;" onclick="closeNewMerchantModal()"><svg class="i" style="width:0.9em;height:0.9em;"><use href="#i-x-mark"/></svg></button>
       </div>
       <div style="font-size:0.85rem; color:var(--text); line-height:1.6;">
         <div style="margin-bottom:1rem;">
@@ -4770,7 +4778,7 @@
             <div class="wizard-brand-text">AKA PAY Sovereign Setup Cockpit</div>
             <span class="wizard-brand-badge" id="wizBadgeMode">Mandatory Setup • 3 Min</span>
           </div>
-          <button type="button" class="btn btn-secondary" id="wizBtnClose" onclick="closeOnboardingWizard()" style="padding:0.25rem 0.55rem; font-size:0.85rem;" aria-label="Close setup wizard">✕</button>
+          <button type="button" class="btn btn-secondary" id="wizBtnClose" onclick="closeOnboardingWizard()" style="padding:0.25rem 0.55rem; font-size:0.85rem;" aria-label="Close setup wizard"><svg class="i" style="width:0.9em;height:0.9em;"><use href="#i-x-mark"/></svg></button>
         </div>
 
         <!-- PROGRESS STEPPER -->
@@ -4999,59 +5007,59 @@
 
             <!-- Observer Modes Grid -->
             <div class="wizard-observer-grid">
-              <!-- Mode 1: Inbound Email Webhook -->
+              <!-- Mode 1: Inbound Email Webhook Forwarding -->
               <div class="wizard-obs-card selected" id="wizCardEmail" onclick="toggleWizardObserver('wizCardEmail')">
                 <div class="wizard-obs-card-top">
                   <span class="wizard-obs-icon"><svg class="i" style="width:1.2em;height:1.2em;color:var(--primary);"><use href="#i-envelope"/></svg></span>
-                  <div class="wizard-obs-check">✓</div>
+                  <div class="wizard-obs-check"><svg class="i"><use href="#i-check"/></svg></div>
                 </div>
-                <div class="wizard-obs-title">Inbound Email Webhook</div>
-                <span class="wizard-obs-pill">Recommended for Online</span>
-                <div class="wizard-obs-desc">Forwards bank credit alerts directly to a dedicated webhook. Cryptographically DKIM-verified, zero Google Cloud setup, sub-second speed.</div>
+                <div class="wizard-obs-title">Mode 1: Inbound Email Webhook Forwarding</div>
+                <span class="wizard-obs-pill">Recommended for Online Stores • Sub-300ms</span>
+                <div class="wizard-obs-desc">Eliminates 100% of Google Cloud Console projects, client secrets, and OAuth token refresh workflows. Merchant forwards bank credit alerts from alerts@hdfcbank.net, alerts@sbi.co.in, or *.bank.in to unique secure address alerts-[uuid]@pay.yourstore.com. Cloudflare Email Worker/SMTP parses JSON to POST /api/v1/inbound-email in &lt; 300ms. Cryptographically verified via bank RSA DKIM/SPF under IT Act 2000 &amp; DPDP Act 2023.</div>
               </div>
 
-              <!-- Mode 2: Android QR Companion App -->
+              <!-- Mode 2: Instant QR Companion App -->
               <div class="wizard-obs-card selected" id="wizCardApp" onclick="toggleWizardObserver('wizCardApp')">
                 <div class="wizard-obs-card-top">
                   <span class="wizard-obs-icon"><svg class="i" style="width:1.2em;height:1.2em;color:var(--primary);"><use href="#i-device-phone-mobile"/></svg></span>
-                  <div class="wizard-obs-check">✓</div>
+                  <div class="wizard-obs-check"><svg class="i"><use href="#i-check"/></svg></div>
                 </div>
-                <div class="wizard-obs-title">Android QR Companion App</div>
-                <span class="wizard-obs-pill">Recommended for Personal UPI</span>
-                <div class="wizard-obs-desc">Scan 1 QR code on your phone to pair. Background notification listener syncs official bank SMS credit alerts directly to gateway.</div>
+                <div class="wizard-obs-title">Mode 2: Instant QR Companion App</div>
+                <span class="wizard-obs-pill">Recommended for Personal UPI • Real-Time</span>
+                <div class="wizard-obs-desc">Merchant scans a single dynamic QR code shown on screen using their Android phone. Opens pre-authenticated with the session token. Background notification listener syncs official bank SMS credit alerts directly to gateway with real-time green active phone status indicator.</div>
               </div>
 
               <!-- Mode 3: Official Bank Open API Webhook -->
               <div class="wizard-obs-card" id="wizCardBankApi" onclick="toggleWizardObserver('wizCardBankApi')">
                 <div class="wizard-obs-card-top">
                   <span class="wizard-obs-icon"><svg class="i" style="width:1.2em;height:1.2em;color:var(--primary);"><use href="#i-building-office-2"/></svg></span>
-                  <div class="wizard-obs-check">✓</div>
+                  <div class="wizard-obs-check"><svg class="i"><use href="#i-check"/></svg></div>
                 </div>
-                <div class="wizard-obs-title">Official Bank API Webhook</div>
-                <span class="wizard-obs-pill">Corporate Current Accounts</span>
-                <div class="wizard-obs-desc">Direct CBS webhook callback from ICICI Developer Portal, HDFC SmartHub, or Axis. Sub-second 50ms verification with RSA-SHA256 signatures.</div>
+                <div class="wizard-obs-title">Mode 3: Official Bank Open API Webhook</div>
+                <span class="wizard-obs-pill">Advanced Current Accounts • 50ms-100ms CBS</span>
+                <div class="wizard-obs-desc">Designed for registered businesses with a Current Account at ICICI, HDFC, Axis, or Kotak Mahindra Bank. Webhook callback receives direct CBS JSON HTTP POST verified in 50ms-100ms. Enforces bank RSA-SHA256 signature, 60s timestamp tolerance, and SQLite UNIQUE(utr) deduplication. 100% RBI Open Banking compliant.</div>
               </div>
 
               <!-- Mode 4: 1-Click Fast Google Connect -->
               <div class="wizard-obs-card" id="wizCardGoogle" onclick="toggleWizardObserver('wizCardGoogle')">
                 <div class="wizard-obs-card-top">
                   <span class="wizard-obs-icon"><svg class="i" style="width:1.2em;height:1.2em;color:var(--primary);"><use href="#i-globe-alt"/></svg></span>
-                  <div class="wizard-obs-check">✓</div>
+                  <div class="wizard-obs-check"><svg class="i"><use href="#i-check"/></svg></div>
                 </div>
-                <div class="wizard-obs-title">1-Click Fast Google Connect</div>
-                <span class="wizard-obs-pill">Automated OAuth2</span>
-                <div class="wizard-obs-desc">1-Click sign in with Google to read bank credit alerts from official banking domains (`.bank.in`, `alerts@hdfcbank.net`) with pre-configured consent.</div>
+                <div class="wizard-obs-title">Mode 4: 1-Click Fast Google Connect</div>
+                <span class="wizard-obs-pill">Automated OAuth2 • Verified Banking Scopes</span>
+                <div class="wizard-obs-desc">Standard Google OAuth popup with verified banking scopes (https://www.googleapis.com/auth/gmail.readonly). Eliminates GCP console navigation by utilizing a pre-configured verified client ID to read bank credit transaction alerts from official banking domains.</div>
               </div>
 
               <!-- Mode 5: Zero-Observer Stand & Cashier POS -->
               <div class="wizard-obs-card" id="wizCardPos" onclick="toggleWizardObserver('wizCardPos')">
                 <div class="wizard-obs-card-top">
                   <span class="wizard-obs-icon"><svg class="i" style="width:1.2em;height:1.2em;color:var(--primary);"><use href="#i-building-storefront"/></svg></span>
-                  <div class="wizard-obs-check">✓</div>
+                  <div class="wizard-obs-check"><svg class="i"><use href="#i-check"/></svg></div>
                 </div>
-                <div class="wizard-obs-title">Zero-Observer Cashier POS</div>
-                <span class="wizard-obs-pill">Retail Shops &amp; Cafes</span>
-                <div class="wizard-obs-desc">No email or phone app required! Customer scans the counter QR stand, and your cashier confirms the transaction on the POS drawer.</div>
+                <div class="wizard-obs-title">Mode 5: Zero-Observer Stand &amp; Cashier POS</div>
+                <span class="wizard-obs-pill">Physical Retail Counters • Zero Dependency</span>
+                <div class="wizard-obs-desc">Ideal for physical retail counters, cafes, and pop-up stands. Requires zero phone apps, zero email forwarding, and zero API keys. Customer pays via the static or dynamic QR stand, and cashier confirms payment on the built-in POS Cashier Drawer (/counter) with 1 click.</div>
               </div>
             </div>
           </div>
@@ -5266,7 +5274,7 @@
           
           const closeBtn = document.createElement('button');
           closeBtn.type = 'button';
-          closeBtn.innerHTML = '✕';
+          closeBtn.innerHTML = '<svg class="i" style="width:0.9em;height:0.9em;"><use href="#i-x-mark"/></svg>';
           closeBtn.style.cssText = 'position:absolute;top:16px;right:16px;background:transparent;border:none;font-size:18px;color:#64748B;cursor:pointer;padding:4px 8px;border-radius:6px;';
           closeBtn.onclick = () => {
             overlay.remove();
@@ -5661,7 +5669,7 @@
           if (hText && hBadge) {
             hBadge.className = 'store-switch-badge is-offline';
             hText.textContent = res.status === 401 ? 'Store (5000): Auth needed' : 'Store (5000): Offline';
-            if (hDot) hDot.textContent = '🔴';
+            if (hDot) { hDot.className = 'dot dot-red'; hDot.textContent = ''; }
           }
           throw new Error(`Supervisor returned ${res.status}`);
         }
@@ -5672,7 +5680,7 @@
         console.warn('loadServices error:', e);
         const tbody = document.getElementById('servicesTableBody');
         if (tbody && !tbody.dataset.loaded) {
-          tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--danger); padding:1.5rem;">⚠️ Supervisor API unavailable (Port 8090). Ensure services are running.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--danger); padding:1.5rem;">Supervisor API unavailable (Port 8090). Ensure services are running.</td></tr>`;
         }
         // Fallback: resolve badges so they never stay "Checking..."
         if (hText && hBadge && !servicesList.length) {
@@ -6213,14 +6221,14 @@
         <td><strong style="color:var(--success); font-size:1.15rem;">₹${(Number(p.amountPaise) / 100).toFixed(2)}</strong></td>
         <td>
           <span class="badge ${p.method === 'CASH_COUNTER' ? 'badge-success' : 'badge-info'}">
-            ${p.method === 'CASH_COUNTER' ? '💵 Cash at Till' : '💳 Card at POS'}
+            ${p.method === 'CASH_COUNTER' ? 'Cash at Till' : 'Card at POS'}
           </span>
         </td>
         <td>${new Date(p.createdAt).toLocaleTimeString()}</td>
         <td>
           <div style="display:flex; gap:0.4rem;">
-            <button class="btn btn-success" style="padding:0.35rem 0.75rem; font-size:0.78rem;" onclick="confirmCounterPayment(${jsArg(p.id)}, ${jsArg(p.method)})">✓ Approve</button>
-            <button class="btn btn-danger" style="padding:0.35rem 0.75rem; font-size:0.78rem;" onclick="declineCounterPayment(${jsArg(p.id)}, ${jsArg(p.method)})">✕ Decline</button>
+            <button class="btn btn-success" style="padding:0.35rem 0.75rem; font-size:0.78rem;" onclick="confirmCounterPayment(${jsArg(p.id)}, ${jsArg(p.method)})">Approve</button>
+            <button class="btn btn-danger" style="padding:0.35rem 0.75rem; font-size:0.78rem;" onclick="declineCounterPayment(${jsArg(p.id)}, ${jsArg(p.method)})">Decline</button>
           </div>
         </td>
       </tr>
@@ -6336,9 +6344,9 @@
           if (p.status === 'SUCCESS' || p.status === 'OBSERVED_SUCCESS' || p.status === 'RECONCILED' || p.status === 'MANUAL_REVIEW') {
           const tag = p.verificationTag || (p.verificationLevel >= 2 ? 'Dual Verification' : 'Single Verification');
           if (p.verificationLevel >= 2) {
-            verifyBadge = `<span class="badge badge-success">✓✓ ${escapeHtmlValue(tag)}</span>`;
+            verifyBadge = `<span class="badge badge-success"><svg class="i" style="width:0.85em;height:0.85em;"><use href="#i-check"/></svg> ${escapeHtmlValue(tag)}</span>`;
           } else {
-            verifyBadge = `<span class="badge badge-info">✓ ${escapeHtmlValue(tag)}</span>`;
+            verifyBadge = `<span class="badge badge-info"><svg class="i" style="width:0.85em;height:0.85em;"><use href="#i-check"/></svg> ${escapeHtmlValue(tag)}</span>`;
           }
         }
 
@@ -6946,15 +6954,15 @@
         if (btnProd) { btnProd.style.borderColor = '#10b981'; btnProd.style.background = 'var(--bg-box)'; }
         if (badgeLoc) badgeLoc.style.display = 'none';
         if (badgeProd) badgeProd.style.display = 'inline-block';
-        if (badgeDisplay) { badgeDisplay.textContent = '🌍 PRODUCTION MODE'; badgeDisplay.className = 'badge badge-success'; }
-        if (headerBadge) { headerBadge.textContent = '🌍 PRODUCTION'; headerBadge.className = 'badge badge-success'; }
+        if (badgeDisplay) { badgeDisplay.textContent = 'PRODUCTION MODE'; badgeDisplay.className = 'badge badge-success'; }
+        if (headerBadge) { headerBadge.textContent = 'PRODUCTION'; headerBadge.className = 'badge badge-success'; }
       } else {
         if (btnLoc) { btnLoc.style.borderColor = '#38bdf8'; btnLoc.style.background = 'var(--bg-box)'; }
         if (btnProd) { btnProd.style.borderColor = 'var(--border)'; btnProd.style.background = 'var(--bg-box)'; }
         if (badgeLoc) badgeLoc.style.display = 'inline-block';
         if (badgeProd) badgeProd.style.display = 'none';
-        if (badgeDisplay) { badgeDisplay.textContent = '💻 LOCALHOST MODE'; badgeDisplay.className = 'badge badge-info'; }
-        if (headerBadge) { headerBadge.textContent = '💻 LOCALHOST'; headerBadge.className = 'badge badge-info'; }
+        if (badgeDisplay) { badgeDisplay.textContent = 'LOCALHOST MODE'; badgeDisplay.className = 'badge badge-info'; }
+        if (headerBadge) { headerBadge.textContent = 'LOCALHOST'; headerBadge.className = 'badge badge-info'; }
       }
 
       updateCloudflarePreview();
@@ -7039,8 +7047,8 @@
           </div>
         </div>
         <div style="display:flex; gap:0.5rem;">
-          <button class="btn btn-secondary" style="font-size:0.75rem;" onclick="copyText(${jsArg(r.hostname || '')}, 'Hostname copied to clipboard!')" ${!r.hostname ? 'disabled' : ''}>📋 Copy Hostname</button>
-          <button class="btn btn-secondary" style="font-size:0.75rem;" onclick="copyText(${jsArg(r.serviceUrl)}, 'Service URL copied to clipboard!')">📋 Copy Service URL</button>
+          <button class="btn btn-secondary" style="font-size:0.75rem;" onclick="copyText(${jsArg(r.hostname || '')}, 'Hostname copied to clipboard!')" ${!r.hostname ? 'disabled' : ''}>Copy Hostname</button>
+          <button class="btn btn-secondary" style="font-size:0.75rem;" onclick="copyText(${jsArg(r.serviceUrl)}, 'Service URL copied to clipboard!')">Copy Service URL</button>
         </div>
       </div>
     `).join('');
@@ -7165,7 +7173,7 @@
       if (!badge) return;
 
       if (status.running) {
-        badge.textContent = '🟢 RUNNING';
+        badge.textContent = 'RUNNING';
         badge.style.background = '#065f46';
         badge.style.color = 'var(--success)';
         if (btnStart) btnStart.style.display = 'none';
@@ -7174,7 +7182,7 @@
         const upStr = upSec >= 60 ? `${Math.floor(upSec / 60)}m ${upSec % 60}s` : `${upSec}s`;
         if (pidInfo) pidInfo.textContent = `PID: ${status.pid} | Uptime: ${upStr}`;
       } else {
-        badge.textContent = '⚪ STOPPED';
+        badge.textContent = 'STOPPED';
         badge.style.background = 'var(--bg-elevated)';
         badge.style.color = 'var(--text-muted)';
         if (btnStart) btnStart.style.display = 'inline-flex';
@@ -7348,10 +7356,10 @@
         if (resBox) {
           if (res.ok) {
             resBox.style.color = 'var(--success)';
-            resBox.textContent = `✅ Parsed successfully! Amount: ₹${data.event?.amountPaise ? (data.event.amountPaise / 100) : 'N/A'}, Ref: ${data.event?.refId || 'N/A'}`;
+            resBox.textContent = `Parsed successfully! Amount: ₹${data.event?.amountPaise ? (data.event.amountPaise / 100) : 'N/A'}, Ref: ${data.event?.refId || 'N/A'}`;
           } else {
             resBox.style.color = 'var(--danger)';
-            resBox.textContent = `⚠️ Error: ${data.error || 'Failed to parse'}`;
+            resBox.textContent = `Error: ${data.error || 'Failed to parse'}`;
           }
         }
       } catch (e) {
@@ -7412,7 +7420,7 @@
           if (banner) banner.style.display = 'none';
 
           fetchGmailCredentials().then(() => {
-            showAdminToast(`🎉 Google Account Connected: ${email || 'Verified'}! Live UPI observer active.`);
+            showAdminToast(`Google Account Connected: ${email || 'Verified'}! Live UPI observer active.`);
           });
         };
 
@@ -7519,9 +7527,9 @@
           if (heroDot) heroDot.style.background = '#10b981';
           if (heroTitle) heroTitle.textContent = 'Google Account Connected & Active';
           if (heroDesc) {
-            heroDesc.innerHTML = `✅ Authenticated as <strong style="color:var(--info); font-family:monospace;">${escapeHtml(connectedEmail || 'Authorized Account')}</strong>. Zero-delay mailbox polling active for incoming UPI payment notifications.`;
+            heroDesc.innerHTML = `Authenticated as <strong style="color:var(--info); font-family:monospace;">${escapeHtml(connectedEmail || 'Authorized Account')}</strong>. Zero-delay mailbox polling active for incoming UPI payment notifications.`;
           }
-          if (authBtnLabel) authBtnLabel.textContent = '🔄 Re-authorize Account';
+          if (authBtnLabel) authBtnLabel.textContent = 'Re-authorize Account';
           if (disconnectBtn) disconnectBtn.style.display = 'inline-flex';
         } else {
           if (heroDot) heroDot.style.background = '#ef4444';
@@ -7606,7 +7614,7 @@
             box.style.border = '1px solid #059669';
             box.style.color = 'var(--success)';
             box.innerHTML = `
-            <div style="font-weight:700; margin-bottom:0.35rem; color:var(--success);">✅ GOOGLE API VERIFICATION SUCCESSFUL</div>
+            <div style="font-weight:700; margin-bottom:0.35rem; color:var(--success);">GOOGLE API VERIFICATION SUCCESSFUL</div>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.25rem; font-size:0.78rem; font-family:monospace;">
               <div><strong>AUTHENTICATED:</strong> <span style="color:var(--success);">YES</span></div>
               <div><strong>ACCOUNT:</strong> ${escapeHtml(data.emailAddress || 'Authorized')}</div>
@@ -7620,7 +7628,7 @@
             box.style.background = 'rgba(239, 68, 68, 0.1)';
             box.style.border = '1px solid #dc2626';
             box.style.color = 'var(--danger)';
-            box.innerHTML = `⚠️ <strong>Connection Test Notice:</strong> ${escapeHtml(data.error || 'Token expired or invalid. Please click Connect with Google to re-authorize.')}`;
+            box.innerHTML = `<strong>Connection Test Notice:</strong> ${escapeHtml(data.error || 'Token expired or invalid. Please click Connect with Google to re-authorize.')}`;
           }
         }
       } catch (e) {
@@ -7660,7 +7668,7 @@
           if (phoneDisplay) phoneDisplay.innerHTML = `Linked Phone: <strong style="color:var(--success);">${data.phoneNumber || 'Linked Device'}</strong>`;
           if (qrBox) qrBox.style.display = 'none';
           if (btnDisconnect) btnDisconnect.style.display = 'inline-block';
-          if (btnConnect) btnConnect.innerText = '🔄 Re-Pair Device';
+          if (btnConnect) btnConnect.innerText = 'Re-Pair Device';
         } else if (data.status === 'QR_READY') {
           if (badge) { badge.className = 'badge badge-warning'; badge.innerText = 'QR READY'; }
           if (dot) dot.style.color = 'var(--warning)';
@@ -7668,7 +7676,7 @@
           if (phoneDisplay) phoneDisplay.innerText = 'Awaiting pairing scan from merchant WhatsApp handset';
           if (qrBox) qrBox.style.display = 'inline-block';
           if (btnDisconnect) btnDisconnect.style.display = 'none';
-          if (btnConnect) btnConnect.innerText = '🔄 Refresh QR Code';
+          if (btnConnect) btnConnect.innerText = 'Refresh QR Code';
 
           if (data.qrCode && qrImg && qrPlaceholder) {
             let qrSrc = data.qrCode;
@@ -7713,7 +7721,7 @@
             qrPlaceholder.innerText = 'Click "Connect WhatsApp" to pair device';
           }
           if (btnDisconnect) btnDisconnect.style.display = 'none';
-          if (btnConnect) btnConnect.innerText = '⚡ Connect WhatsApp';
+          if (btnConnect) btnConnect.innerText = 'Connect WhatsApp';
         }
 
         if (isManual) showAdminToast('WhatsApp session status: ' + data.status);
@@ -7768,7 +7776,7 @@
         if (newlyAdded.length > 0 && isInitialCounterPollDone) {
           newlyAdded.forEach(p => {
             const isCash = p.method === 'CASH_COUNTER';
-            showAdminToast(`🔔 Counter Payment Request: ${isCash ? '💵 Cash at Till' : '💳 Card at POS'} for ₹${p.amount} (Order #${p.orderId})`);
+            showAdminToast(`Counter Payment Request: ${isCash ? 'Cash at Till' : 'Card at POS'} for ₹${p.amount} (Order #${p.orderId})`);
           });
         }
         isInitialCounterPollDone = true;
@@ -7797,9 +7805,9 @@
               const isCash = payload?.method === 'CASH_COUNTER';
               const amt = (payload?.amountPaise) ? `₹${(Number(payload.amountPaise) / 100).toFixed(2)}` : '';
               const ord = (payload?.orderId) ? `(Order #${payload.orderId})` : '';
-              showAdminToast(`🔔 Cashier Prompt: Customer requested ${isCash ? '💵 Cash at Till' : '💳 Card at POS'} ${amt} ${ord}!`);
+              showAdminToast(`Cashier Prompt: Customer requested ${isCash ? 'Cash at Till' : 'Card at POS'} ${amt} ${ord}!`);
             } catch (e) {
-              showAdminToast('🔔 Cashier Prompt: In-store customer selected Cash/Card payment!');
+              showAdminToast('Cashier Prompt: In-store customer selected Cash/Card payment!');
             }
           },
           () => { /* the caller reconnects */ }
@@ -7834,7 +7842,7 @@
       dock.innerHTML = payments.map(p => {
         const isMinimized = minimizedCounterIds.has(p.id);
         const isCash = p.method === 'CASH_COUNTER';
-        const methodLabel = isCash ? '💵 Cash at Till' : '💳 Card at Counter';
+        const methodLabel = isCash ? 'Cash at Till' : 'Card at Counter';
         const badgeClass = isCash ? 'cashier-badge-cash' : 'cashier-badge-card';
         const orderIdStr = p.orderId ? (String(p.orderId).startsWith('#') ? p.orderId : `#${p.orderId}`) : `#${p.id.slice(0, 8)}`;
         const amountStr = `₹${p.amount}`;
@@ -7851,7 +7859,7 @@
               </div>
               <div style="display:flex; align-items:center; gap:4px;">
                 <button type="button" class="cashier-btn-minimize" onclick="toggleMinimizeCard(${jsArg(p.id)})">▲</button>
-                <button type="button" class="cashier-btn-accept" style="padding:4px 8px; font-size:11px;" onclick="confirmCounterPayment(${jsArg(p.id)}, ${jsArg(p.method)})">✓ Accept</button>
+                <button type="button" class="cashier-btn-accept" style="padding:4px 8px; font-size:11px;" onclick="confirmCounterPayment(${jsArg(p.id)}, ${jsArg(p.method)})">Accept</button>
               </div>
             </div>
           </div>
@@ -7879,8 +7887,8 @@
               </div>
             </div>
             <div class="cashier-modal-actions">
-              <button type="button" class="cashier-btn-accept" onclick="confirmCounterPayment(${jsArg(p.id)}, ${jsArg(p.method)})">✓ Confirm &amp; Accept</button>
-              <button type="button" class="cashier-btn-decline" onclick="declineCounterPayment(${jsArg(p.id)}, ${jsArg(p.method)})">✕ Decline</button>
+              <button type="button" class="cashier-btn-accept" onclick="confirmCounterPayment(${jsArg(p.id)}, ${jsArg(p.method)})">Confirm &amp; Accept</button>
+              <button type="button" class="cashier-btn-decline" onclick="declineCounterPayment(${jsArg(p.id)}, ${jsArg(p.method)})">Decline</button>
             </div>
           </div>
         </div>
@@ -7900,7 +7908,7 @@
       t.style.background = isSuccess ? '#065f46' : '#991b1b';
       t.style.color = '#ffffff';
       t.style.border = isSuccess ? '1px solid #10b981' : '1px solid #ef4444';
-      t.innerHTML = `${isSuccess ? '✓' : '⚠️'} ${escapeHtml(msg)}`;
+      t.innerHTML = escapeHtml(msg);
       t.style.transform = 'translateY(0)';
       t.style.opacity = '1';
       clearTimeout(t._timer);
@@ -7980,13 +7988,13 @@
           if (badge) {
             if (currentFalseNarrativeMode === 'GREEN') {
               badge.className = 'badge badge-success';
-              badge.textContent = `🟢 GREEN (WORKING) · EXPIRES IN ${timeStr}`;
+              badge.textContent = `GREEN (WORKING) · EXPIRES IN ${timeStr}`;
             } else if (currentFalseNarrativeMode === 'YELLOW') {
               badge.className = 'badge badge-warning';
-              badge.textContent = `🟡 YELLOW (EXTRA PROCESSING) · EXPIRES IN ${timeStr}`;
+              badge.textContent = `YELLOW (EXTRA PROCESSING) · EXPIRES IN ${timeStr}`;
             } else {
               badge.className = 'badge badge-danger';
-              badge.textContent = `🔴 RED (DOWN) · EXPIRES IN ${timeStr}`;
+              badge.textContent = `RED (DOWN) · EXPIRES IN ${timeStr}`;
             }
           }
         };
@@ -8001,7 +8009,7 @@
         }
         if (badge) {
           badge.className = 'badge badge-info';
-          badge.textContent = '⚪ OFF · REAL SERVER STATUS';
+          badge.textContent = 'OFF · REAL SERVER STATUS';
         }
       }
     }
@@ -8081,7 +8089,7 @@
           const data = await res.json();
           updateTestModeUI(data.enabled, data.testModeUntil, data.remainingSeconds);
           showAdminToast(enabled
-            ? '🧪 Test Mode Enabled (10-minute window). Automatic banning is disabled.'
+            ? 'Test Mode Enabled (10-minute window). Automatic banning is disabled.'
             : 'Test Mode disabled. Automatic ban system restored.');
         } else {
           showAdminToast('Failed to update Test Mode state', false);
@@ -8132,7 +8140,7 @@
         if (banner) banner.style.display = 'block';
         if (section) section.style.display = 'block';
         if (banText) {
-          banText.innerHTML = '🛡️ Automatic Ban System: <strong style="color:var(--danger);">DISABLED (Test Mode Active)</strong>';
+          banText.innerHTML = 'Automatic Ban System: <strong style="color:var(--danger);">DISABLED (Test Mode Active)</strong>';
         }
 
         const updateTimer = () => {
@@ -8152,7 +8160,7 @@
           if (badge) {
             badge.style.background = '#b45309';
             badge.style.color = '#fef3c7';
-            badge.textContent = `🔴 [ ON ] TEST MODE (${timeStr})`;
+            badge.textContent = `[ ON ] TEST MODE (${timeStr})`;
           }
         };
 
@@ -8170,7 +8178,7 @@
           badge.textContent = '[ OFF ] Test Mode';
         }
         if (banText) {
-          banText.innerHTML = '🛡️ Automatic Ban System: <strong style="color:var(--success);">ENABLED (Normal)</strong>';
+          banText.innerHTML = 'Automatic Ban System: <strong style="color:var(--success);">ENABLED (Normal)</strong>';
         }
       }
     }
@@ -8260,7 +8268,7 @@
         if (data.status === 'VERIFIED') {
           showAdminToast(`Observation VERIFIED! Attributed to Order #${data.session?.orderId || 'Active'}`);
         } else if (data.status === 'REJECTED' && (data.reason === 'FRAUDULENT_PAYMENT_INJECTION' || data.failingCondition === 'FRAUDULENT_PAYMENT_INJECTION' || data.stages?.stage5?.reason === 'FRAUDULENT_PAYMENT_INJECTION')) {
-          showAdminToast('🚨 FRAUD DETECTED! Customer automatically BANNED and session terminated.', false);
+          showAdminToast('FRAUD DETECTED! Customer automatically BANNED and session terminated.', false);
           if (typeof fetchBannedUsers === 'function') fetchBannedUsers();
         } else if (data.status === 'SUSPICIOUS') {
           showAdminToast('Observation flagged as SUSPICIOUS!', false);
@@ -8848,26 +8856,26 @@
 
         stagesContainer.innerHTML = stageDefs.map(def => {
           const s = stages[def.key] || { status: 'PENDING' };
-          let icon = '⚪';
+          let icon = 'OFF';
           let statusColor = '#94a3b8';
           let bgColor = '#0f172a';
           let borderCol = '#1e293b';
 
           if (s.status === 'LOADED' || s.status === 'PASSED' || s.status === 'PARSED' || s.status === 'VERIFIED' || s.status === 'ATTRIBUTED') {
-            icon = '✅';
+            icon = 'OK';
             statusColor = '#22c55e';
             borderCol = 'rgba(34,197,94,0.3)';
           } else if (s.status === 'FAILED') {
-            icon = '❌';
+            icon = 'FAIL';
             statusColor = '#ef4444';
             borderCol = 'rgba(239,68,68,0.4)';
             bgColor = 'rgba(239,68,68,0.06)';
           } else if (s.status === 'FLAGGED_CUSTOMER_SENDER' || s.status === 'FLAGGED_SUSPICIOUS' || s.status === 'SUSPICIOUS') {
-            icon = '⚠️';
+            icon = 'WARN';
             statusColor = '#f59e0b';
             borderCol = 'rgba(245,158,11,0.4)';
           } else if (s.status === 'UNRESOLVED') {
-            icon = '❓';
+            icon = 'UNKNOWN';
             statusColor = '#cbd5e1';
           }
 
@@ -8959,7 +8967,7 @@
       } catch (e) {
         console.warn('fetchBannedUsers error:', e);
         if (tbody) {
-          tbody.innerHTML = `<tr><td colspan="10" style="text-align:center; color:var(--danger); padding:1.5rem;">⚠️ Failed to load banned users: ${escapeHtml(e.message)}</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="10" style="text-align:center; color:var(--danger); padding:1.5rem;">Failed to load banned users: ${escapeHtml(e.message)}</td></tr>`;
         }
       }
     }
@@ -8992,8 +9000,8 @@
           <td><span class="badge badge-info" style="font-size:0.7rem;">${escapeHtml(u.source || 'SMS')}</span></td>
           <td style="text-align:right;">
             <div style="display:inline-flex; gap:0.4rem;">
-              <button class="btn btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.75rem;" onclick="viewBanDetails(${jsArg(u.id)})">🔍 Details</button>
-              <button class="btn btn-success" style="padding:0.3rem 0.6rem; font-size:0.75rem; background:#059669; border-color:#059669;" onclick="promptUnbanCustomer(${jsArg(u.id)}, ${jsArg(u.name || '')}, ${jsArg(u.phone || u.mobileNumber || '')})">🔓 Unban</button>
+              <button class="btn btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.75rem;" onclick="viewBanDetails(${jsArg(u.id)})">Details</button>
+              <button class="btn btn-success" style="padding:0.3rem 0.6rem; font-size:0.75rem; background:#059669; border-color:#059669;" onclick="promptUnbanCustomer(${jsArg(u.id)}, ${jsArg(u.name || '')}, ${jsArg(u.phone || u.mobileNumber || '')})">Unban</button>
             </div>
           </td>
         </tr>
@@ -9042,7 +9050,7 @@
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.25rem;">
           <!-- 1. Customer Profile -->
           <div style="background:var(--bg-input); border:1px solid var(--border); border-radius:8px; padding:1rem;">
-            <div style="font-weight:700; color:var(--info); font-size:0.85rem; margin-bottom:0.75rem; text-transform:uppercase; letter-spacing:0.05em;">👤 Customer Profile</div>
+            <div style="font-weight:700; color:var(--info); font-size:0.85rem; margin-bottom:0.75rem; text-transform:uppercase; letter-spacing:0.05em;">Customer Profile</div>
             <div style="display:grid; grid-template-columns:auto 1fr; gap:0.4rem 0.8rem; font-size:0.82rem;">
               <span style="color:var(--text-muted);">Name:</span><strong style="color:#ffffff;">${escapeHtml(c.name || '-')}</strong>
               <span style="color:var(--text-muted);">Phone:</span><span style="color:var(--info); font-family:monospace;">${escapeHtml(c.phone || '-')}</span>
@@ -9056,7 +9064,7 @@
 
           <!-- 2. Ban & Trigger Details -->
           <div style="background:var(--bg-input); border:1px solid var(--border); border-radius:8px; padding:1rem;">
-            <div style="font-weight:700; color:var(--danger); font-size:0.85rem; margin-bottom:0.75rem; text-transform:uppercase; letter-spacing:0.05em;">⚖️ Enforcement Attributes</div>
+            <div style="font-weight:700; color:var(--danger); font-size:0.85rem; margin-bottom:0.75rem; text-transform:uppercase; letter-spacing:0.05em;">Enforcement Attributes</div>
             <div style="display:grid; grid-template-columns:auto 1fr; gap:0.4rem 0.8rem; font-size:0.82rem;">
               <span style="color:var(--text-muted);">Ban Type:</span><span class="badge ${b.banType === 'AUTOMATIC' ? 'badge-danger' : 'badge-warning'}">${escapeHtml(b.banType)}</span>
               <span style="color:var(--text-muted);">Trigger Event:</span><strong style="color:var(--danger);">${escapeHtml(b.triggerEvent)}</strong>
@@ -9072,7 +9080,7 @@
         <div style="margin-bottom:1.25rem;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
             <div style="font-weight:700; color:var(--danger); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;">
-              📜 Verbatim Raw Message Evidence (Exact Word-For-Word Payload)
+              Verbatim Raw Message Evidence (Exact Word-For-Word Payload)
             </div>
             <span class="badge badge-danger" style="font-size:0.68rem;">UNTOUCHED RAW STRING</span>
           </div>
@@ -9086,7 +9094,7 @@
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.25rem;">
           <!-- Metadata -->
           <div style="background:var(--bg-input); border:1px solid var(--border); border-radius:8px; padding:1rem;">
-            <div style="font-weight:700; color:var(--text-muted); font-size:0.85rem; margin-bottom:0.75rem; text-transform:uppercase; letter-spacing:0.05em;">📡 Observation Metadata</div>
+            <div style="font-weight:700; color:var(--text-muted); font-size:0.85rem; margin-bottom:0.75rem; text-transform:uppercase; letter-spacing:0.05em;">Observation Metadata</div>
             <div style="display:grid; grid-template-columns:auto 1fr; gap:0.4rem 0.8rem; font-size:0.82rem;">
               <span style="color:var(--text-muted);">Source Channel:</span><strong style="color:#ffffff;">${escapeHtml(meta.source || 'SMS')}</strong>
               <span style="color:var(--text-muted);">Sender Identity:</span><code style="color:var(--info);">${escapeHtml(meta.sender || '-')}</code>
@@ -9097,7 +9105,7 @@
 
           <!-- Discrepancy Analysis -->
           <div style="background:var(--bg-input); border:1px solid var(--border); border-radius:8px; padding:1rem;">
-            <div style="font-weight:700; color:var(--warning); font-size:0.85rem; margin-bottom:0.75rem; text-transform:uppercase; letter-spacing:0.05em;">🔍 Discrepancy Forensic Audit</div>
+            <div style="font-weight:700; color:var(--warning); font-size:0.85rem; margin-bottom:0.75rem; text-transform:uppercase; letter-spacing:0.05em;">Discrepancy Forensic Audit</div>
             <div style="display:grid; grid-template-columns:auto 1fr; gap:0.35rem 0.8rem; font-size:0.8rem;">
               <span style="color:var(--text-muted);">Customer Phone:</span><span style="color:var(--info); font-family:monospace;">${escapeHtml(disc.customerPhone || '-')}</span>
               <span style="color:var(--text-muted);">Sender Number:</span><span style="color:var(--danger); font-family:monospace;">${escapeHtml(disc.observationSender || '-')}</span>
@@ -9110,7 +9118,7 @@
 
         <!-- 5. Forensic Timeline -->
         <div style="background:var(--bg-input); border:1px solid var(--border); border-radius:8px; padding:1rem;">
-          <div style="font-weight:700; color:var(--text); font-size:0.85rem; margin-bottom:0.6rem; text-transform:uppercase; letter-spacing:0.05em;">⏱️ Immutable Incident Timeline</div>
+          <div style="font-weight:700; color:var(--text); font-size:0.85rem; margin-bottom:0.6rem; text-transform:uppercase; letter-spacing:0.05em;">Immutable Incident Timeline</div>
           <div style="display:flex; flex-direction:column; gap:0.4rem; font-size:0.8rem;">
             <div style="display:flex; gap:0.75rem;"><span style="color:var(--text-muted); width:170px;">1. Payment Session Created:</span><span style="color:#ffffff;">${timeline.sessionCreated ? new Date(timeline.sessionCreated).toLocaleString() : '-'}</span></div>
             <div style="display:flex; gap:0.75rem;"><span style="color:var(--text-muted); width:170px;">2. Fake Observation Injected:</span><span style="color:var(--danger); font-weight:700;">${timeline.fakeObservationReceived ? new Date(timeline.fakeObservationReceived).toLocaleString() : '-'}</span></div>
@@ -9120,7 +9128,7 @@
         </div>
       `;
       } catch (e) {
-        modalBody.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--danger);">⚠️ Error retrieving ban details: ${escapeHtml(e.message)}</div>`;
+        modalBody.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--danger);">Error retrieving ban details: ${escapeHtml(e.message)}</div>`;
       }
     }
 
@@ -9335,7 +9343,7 @@
         `;
         }).join('');
       } catch (e) {
-        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:var(--danger); padding:1.5rem;">⚠️ Failed to load events: ${escapeHtml(e.message)}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:var(--danger); padding:1.5rem;">Failed to load events: ${escapeHtml(e.message)}</td></tr>`;
       }
     }
 
@@ -9377,7 +9385,7 @@
         `;
         }).join('');
       } catch (e) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--danger); padding:1.5rem;">⚠️ Failed to load history: ${escapeHtml(e.message)}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--danger); padding:1.5rem;">Failed to load history: ${escapeHtml(e.message)}</td></tr>`;
       }
     }
 
@@ -9712,7 +9720,7 @@
         if (tab && num) {
           if (i < step) {
             tab.className = 'wizard-step-tab completed';
-            num.textContent = '✓';
+            num.innerHTML = '<svg class="i" style="width:0.85em;height:0.85em;"><use href="#i-check"/></svg>';
           } else if (i === step) {
             tab.className = 'wizard-step-tab active';
             num.textContent = String(i);
@@ -9767,10 +9775,10 @@
           const img = document.createElement('img');
           img.src = logoUrl;
           img.style.cssText = 'width:20px;height:20px;border-radius:50%;object-fit:cover;';
-          img.onerror = () => { if (logoIcon) logoIcon.textContent = '🛡️'; };
+          img.onerror = () => { if (logoIcon) logoIcon.innerHTML = '<svg class="i" style="width:1.1em;height:1.1em;"><use href="#i-shield-check"/></svg>'; };
           logoIcon.replaceChildren(img);
         } else {
-          logoIcon.textContent = '🛡️';
+          logoIcon.innerHTML = '<svg class="i" style="width:1.1em;height:1.1em;"><use href="#i-shield-check"/></svg>';
         }
       }
       updateWizardSnippet();
@@ -9881,10 +9889,10 @@
       setTimeout(() => {
         if (btn) {
           btn.disabled = false;
-          btn.innerHTML = '<span>⚡</span> <span>Send ₹1 Test Ping</span>';
+          btn.innerHTML = '<svg class="i" style="width:1em;height:1em;"><use href="#i-bolt"/></svg> <span>Send ₹1 Test Ping</span>';
         }
         if (badge) badge.style.display = 'inline-flex';
-        showAdminToast('⚡ ₹1.00 Direct UPI Settlement Ping Verified! Node active.', true);
+        showAdminToast('₹1.00 Direct UPI Settlement Ping Verified! Node active.', true);
       }, 350);
     }
 
