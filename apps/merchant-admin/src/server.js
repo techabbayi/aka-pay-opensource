@@ -67,19 +67,23 @@ export class AdminServer {
     this.apiBaseUrl = options.apiBaseUrl || process.env.PAYMENT_API_URL || process.env.BASE_PAYMENT_API_URL || 'http://localhost:6100';
     this.merchantRepo = new MerchantRepository(this.db);
     this.ticketRepo = new SupportTicketRepository(this.db);
-    this.htmlTemplatePath = path.join(__dirname, 'views', 'admin.html');
-    this.template = fs.readFileSync(this.htmlTemplatePath, 'utf8');
+    this.adminTemplatePath = path.join(__dirname, 'views', 'admin.html');
+    this.landingTemplatePath = path.join(__dirname, 'views', 'landing.html');
   }
 
-  renderHtml() {
+  renderHtml(view = 'admin') {
+    const templatePath = view === 'landing' ? this.landingTemplatePath : this.adminTemplatePath;
+    let template = '';
     try {
-      this.template = fs.readFileSync(this.htmlTemplatePath, 'utf8');
-    } catch {}
+      template = fs.readFileSync(templatePath, 'utf8');
+    } catch {
+      template = fs.readFileSync(this.adminTemplatePath, 'utf8');
+    }
 
     const appName = (process.env.DEFAULT_APP_NAME || '').trim() || 'AKA PAY';
-    const primaryColor = (process.env.DEFAULT_PRIMARY_COLOR || '').trim() || '#2563eb';
+    const primaryColor = (process.env.DEFAULT_PRIMARY_COLOR || '').trim() || '#059669';
 
-    let html = this.template;
+    let html = template;
     // Always use empty string '' so client fetch calls hit the merchant admin's own /api proxy!
     // This completely eliminates CORS errors, tunnel downtime 530s, and cross-origin failures.
     const clientApiBase = '';
@@ -279,9 +283,21 @@ export class AdminServer {
         }
       }
 
-      // Dashboard View: GET / or GET /admin
-      if (pathname === '/' || pathname === '/admin') {
-        const html = this.renderHtml();
+      // Sovereign Landing Page View: GET / or GET /landing
+      if (pathname === '/' || pathname === '/landing') {
+        const html = this.renderHtml('landing');
+        res.writeHead(200, {
+          'Content-Type': 'text/html; charset=utf-8',
+          'Cache-Control': 'no-cache',
+          ...BASE_SECURITY_HEADERS
+        });
+        res.end(html);
+        return;
+      }
+
+      // Merchant Hub Dashboard View: GET /admin, /hub, /operations
+      if (pathname === '/admin' || pathname === '/hub' || pathname === '/operations') {
+        const html = this.renderHtml('admin');
         res.writeHead(200, {
           'Content-Type': 'text/html; charset=utf-8',
           'Cache-Control': 'no-cache',

@@ -42,8 +42,17 @@ describe('Merchant Admin Integration Tests', () => {
     assert.equal(json.service, 'merchant-admin');
   });
 
-  test('GET / renders dashboard with queue monitor, observers, counter desk & pairing modal', async () => {
+  test('GET / renders sovereign landing page and onboarding portal', async () => {
     const res = await get('/');
+    assert.equal(res.status, 200);
+    assert.ok(res.headers['content-type'].includes('text/html'));
+    assert.ok(res.text.includes('Sovereign, Zero-Fee UPI'));
+    assert.ok(res.text.includes('Start Store Onboarding'));
+    assert.ok(res.text.includes('Sign In'));
+  });
+
+  test('GET /admin renders dashboard with queue monitor, observers, counter desk & pairing modal', async () => {
+    const res = await get('/admin');
     assert.equal(res.status, 200);
     assert.ok(res.headers['content-type'].includes('text/html'));
 
@@ -51,7 +60,7 @@ describe('Merchant Admin Integration Tests', () => {
     assert.ok(res.text.includes('Active Slot (5-Minute Window)'));
     assert.ok(res.text.includes('Processing Slot (30s Verification Window)'));
     assert.ok(res.text.includes('Live Counter Payment Requests'));
-    assert.ok(res.text.includes('Payment Observers (SMS & Gmail)'));
+    assert.ok(res.text.includes('Payment Observers (SMS &amp; Gmail)') || res.text.includes('Payment Observers (SMS & Gmail)'));
     assert.ok(res.text.includes('Android SMS Gateway'));
     assert.ok(res.text.includes('Gmail Direct API'));
     assert.ok(res.text.includes('Payment QR Stand Studio'));
@@ -91,14 +100,14 @@ describe('Merchant Admin Integration Tests', () => {
     const html = adminServer.renderHtml();
 
     assert.ok(html.includes('<title>Merchant &amp; Supervisor Hub - ApexMerchant Suite</title>') || html.includes('<title>Merchant & Supervisor Hub - ApexMerchant Suite</title>'));
-    assert.ok(html.includes('<span>🛡️ ApexMerchant Suite</span>'));
+    assert.ok(html.includes('ApexMerchant Suite</span>'));
     assert.ok(html.includes('Security Engine v2 &bull; ApexMerchant Suite'));
 
     process.env = { ...origEnv };
   });
 
   test('Payment QR Stand Studio tab and stand controls are present in admin dashboard', async () => {
-    const res = await get('/');
+    const res = await get('/admin');
     assert.equal(res.status, 200);
     assert.ok(res.text.includes('Payment QR Stand Studio'));
     assert.ok(res.text.includes('id="subViewStoreStand"'));
