@@ -334,8 +334,8 @@ export function registerAdminRoutes(server, ctx) {
     });
   });
 
-  // POST /api/v1/admin/counter-confirm
-  server.post('/api/v1/admin/counter-confirm', async (req, res) => {
+  // POST /api/v1/admin/counter-confirm & POST /api/v1/counter/approve (Confirm manual cash/card counter payment)
+  const handleCounterConfirm = async (req, res) => {
     const body = await HttpServer.parseBody(req);
     const { paymentId, operatorId, method } = body;
 
@@ -399,10 +399,13 @@ export function registerAdminRoutes(server, ctx) {
       status: PaymentStatus.SUCCESS,
       orderId: session.orderId
     });
-  });
+  };
 
-  // POST /api/v1/admin/counter-decline (Declines/Rejects manual cash or card counter payment)
-  server.post('/api/v1/admin/counter-decline', async (req, res) => {
+  server.post('/api/v1/admin/counter-confirm', handleCounterConfirm);
+  server.post('/api/v1/counter/approve', handleCounterConfirm);
+
+  // POST /api/v1/admin/counter-decline & POST /api/v1/counter/decline (Declines/Rejects manual cash or card counter payment)
+  const handleCounterDecline = async (req, res) => {
     const body = await HttpServer.parseBody(req);
     const { paymentId, operatorId, reason } = body;
 
@@ -462,7 +465,10 @@ export function registerAdminRoutes(server, ctx) {
       status: PaymentStatus.FAILED,
       reason: reason || 'Counter payment declined'
     });
-  });
+  };
+
+  server.post('/api/v1/admin/counter-decline', handleCounterDecline);
+  server.post('/api/v1/counter/decline', handleCounterDecline);
 
   // GET /api/v1/admin/upi-settings
   server.get('/api/v1/admin/upi-settings', async (req, res) => {

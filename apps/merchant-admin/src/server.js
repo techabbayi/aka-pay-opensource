@@ -283,6 +283,13 @@ export class AdminServer {
         }
       }
 
+      // Cashier Desk & POS Counter Mode 5: GET /counter
+      if (pathname === '/counter') {
+        res.writeHead(302, { Location: '/admin#operations' });
+        res.end();
+        return;
+      }
+
       // Sovereign Landing Page View: GET / or GET /landing
       if (pathname === '/' || pathname === '/landing') {
         const html = this.renderHtml('landing');

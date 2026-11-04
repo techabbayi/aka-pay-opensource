@@ -34,7 +34,7 @@ export function registerPaymentRoutes(server, ctx) {
       try {
         const urls = resolveRuntimeUrls(merchant.branding);
         if (urls && urls.checkoutUrl) return urls.checkoutUrl;
-      } catch {}
+      } catch { }
     }
     return ctx.checkoutBaseUrl || resolvePublicDeploymentOrigin() || 'http://localhost:7000';
   }
@@ -364,7 +364,7 @@ export function registerPaymentRoutes(server, ctx) {
     };
 
     if (deviceId && customerId && ctx.deviceRepo) {
-      try { ctx.deviceRepo.associateCustomer(deviceId, customerId); } catch {}
+      try { ctx.deviceRepo.associateCustomer(deviceId, customerId); } catch { }
     }
 
     // Create session in DB
