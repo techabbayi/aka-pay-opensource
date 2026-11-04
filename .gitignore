@@ -90,12 +90,16 @@ Thumbs.db
 arun-test-ci.md
 TRACKER.md
 
-# Root Testing Screenshots
+# Root & Assets Media Files
 /*.png
 /*.jpg
 /*.jpeg
 /*.mp4
 /*.webm
+assets/*.mp4
+assets/*.webm
+assets/*.gif
+assets/stands/
 
 # Android / Gradle build output
 .gradle/
